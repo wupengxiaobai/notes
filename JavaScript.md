@@ -1,0 +1,2501 @@
+#  JavaScript 学习笔记
+
+---
+
+## 历史
+
+### web 发展史
+
+**Mosaic** 是互联网历史上第一个获普通使用和能显示图片的网页浏览器, 于1993年问世.
+
+**1994年4月** Netscape Navigator 浏览器问世, 11月更名 "**Netscape Communication Corporation**" , 此后沿用至今, 中译为 **"网景"**. 微软的 IE 及 Mozilla Firefox等, 早期版本皆以 Mosaic 为基础开发的.  
+
+**Mozilla Firefox** 则是 **网景** 通讯家开放源码后所衍生出的版本.
+
+
+
+### JavaScript 历史
+
+**1996** 年诞生. 最初目的是改善网页的用户体验
+
+作者: Brendan Eich
+
+初期被命名为 **LiveScript**, 后因市场宣传更名 **JavaScript**
+
+后 Sun 公司被 Oracle 收购, JavaScript 版权归 Oracle 所有.
+
+
+
+### 浏览器组成
+
+- **shell** 部分
+- **内核** 部分
+  - 渲染引擎 (语法规则和渲染)
+  - js引擎
+  - 其他模块
+
+**js引擎**
+
+2001年 ie6 首次实现对js引擎的优化和分离.
+
+2008年 Google 发布最新浏览器 Chrome, 采用优化后的javascript引擎, 引擎代号V8, 能把js代码直接转化为机械码来执行, 进而以速度快而闻名.
+
+后 Firefox 也推出了具备强大功能的js引擎
+
+Firefox3.5 traceMonkey (对频繁执行的代码做了路径优化)
+
+Firefox4.0 JeagerMonkey
+
+**几大主流浏览器及其内核**
+
+- **IE				trident**
+	 **Chrome	   		webkit/blink**
+	 **firefox			Gecko**
+	 **Opera			presto**
+	 **Safari			webkit**
+
+---
+
+## JavaScript 的逼格
+
+- 是**解释性语言** (翻译一行, 执行一行)
+- **单线程** 
+- **ECMAScript 标准**
+
+**JS执行队列**
+
+轮转时间片: 任务切片, 随机执行时间片.
+
+
+
+### JS三大部分
+
+- **ECMAScript**
+- **DOM**
+- **BOM**
+
+---
+
+## ECMAScript
+
+ **Javascript 引入**
+
+```html
+<script type="text/javascript" src="xxx.js">
+```
+
+
+
+### 基础语法
+
+#### 变量
+
+- 变量声明
+  - **声明** / **赋值** 分解
+  - 单一 var 
+
+```javascript
+var a;	//变量声明
+a = 100;	//变量赋值
+var b = 100;	//变量声明 + 赋值
+//	开发写法: 单一 var 模式
+var a,
+    b = 10,
+    c = '哈喽c',
+    d;
+```
+
+- 命名规则
+
+  - 变量名必须以 `英文字母`   `_`    `$`  开头
+  - 变量名可以包括 字母  _   $   数字 
+  - 不可以使用关键字和保留字
+
+
+#### 值类型(数据类型)
+
+- **原始值(不可改变的原始值: 栈内存 stack)** 
+
+  ```javascript
+  //	first in -> last out 先进最后出.
+  //	栈内存之间的赋值是拷贝.
+  //  不可改变的原始值, 重新赋值重新房间. 变量和原房间关系切断.
+  //	数据的更改, 原来的栈内存值并没有改变, 只是名归为原来的房间的号码, 值不会被清除, 只会累积下来, 直至内存沾满之后从头开始, 覆盖名为房间号的值
+  ```
+
+  - **Number**
+  - **Boolean**         布尔
+  - **String**
+  - **undefined**
+  - **null**
+
+
+- **引用值(栈内存存储指针, 堆内存存储引用值 heap)**
+
+  ```javascript
+  //  引用值之间的赋值是复制栈内存中存储的地址, 地址指向堆内存中的房间. 
+  //	引用值之间的赋值是指针的形式.
+  //	一个新的引用值等于开一个新的房间, 栈内存中的存储地址指向该新房间.
+  ```
+
+  - **Array**   []
+  - **Object**  {}
+  - **function**
+  - ....
+
+  ​
+
+#### 语法的基本规则
+
+- 语句后面用分号结束 `;` 
+
+- js语法错误会引发后续代码终止, 但不会影响其它代码块
+
+  ```html
+  <script>
+  	console.log(b);
+  </script>
+  <script>
+      var a = 5; 
+      console.log(a);
+  </script>
+
+  //Uncaught ReferenceError: b is not defined
+  //5
+  ```
+
+- 书写格式规范
+
+
+#### js运算符
+
+- `+` 
+  - 数学运算
+  - 字符串连接(任何和字符串执行+号运算的结果就是字符串)
+- `-`   `*`    `/`   `%`
+
+**优先级**
+
+`=` 最弱   `()` 优先
+
+`++`   `--`   `+=`   `-=`   `*=`   `/=`   `%=`  `!=`
+
+> 赋值的顺序: 自右向左
+>
+> 计算的顺序: 自左向右, 优先级不同特殊处理
+
+**逻辑运算符**
+
+`&&`  `||`  `!`
+
+- 针对非布尔值
+
+```javascript
+/* &&运算符 */	
+//	先看运算符前面的表达式转化为布尔值是否为真, 如果为真, 看第二个表达式转化为布尔值的结果. (以此规矩往下走, 遇假就停, 返回该值)
+var a = 1 && 2 && 0 && 5;	//	0
+//	如果只有两个表达式的话. 表达式1为真, 返回表达式2. 表达式1为假, 返回表达式1. (遇假就停)
+var a = 0 && 5	//	0
+//	短路语句的运用
+data && fn(data);
+
+/* ||运算符 */	
+//	如果是真就返回该值.(遇真就停)
+var a = 0 || false || 5	//	5
+```
+
+- 针对布尔值判断(if)
+
+```javascript
+/*	&& 全真才真	*/
+var a = 1 && 5 && 2 && '前端' && 0;	//	false
+/*	|| 全假才假	*/
+var a = 0 || false || '' || 1 	//	true
+/*	! 先转布尔值再取反 -> 结果为布尔值	*/
+var a = !520	//	false
+```
+
+#### 条件语句
+
+`if` 语句
+
+```javascript
+if (条件) {	//	条件为真, 执行code 
+    code...
+} else {	//	条件为假, 执行code2
+	code2...
+}
+```
+
+`switch` 执行全真判断所选if语句另外一种形式
+
+```javascript
+switch(变量){
+    case '条件1':    //	 条件1 === 变量, 执行code1代码
+        //code1..
+        break;		//    如果符合, 隔断语句往后执行 break 关键字
+    case '条件2':
+        //code2..
+        break;
+    case '条件3':
+        //code3..
+        break;
+    default:		//	 其它值的处理
+        //code4..
+        break;
+}
+//	极其不负责任, 没有break的情况下. 也执行之后的代码
+```
+
+#### 循环语句
+
+`for(){}` 语句
+
+``` javascript
+for (var a=1; a < 100; a++) {
+    console.log(a);
+}
+//	① var a = 1;
+//	② a < 100;
+//	③ console.log(a);
+//	④ a++;
+//	⑤ a < 100;
+//	⑥ console.log(a);
+//	.......
+```
+
+`while(){}` 满足条件执行
+
+```javascript
+var a = 0;
+while(a < 100){
+    console.log(a++);
+}
+```
+
+`do{}while()` 先执行一次
+
+**`break`** 关键字 ： 跳出循环结构
+
+**`container`** 关键字 :  中止本次, 继续下次循环
+
+---
+
+### 基本方法
+
+#### typeof
+
+> typeof 用于数据类型判断, 判断未定义的值. 返回字符串的 undefined 
+
+**六种数据类型**
+
+- number
+- string
+- boolean
+- undefined
+- object (null)
+- function
+
+```javascript
+// mytype封装
+function mytype(target) {
+    var template = {
+        "[object Array]": "array",
+        "[object Object]": "object",
+        "[object Number]": "number-object",
+        "[object Boolean]": "boolean-object",
+        "[object String]": "string-object"
+    };
+    // 原始值,引用值
+    // 区别 function
+    // 区别 null
+    // 区分引用值
+    if (target === null) {
+        return 'null';
+    } else if (typeof(target) === 'object') {
+        var str = Object.prototype.toString.call(target);
+        return template[str];
+    } else {
+        return typeof(target);
+    }
+}
+```
+
+#### 类型转换
+
+##### **显示类型转换**
+
+- Number()
+
+```javascript
+Number('123');	//	number 123
+Number(null)	//	number 0
+//	不能转换成数字的, 则会转成 NaN
+Number('123abc')	//	NaN
+Number(undefined)	//	NaN	*****
+```
+
+- parseInt()	数字类开始到非数字类截止
+
+**转为整数**
+
+```javascript
+//	转化为整数
+parseInt('123.2')	//	number 123
+//	尽量把数转为整数
+parseInt('123abc')	//	number 123
+//	非数值则NaN
+parseInt(true)		//	NaN
+parseInt('false')	//	NaN
+```
+
+**转换进制**
+
+```javascript
+//	parseInt(params, radix);
+//	radix参数: 2~36
+//	将 parmas 以radix进制为基底转为十进制 
+parseInt(10, 16)	//	16
+parseInt(b, 16)		//	11
+```
+
+- parseFloat()	 
+
+**转为浮点数**
+
+```javascript
+//	数字类开始至非数字类结束
+parseFloat('123.13@%')	//number 123.13
+```
+
+- String()
+
+**转为字符串**
+
+```javascript
+String(true)	//	string true
+String(123) 	//  string 123
+```
+
+- Boolean()
+
+**转为布尔值**
+
+```javascript
+Boolean(0)	//	boolean false
+Boolean(1)	//	boolean true
+Boolean('')	//	boolean false
+```
+
+- toString()
+
+**转为字符串**
+
+```javascript
+123.toString() //	string 123
+//	undefined null 不能使用toString方法
+```
+
+**以十进制为基底转为目标进制以字符串表示**
+
+```javascript
+100.toString(2)	//	1100100
+```
+
+##### **隐式类型转换**
+
+- `isNaN()`
+
+```java
+//	内部调用 Number() 方法, 转换后在和NaN进行比对 , 输出布尔值
+isNaN('123')	//	false
+isNaN('123abc') //	true
+isNaN('true')	//  false
+isNaN(null)		//	false
+isNaN(undefined)//  true		
+```
+
+- `++` `--` `+` `-` (一元正负)
+
+```javascript
+//	先调用 Number() 方法
++ 'abc'	//	NaN
++ undefined	// NaN
+```
+
+- `+`
+
+```javascript
+//	调用 String() 方法
+a + 1 // string	a1
+```
+
+- `-` `*` `/` `%`
+
+```javascript
+//	调用 Number()
+```
+
+- `&&` `||` `!`
+
+```javascript
+//	调用Boolean()
+```
+
+- `<` `>` `<=` `>=`
+
+
+- `==` `!=` 
+
+##### 不发生类型转换
+
+`===`  `!==`
+
+**比较值的时候, 如果是引用值还比较指针地址**
+
+---
+
+### 字符串常用方法
+
+- 字符串替换
+
+  ```javascript
+  str.replace(新值, 旧值)
+  ```
+
+---
+
+### 函数(function)
+
+`function test() {}`
+
+> 高内聚 弱耦合 
+
+**定义**
+
+- 函数声明
+- 函数表达式
+
+```javascript
+//	函数声明
+function test() {}
+//	函数表达式(命名函数)
+var test = function test() {}
+var test = function() {}	//	(匿名函数)
+```
+
+**组成形式**
+
+- 函数名称
+- 参数
+  - 形参
+  - 实参
+  - 实参列表(不定参) `arguments` 
+- 返回值 `return`
+  - 终止函数执行
+  - 返回值
+
+```javascript
+//	形参
+function test(a, b) {
+    //	var a, b;
+    console.log(arguments)	//	实参列表
+    //	arguments[0] 和 a 是俩人, 但是他们内部存在映射关系 
+    //	argument 的长度 与 实参的长度联系 *
+	return 'hello';	//	①终止函数 ②返回值
+    console.log(1);	//	return 之后的不执行
+}
+//	实参
+test(5, 2)
+```
+
+ **递归 : 先执行的最后执行完成**
+
+> ①找规律 ②找出口
+>
+> 典型实例: 阶乘 菲波那切数列
+
+```javascript
+/* 阶乘 */
+function jc(n) {
+    if (n < 2) return n;
+    return n * jc(n - 1);
+}
+console.log(jc(5));
+
+
+/* 菲波那切数列 */
+//  1 1 2 3 5 8 11
+function fbnqsl(n){
+    if(n<=2) return 1;
+    return fbnqsl(n-1) + fbnqsl(n-2);
+}
+
+console.log(fbnqsl(5));
+```
+
+####  js运行三部曲
+
+1.语法解析（通篇扫描，是否有语法错误）
+
+##### 2.**预编译**(发生在函数执行的前一刻)
+
+**前奏**
+
+- imply global 暗示全局变量: 任何变量, 如果变量**未经声明就赋值,** 此变量就为**全局对象(window)所有**.  `a=123`
+
+
+- 一切声明的全局变量, 全是**window**的**属性**.  `window.a`
+
+```javascript
+//	1.函数声明, 整体提升
+function test() {console.log(b)}	//	函数块整体提升
+//	2.变量声明或变量声明并赋值 声明提升
+var test = 233; //	a 提升
+//	3.函数声明权重大于变量声明
+```
+
+**局部预编译四部曲 √**
+
+1. **创建 AO(Activation Object) 对象 (执行期上下文)**
+2. **找形参和变量声明, 将变量和形参名作为AO的属性名, 值为undefined**
+3. **将实参值和形参值统一**
+4. **在函数体里面找函数声明, 值赋予函数体**
+
+```javascript
+function test(a){
+    console.log(a)
+    var a = 123
+    console.log(a)
+    function a() {}
+    console.log(a)
+    var b = function() {}
+    console.log(b)
+    function d() {}
+}
+test(1)
+
+//	ƒ a() {}
+//	123
+//	123
+//	ƒ () {}
+
+//	1.创建AO对象
+//	A0{}
+//	2.找形参和变量声明, 将变量和形参名作为AO的属性名, 值为undefined
+//	3.实参形参统一
+//	AO{
+//    a: 1,
+//    b: undefined,
+//}
+//	4. 在函数体里面找函数声明, 值赋予函数体
+//AO{
+//    a: function() {},
+//    b: undefined,
+//    d: function d() {}
+//}
+
+//	解释执行
+//AO{
+//    a: 123,
+//    b: function() {},
+//    d: function d() {}
+//}
+```
+
+**全局预编译三部曲 √**
+
+- 创建GO对象 (Global Object)
+- 找变量声明, 变量声明作为GO的属性名, 赋值undefined
+- 找函数声明, 赋值函数体
+
+```javascript
+console.log(a)
+var a = 123
+function a() {}
+console.log(a)
+//	ƒ a() {}
+//	123
+
+//	1.创建GO对象
+//GO{}
+//	2.找变量声明, 变量声明作为GO属性名, 赋值undefined
+//GO{
+//    a: undefined
+//}
+//	3.找函数声明, 赋值函数体
+//GO{
+//    a: function a() {}
+//}
+
+//	解释执行
+//GO{
+//    a: 123
+//}
+
+
+```
+
+3.解释执行（解释一行，执行一行）
+
+#### 作用域
+
+> **[[scope]]**: 每个javascript函数都是一个对象, 对象中有些属性我们可以访问, 但是有些不可以, 这些属性仅供javascript引擎存取, [[scope]] 就是其中一个. [[scope]] 指的就是我们所说的作用域, 集中存储了**运行期上下文的集合**.
+>
+> **作用域链**: [[scope]] 中所存储的执行期上下文对象的集合, 这个集合呈链式链接, 这种链式链接叫做作用域链.
+>
+> **执行期上下文**(预编译): 当函数执行时, 会创建一个称为**执行期上下文**的内部对象(AO). 一个执行期上下文定义了一个函数执行时的环境, **函数每次执行时对应的执行上下文都是独一无二的**, 所以多次调用一个函数会导致创建多个执行期上下文, 当**函数执行完毕**, 它所**产生的执行期上下文被销毁**
+>
+> **查找变量**: 从作用域链的顶端一次向下查找.
+
+```javascript
+function a() {
+    var temp = 5;
+    function b() {
+        var parmas = 100;
+    }
+    b();
+}
+var gloab = 100;
+a();
+//	a函数定义的时候, [[scope]] 存储的就是a函数所在的环境的执行期上下文对象
+//	a函数执行时, 产生了a函数的执行期上下文(AO)对象, 保存着当前执行环境所处的对象 
+//	a函数的执行, 导致b函数的定义, b函数的定义时的 [[scope]] 存储的是a的执行期上下文的引用.
+//	b函数执行, 产生b函数的独一无二的执行期上下文
+//	函数执行往后, 执行期上下文被销毁
+```
+
+![a被定义时,发生如下过程](.\javascript\1528522518338.png)
+
+![a函数被执行时,发送如下过程](.\javascript\1528523036575.png)
+
+![b定义时所处的环境](.\javascript\1528523995508.png)
+
+![b函数执行时,发生的变化](.\javascript\1528524240574.png)
+
+```javascript
+function a() {
+    function b() {
+        function c(){} 
+        c();
+    }
+    b();
+}
+a();
+
+// 	解析如下
+a defined	->	a [[scope]]	->  GO
+a doing 	->	a [[scope]]	->	0: aAO
+							    1: GO
+
+b defined	-> 	b [[scope]]	->	0: aAO
+							    1: GO
+b doding 	->	b [[scope]]	->	0: bAO
+						   	    1: aAO
+                              	2: GO
+                             
+c defined	->	c [[scope]] ->	0: bAO
+							    1: aAO
+                              	2: GO
+c doing		->	c [[scope]] ->  0: cAO
+							    1: bAO
+                                2: aAO
+                                3: GO
+```
+
+#### 闭包
+
+> 当内部函数被保存到了外部时，将会产生闭包. 闭包会导致原有作用域链不释放, 造成内存泄露.
+
+**作用**
+
+- 实现公有变量 (函数累加器)
+
+```javascript
+//  闭包作用(1): 公有变量(函数累加器)
+function add(){
+    var num = 0;
+    function a (){
+        return ++num;
+    }
+    return a;
+}
+var myAdd = add();
+console.log(myAdd());
+console.log(myAdd());
+console.log(myAdd());
+console.log(myAdd());
+```
+
+- 作缓存 (存储结构)
+
+```javascript
+//   闭包作用(2):  缓存(存储结构)
+function test(){
+    var food = "apple";
+    var obj = {
+        eatFood(){
+            if(food != ""){
+                console.log("I am eating "+ food);
+                food  = "";
+            }else{
+                console.log("It is noting");
+            }
+        },
+        pushFood(myfood){
+            food = myfood;
+        }
+    }
+    return obj;
+}
+
+let MYFOOD = test();
+MYFOOD.eatFood();
+MYFOOD.eatFood();
+MYFOOD.pushFood('banner');
+MYFOOD.eatFood();
+```
+
+- 实现封装, 属性私有化
+
+```javascript
+var inherit = (function() {
+    var F = function() {};
+    return function(Target, Origin) {
+        F.prototype = Origin.prototype;
+        Target.prototype = new F();
+        Target.prototype.constructor = Target;
+        Target.prototype.uber = Origin.prototype;	
+    }
+}())
+```
+
+- 模块化开发, 防止污染全局变量
+
+```javascript
+var init = (function() {
+    var name = '小白';
+    var gender = '男';
+    function change() {
+        //code..
+    }
+    function callName() {
+        console.log(name);
+    }
+    return function() {
+        callName();
+        change();
+    }
+}())
+```
+
+#### 立即执行函数
+
+> 立即执行函数 :  此类函数未声明, 在一次执行过后立即释放. 
+
+`(function () {})()`
+
+```javascript
+//	只有表达式才能被执行符号执行*
+- function() {}()
++ function() {}()
+~ function() {}()
+! function() {}()
+//	能被执行符号执行的表达式, 函数名自动忽略
++ function test() {}()
+```
+
+ ```javascript
+function test() {
+    var arr = [];
+    for (var i = 0; i < 10; i++) {
+        (function (i) {
+            arr[i] = function () {
+                document.write(i + ' ');
+            }
+        })(i)
+        /*(function (i) {
+                //  var i = 1;
+                arr[i] = function () {
+                    document.write(i + ' ');
+                }
+            })(i)
+            (function (i) {
+                //  var i = 2;
+                arr[i] = function () {
+                    document.write(i + ' ');
+                }
+            })(i)
+            ...*/
+    }
+    return arr;
+}
+var myArr = test();
+for (var j = 0; j < 10; j++) {
+    myArr[j]();
+}
+ ```
+
+#### arguments
+
+- arguments.callee 	函数本身引用
+
+```javascript
+var jc = (function(n) {
+    if (n <= 1) return 1;
+    return n * arguments.callee(n - 1)
+}(5))
+```
+
+- func.caller 		谁调用了该函数的引用
+
+#### 深度克隆
+
+```javascript
+function clone(obj){
+    var temp;
+    if(obj instanceof Array){
+        temp = [];
+        var length = obj.length;
+        while(length--){
+            temp[length] = clone(obj[length])
+        }
+        return temp;
+    }
+    if(obj instanceof Object){
+        temp  = {};
+        for (var key in obj) {
+            temp[key] = clone(obj[key]);
+        }
+        return temp;
+    }
+    return temp = obj;
+}
+
+var obj = [1,3,4,5,{'a':2,'b':5}];
+var obj2 =  clone(obj);
+
+obj2.push(6);
+console.log(obj);
+```
+
+
+
+---
+
+### 对象(Object)
+
+> 特指的某个事物, 具有属性和方法(一组无序的属性集合)
+
+- 属性的 增 删 改 查
+- 对象的创建方法
+  - 字面量(plainObject)	{}
+  - 构造函数  new Object()
+  - Object.create()  
+
+ ```javascript
+var obj = {
+	name: '小白',
+    age: 18,
+    sex: '男',
+    hobbies: ['listen', 'sing'],
+    change: function() {
+        document.write(this.age --);
+    }
+}
+//	增
+obj.look = 'face to face';
+//	删
+delete obj.look;
+//	查
+obj.look;
+//	改
+obj.look = 'see me some time'
+ ```
+
+```javascript
+//	对象的创建方法二 	第一个参数是原型对象, 第二个参数是属性的一个镀锡集合
+var obj = Object.create({}, {
+    "name": {
+        value: '小白',
+        writable: true,		//	可写
+        enumerable: true,	//	可枚举
+        configurable: true	//	可配置
+    },
+    "age": {
+        value: 18,
+        writable: true,
+        enumerable: true,
+        configurable: true
+    }
+})
+```
+
+
+
+#### 包装类
+
+> 原始值是不能有属性和方法的.
+>
+> null 和 undefined 不能有属性和方法.
+>
+> 用处: 容错
+
+```javascript
+var num = 4;
+num.len = 3;
+//new Number(4).len = 3;	delete
+console.log(num.len);	//	undefined
+//new Number(4).len		
+//-------------------------------------------
+var str = 'abcd';
+str.length = 2;
+//	new String('abcd').length = 2;	delete
+console.log(str.lenth);	//	4
+```
+
+#### 面向对象编程
+
+> 面向对象: 提出需求, 找对象, 对象解决, 注重的是结果
+>
+> 特征: 封装, 继承, 多态(抽象性)
+
+编程思想: **根据需求, 抽象出相关对象, 总结对象的特征和行为, 把特征变成属性, 行为变成方法, 定义js构造函数, 实例化对象, 通过对象调用属性和方法, 完成相应需求.**
+
+#### 构造函数
+
+**特点**: 大驼峰式命名
+
+**内部原理** (有了new 之后)
+
+- 函数体最前面隐式加上 this = {}
+- 执行 this.xxx = xxx
+- 隐式的返回 this
+
+```javascript
+//	工厂模式函数
+function student(name, age, gender) {
+	var obj = {};
+    obj.name = name;
+	obj.age = age;    
+    obj.gender = gender;
+    obj.sayHi = function() {
+        document.write('Hello C');
+    }
+    return obj;
+}
+var student = student('小白', 18, '男');
+
+//	自定义构造函数
+function Student(name, age, gender) {
+    //	this = {
+    //		name = "",
+	//		age = "",
+    //		gender = "",  
+    //		__proto__: Student.prototype
+    //}
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+    this.grade = 2017;
+    //	return this;
+}
+var student1 = new Student('小白', 18, '男');
+var student2 = new Student('懵宝', 23, '男');
+
+//	实例化对象和构造函数的关系	-> 	实例对象通过构造函数创建的, 这个过程叫实例化
+
+//	如何判断对象是不是由这个构造函数实例化的: 
+//	① 通过构造器的方式   实例对象.构造器 === 构造函数名称 (student1.constructor === Student) 
+//	② 通过 对象 instanceof 构造函数名	√
+```
+
+#### 原型
+
+ `prototype`
+
+> **定义**: 原型是function对象的一个属性, 它定义了构造函数制造出来的对象的公共祖先. 通过该构造函数产生的对象, 可以继承该原型的属性和方法. 原型也是对象
+>
+> - 可以提取共有属性: 实现数据共享, 减少内存空间的占用.
+> - `__proto__`  原型链
+> - `constructor` 指向构造函数本身
+>
+
+ 构造函数有一个属性 **prototype**, 是原型.
+
+ 实例对象中的 **\_\_ proto\_\_**  是原型.
+
+ 实例化对象中的 **\_\_proto\_\_** 指向就是该实例化对象的构造函数中的 **prototype** 
+
+ 构造函数中的 **prototype** 里面的属性和方法. 可以直接通过实例化对象调用 
+
+```javascript
+//Person.prototype 		原型
+//Person.prototype = {}	是祖先
+
+Person.prototype.sayHi = function(){	//	共有部分提取: 实现数据共享, 减少内存空间 *
+    document.write('hello dear!')
+}
+Person(name, age, gender) {
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+};
+var parson = new Person('小白', 18, 'man');
+```
+
+**原型的 增 删 改 查**
+
+```javascript
+//	增 改
+Person.prototype.lastName = '懵宝'
+//	删
+delete Person.prototype.lastName
+//	查
+Person.prototype
+```
+
+**原型的对象式写法**
+
+```javascript
+function MyInfo(name, age, sex) {
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+        }
+        /* MyInfo.prototype.showInfo = function (name,age,sex) {
+            return `${name}的年龄是${age},性别是${sex}!`;
+        };
+        MyInfo.prototype.showOther = () => `这是MyInfo构造函数的showOther方法`; */
+        //  对象式写法
+        MyInfo.prototype = {
+            constructor: MyInfo, //  修正原型指向
+            showInfo: (name, age, sex) => `${name}的年龄是${age},性别是${sex}!`,
+            showOther: () => `这是MyInfo构造函数的showOther方法`,
+        }
+
+        let man1 = new MyInfo('小白', 19, '男');
+        let man2 = new MyInfo('懵宝', 23, '男');
+
+        console.log(man1.showInfo('小白', 19, '女'));
+        console.log(man1.showOther());
+        console.log(man2.showInfo('懵宝', 23, '男'));
+```
+
+  #### 原型链
+
+> 原型链  
+>
+> 绝对大多数的对象最终都会继承自Object.prototype 
+>
+> Object.create(原型) 
+
+**因为Object.create()的存在, 可以创建没有prototype的对象 `Object.create(null)`**
+
+```javascript
+//	Grand.prototype --> Object.prototype
+Grand.prototype.lastName = "祖先"
+function Grand() {}
+var grand = new Grand()
+Father.prototype = grand
+function Father() {}
+var father = new Father()
+Son.prototype = father
+function Son() {}
+var son = new Son()
+document.write(son.lastName)
+```
+
+#### apply call
+
+> 作用: 修改 this 指向(借用别人的函数, 实现自己的需求)
+>
+> 区别: 传参形式不同
+
+```javascript
+//	test()	->	test.call()
+//	test.call(this指向, 参数1, 参数2, ...)
+//	test.apply(this指向, [参数1, 参数2, 参数...])
+function Person(name, age, sex) {
+    this.name = name;
+    this.age = age;
+    this.sex = sex;
+}
+function Other(height, weight) {
+    this.height = height;
+    this.weight = weight;
+}
+function Student (name, age, sex, tel, hobbise, height, weight) {
+    Other.apply(this, [height, weight]);
+    Person.call(this, name, age, sex);
+    this.tel = tel;
+    this.hobbies = hobbise;
+}
+var student = new Student('小白', 18, '男' , '1234567890', ['football', 'sing', 'listen'], 167, 55);
+```
+
+#### bind
+
+> bind:	改变 this 指向, 不代替函数执行
+>
+> 其实就是复制一份
+>
+> 参数1 --- 指定的this作用对象.
+
+```javascript
+function ShowRandom() {
+    this.number = parseInt(Math.random() * 10 + 1);
+}
+
+ShowRandom.prototype.show1 = function () {
+    setInterval(this.show2.bind(this), 300);	// 	bind 改变了定时器中this指向
+};
+ShowRandom.prototype.show2 = function () {
+    console.log(this.number);
+};
+
+var show = new ShowRandom();
+show.show1();
+```
+
+
+
+#### 继承模式
+
+**继承发展**
+
+- 传统模式	(原型链)
+
+> 原型链继承: 过多的继承了没用的属性
+
+```javascript
+Grand.prototype.lastName = "祖先";
+function Grand() {}
+var grand = new Grand();
+Father.prototype = grand;
+function Father() {}
+var father = new Father();
+Son.prototype = father;
+function Son() {}
+var son = new Son();
+console.log(son.lastName)
+```
+
+- 借用构造函数
+
+> 不能继成借用构造函数的原型
+>
+> 每次构造函数都要多走一个函数
+
+```javascript
+function Person(name, age, sex) {
+    this.name = name;
+    this.age = age;
+    this.sex = sex;
+}
+function Student(name, age, sex, grade) {
+    Person.call(this, name, age, sex);
+    this.grade = grade; 
+}
+var student = new Student();
+```
+
+- 共享原型
+
+> 不嗯能够随便改动自己的原型
+
+```javascript
+Father.prototype.lastName = "小白"
+function Father() {}
+function Son() {}
+Son.prototype = Father.prototype
+var son = new Son();
+var father = new Father();
+console.log(son.lastName, father.lastName);
+```
+
+```javascript
+//	inherit方法封装: 用于共享原型的实现
+function inherit(Target, Origin) {
+    Target.prototype = Origin.prototype;
+}
+inherit(Son, Father);
+```
+
+- **圣杯模式***
+
+```javascript
+function inherit(Target, Origin) {
+	function F() {};
+    F.prototype = Origin.prototype;
+    Target.prototype = new F();
+    Target.prototype.constructor = Target;
+    Target.prototype.uber = Origin.prototype;	//	存储超类
+}
+```
+
+```javascript
+//	闭包实现私有化变量
+var inherit = (function() {
+    var F = function() {};
+    return function(Target, Origin) {
+        F.prototype = Origin.prototype;
+        Target.prototype = new F();
+        Target.prototype.constructor = Target;
+        Target.prototype.uber = Origin.prototype;	
+    }
+}());
+```
+
+```js
+ /* function inherit(Target, Origin) {
+            function F() {};
+            F.prototype = Origin.prototype;
+            Target.prototype = new F();
+            Target.prototype.constructor = Target;
+            Target.prototype.uber = Origin.prototype; //	存储超类
+        } */
+
+
+//	闭包实现私有化变量
+var inherit = (function () {
+    var F = function () {};
+    return function (Target, Origin) {
+        F.prototype = Origin.prototype;
+        Target.prototype = new F();
+        Target.prototype.constructor = Target;
+        Target.prototype.uber = Origin.prototype;
+    }
+}());
+
+function Fa() {}
+Fa.prototype = {
+    show() {}
+}
+function So() {}
+
+inherit(So, Fa);
+
+So.prototype.show = '2333';
+console.log(new So());
+console.log(new Fa());
+```
+
+#### 命名空间
+
+> 管理变量, 防止污染全局, 适用于模块化开发
+
+```javascript
+//	以往命名空间
+var org = {
+    department1: {
+        xiaobai: {
+            change: function() {}
+        },
+        mengbao: {
+            change: function() {}
+        }
+    }
+}
+var xiaobai = org.department1.xiaobai;
+xiaobai.change();
+ 
+
+//	我们可以使用闭包来解决变量污染问题 : 
+let init = (function(){
+    let name = "小白";
+    function callName(){
+        console.log(name);
+    }
+    return function(){
+        callName();
+    };
+})()
+
+init();
+```
+
+#### 对象的枚举(遍历)
+
+- for in
+  - hasOwnProperty()	过滤原型链上的属性
+  - in     属性是否是对象上的属性(继承也算)
+  - instanceof       `A instanceof B` 判断A的原型链上有没有B的原型
+
+```javascript
+var arr = [1, 2, 3, 12412412, '小白', '爱思雅'];
+var obj = {
+    name: '小白',
+    arr : arr,
+    __proto__: {
+        lastName: '原型链属性'
+    }
+};
+for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {	//	hasOwnProperty() 排除原型链上的属性
+        document.write(obj[key] + '<br>')
+    }
+}
+
+//	in 操作符
+'name' in obj	//判断name是否是obj的属性(包括继承)
+
+//	instanceof 操作符
+//A instanceof B //	;判断A的原型链上有没有B的原型*
+[] instanceof Object	//true
+
+//	区分数组和对象
+//① 变量 instanceof Array	//true -> 变量则是数组  false 变量则是对象
+//② toString()
+Object.prototype.toString.call([])	//[object Array]
+```
+
+#### this
+
+- 函数预编译过程 this -- window
+- 全局作用域里  this -- window
+- call/apply 可以改变函数运行时this指向
+- obj.func()  func() 里面的 this 指向 obj
+
+```javascript
+var name = '222';
+var a = {
+    name: '111',
+    say: function() {
+    	console.log(this.name)	
+	}
+}
+var fun = a.say;
+fun();			//222
+a.say()			//111
+var b = {
+    name: '333',
+    say: function(fun) {
+        fun(); 
+    }
+}
+b.say(a.say);	//222
+b.say = a.say;
+b.say(); 		//333
+```
+
+
+
+---
+
+### 数组
+
+> Array
+
+**创建方式**
+
+- []
+- new Array()
+
+**读写操作**
+
+- arr[index]
+- arr[xxx] = xxx
+
+#### **常用方法(es3.0)**
+
+**改变原数组**
+
+- `pop()`	剪切数组最后一位
+- `push()` 在数组最后一位添加
+
+```javascript
+Array.prototype.mypush = function() {
+    for(var i = 0; i < arguments.length; i++) {
+        this[this.length] = arguments[i];
+    }
+    return this.length;
+}
+```
+
+- `unshift()` 在数组第一位前添加
+
+```javascript
+Array.prototype.myunshift = function () {
+    var temp = this.reverse();
+    for (var key in arguments) {
+        temp.push(arguments[key]);
+    }
+    temp.reverse();
+    return temp.length;
+}
+```
+
+- `shift()`     剪切数组第一位
+- `sort()`       数组排序
+
+```javascript
+//接受一个函数
+arr.sort(function (a, b) {   //  冒泡排序算法
+    //  必须两个形参, 看返回值
+    //  ①返回值是负数的时候, 前面的数在前
+    //  ②返回值是正数时, 后面的数在前
+    //(a > b) ? 1 : -1; //  升序
+    return a - b;	
+    //return b-a; 	// 降序
+    //return Math.random() - 0.5	//	随机
+})
+```
+
+- `reverse()`   翻转数组
+- `splice()`     删 增 改, 可倒着来(-1)
+
+```javascript
+//	从第几位开始截取, 截取多少的长度, 在切口处添加新的数据
+array.splice(0,1,'啊啊啊啊');
+```
+
+**不改变原数组**
+
+- concat	合并数组
+
+```javascript
+ arr = [1,2,3]
+var newA = arr.concat([2,3,4]);
+console.log(newA)
+```
+
+- `slice() ` 从该位开始截取, 截取到该位	
+
+只有一个参数.从该位开始 截取到最后.
+
+不传参数. 全部截取: 用于类数组转为真数组.
+
+- `join()`  拆分数组， 以 参数 链接成字符串
+
+```javascript
+var newa = arr.join('-'); ['1',2,3] => '1-2-3'
+
+//	字符串有个可逆的方法 字符串 -> 数组 
+str.stringify()
+```
+
+**数组去重**
+
+```javascript
+Array.prototype.uniq = function () {
+    if (this.length <= 1) return this;
+    var aResult = [];
+    for (var i = 0, length = this.length; i < length; i++) {
+        if (_notHas(aResult, this[i])) aResult.push(this[i]);
+    }
+    function _notHas(temp, o) {
+        if (temp.length <= 1) return true;
+        for (var k = 0, length = temp.length; k < length; k++) {
+            if (temp[k] === o) return false;
+        }
+        return true;
+    }
+    return aResult;
+}
+
+//对象式去重
+Array.prototype.uniq = function() {
+    var temp = {}, 
+        arr = [], 
+        length = this.length;
+    for (var i = 0; i < length; i++) {
+        if (!temp[this[i]]) {
+            temp[this[i]] = 'abc';
+            arr.push(this[i]);
+        }
+    }
+    return arr;
+}
+```
+
+#### 类数组
+
+```javascript
+var obj = {
+    "0": 'a',
+    "1": 'b',
+    "2": 'c',
+    "length": 3,
+    "push": Array.prototype.push
+}
+//	类数组: 属性要为索引(数字)属性, 必须有length属性, 最好加上push方法
+//	如果给类数组添加数组的splice方法就可以让该类数组使用数组所有方法了, 还可以用对象的方法.
+```
+
+```javascript
+var obj = {
+    "2": 'a',
+    "3": 'b'
+    "length": 2,
+    "push": Array.prototype.push
+}
+obj.push('c');
+obj.push('d');
+//obj -> ???
+obj = {
+	"2": 'c',
+    "3": 'd',
+    length: 4,
+    push: Array.prototype.push
+} 
+```
+
+### JSON 数据格式
+
+> JSON是一种传输数据的格式(以对象为样板, 本质上就是对象, 但用途有区别,json是用来传输的).
+>
+> 约定属性名添加 双引号, 依次与对象分别
+
+```javascript
+//	JSON.stringify()	JSON -> string
+//	JSON.parse()		string -> JSON
+```
+
+### 容错机制 try..catch
+
+`try{}catch(e){}`
+
+```javascript
+try {
+    console.log(1);
+    console.leg(2);
+    console.log(1);
+} catch(e) {
+    console.log(e.name, '\n'+ e.message);	//	只有try中出错的时候, 这里会执行 e 是捕捉到的错误对象
+}
+console.log(5);
+//	在try里面发生错误, 不会执行错误后的try里面的代码
+//	第一条执行, 最后一条执行. 
+```
+
+**错误类型**
+
+- ReferenceError *	  非法或不能识别的引用数值(变量未声明就使用/调用等)
+- RangeError             数值越界
+- SyntaxError            语法解析错误
+- TypeError                操作数类型错误
+
+### es5标准模式
+
+> "use strict"  es5.0严格模式启动
+>
+> - 在 script 代码最顶端 -- 全局启动
+> - 在 function 代码 最前端 -- 局部启动
+
+**严格模式的启动意味着代码必须遵从es5.0规范**
+
+- `arguments.callee`   `func.caller`   `with()` 不可用
+
+```javascript
+//	arguments.callee 指代函数本身
+//	func.caller  指代调用函数的对象
+//	with(对象){}  如果参数是一个对象, 就是把该对象所在的执行期AO对象 作为某个环境中最顶端, 改变作用域链结构.
+```
+
+- 变量必须先声明再赋值 
+- 局部的 this 必须被赋值(apply/call), 没有赋值就是 undefined  
+- 拒绝重复属性和参数
+- 不能使用 eval() 可以将字符串当做代码来使用. eval是魔鬼.
+
+---
+
+## DOM
+
+> Document Object Model 文档对象模型
+>
+> DOM 定义了表示和修改文档所需的方法. DOM对象即为宿主对象, 由浏览器厂商定义, 用来操作html和xml功能的一类对象的集合, 也有人称DOM是对HTML以及XML的标准编程接口  
+
+### DOM 结构树
+
+![52877441167](.\javascript\1528774411674.png)
+
+### DOM基本操作
+
+`getElementById` 方法只在 **Documement.prototype** 上定义, 即 `Element` 节点无法使用.
+
+`getElementsByClassName`, `querySelector`, `querySelectorAll` 在 **Document.prototype** 和 **Element.prototype** 上均有定义.
+
+`getElementsByTagName` 方法定义在了 **Document.prototype** 和 **Element.prototype**.
+
+**HTMLDocument.prototype** 上定义了一些常用属性, `body`, `head`等, 分别指html文档中的 `body`  和 `head` 节点
+
+**Document.prototype** 上定义了documentElemnt 属性, 指文档根元素 `html`.
+
+**查**
+
+- **document.getElementById()**	       静态
+- **element.querySelector()**                    静态 IE9+
+- **element.querySelectorAll**                  静态 IE9+
+- **element.getElementsByTagName()**  IE9+
+- **element.getElementsByName()**        form 的 name属性获取
+- **element.getElementsByClassName()**
+
+**遍历节点树**
+
+- **element.parentNode**   父元素节点, 顶端是document
+- element.childNodes       所有子节点 (包含非元素节点)
+- element.firstChild           第一个子节点
+- element.lastChild            最后一个子节点
+- **element.nextSibling**     后一个兄弟节点
+- element.previousSibling 前一个兄弟节点
+
+**基于元素节点的遍历** 
+
+- element.parentElement    当前元素节点的父元素节点  IE9+
+- **element.children**                当前元素节点的子元素节点们
+- element.firstElementChild   当前元素节点的第一个元素子节点  IE9+
+- element.lastElementChild   当前元素节点的最后一个元素子节点  IE9+
+- **element.nextElementSibling**  当前元素节点的下一个兄弟元素节点  IE9+
+- element.previousElementSibling  当前元素节点的上一个兄弟元素节点  IE9+
+
+**节点的四个属性**
+
+- nodeName  元素节点的标签名称, "大写表示", 只读
+- nodeValue   文本节点或者注释节点()的文本内容, 可读写
+- **nodeType**   节点类型, 只读 (元素 1, 属性 2, 文本3 , 注释 8, document 9)
+- attributes    Element 节点属性集合
+
+**节点的一个方法**
+
+- has childNodes()   判断有无子节点(包含非元素节点)
+
+**增**  
+
+- **document.createElement()**  创建一个元素节点
+- document.createTextNode()   创建文本节点
+- docuemnt.createComment()  创建注释节点
+- **document.createDocumentFragment()** 创建一个文档碎片节点
+
+**插**
+
+- **element.appendChild()**  剪切操作, 也可以移动原有节点位置
+- **element.insertBefore()**  插入节点在某子节点之前
+
+**删**
+
+- **element.removeChild()**  父节点剪切子节点(返回值是被剪切的子节点)
+- **element.remove()**   节点自杀, 无法保存
+
+**替换**
+
+- element.replaceChild()  用新节点替换原来的节点, 返回被替换的节点
+- **element.innerHTML**  识别标签, 读/写 内容
+- element.innerText      读/写文本内容 火狐使用 textContent
+
+**节点的标签属性方法**
+
+- **element.setAttribute(**) 给节点设置标签属性
+- **element.getAttribute()** 获取节点标签属性
+
+**元素节点克隆**
+
+- element.cloneNode()   布尔传值确定克隆后代节点
+
+### **滚动条滚动距离监听**
+
+window.pageYOffset / window.pageXOffset
+
+document.body.scrollLeft /  document.body.scrollTop
+
+document.documentElement.scrollLeft /  document.documentElement.scrollTop
+
+```javascript
+// 兼容封装
+var pageOffset = (function() {
+    var pageX = window.pageXOffset || (document.body.offsetLeft + document.documentElement.scrollLeft);
+    var pageY = window.pageYOffset || (document.body.offsetTop + document.documentElement.offsetTop);
+    return {
+        'pageX': pageX,
+        'pageY': pageY
+    };
+}())
+
+console.log(pageOffset)
+```
+
+### **可视区窗口尺寸**
+
+document.compatMode (CSS1Compat 为标准模式)
+
+window.innerWidth / window.innerHeight
+
+document.documentElement.clientWidth / document.documentElement.clientHeight
+
+document.body.clientWidth / document.body.clientHeight
+
+```javascript
+//	兼容封装
+var clientOffset = (function() {
+    var clientW,
+        clientH;
+    if (document.compatMode == 'CSS1Compat') { //	标准模式下
+        clientW = window.innerWidth || document.documentElement.clientWidth;
+        clientH = window.innerHeight || document.documentElement.clientHeight;
+    } else { //	怪异模式下
+        clientW = document.body.clientWidth;
+        clientH = document.body.clientHeight;
+    }
+    return {
+        'clientW': clientW,
+        'clientH': clientH
+    };
+}())
+
+console.log(clientOffset)
+```
+
+### 元素尺寸/位置
+
+**非实时获取**
+
+document.getBoundingClientRect() 
+
+**element.offsetWidth / element.offsetHeigh**t   (border+padding+content)
+
+**实时获取**
+
+**window.getComputedStyle(element, null)['prop']** 
+
+element.currentStyle('prop')	IE兼容
+
+> 返回CSSStyleDeclaration, 该节点的最终样式表(只读)
+>
+> 第二个参数 一般为null, 如果我们想获取元素的伪元素的样式表可以 填写 affter 等
+
+```javascript
+//	兼容封装
+function cssStyle(element, prop) {
+    return parseFloat(window.getComputedStyle(element)[prop] || element.currentStyle(prop));
+}
+```
+
+**元素位置**
+
+**element.offsetTop / element.offsetLeft**    相对定位父级位置(忽略自身是否定位)
+
+**element.offsetParent**  返回最近定位父级节点
+
+```javascript
+//	获取元素相对文档的偏移量
+function offsetPosition(element) {
+    var totaltLeft = null,
+        totalTop = null,
+        parent = element.offsetParent;
+    totaltLeft += element.offsetLeft;
+    totalTop += element.offsetTop;
+    while (parent) {
+        totaltLeft += parent.offsetLeft;
+        totalTop += parent.offsetTop;
+        parent = parent.offsetParent;
+    }
+    return {
+        'totaltLeft': totaltLeft,
+        'totalTop': totalTop
+    };
+}
+```
+
+### 滚动条滚动事件
+
+window.onscroll = function(){}	监听滚动条滚动
+
+window.scroll() / window.scrollTo()  滚动条滚动到指定距离
+
+window.scrollBy()  滚动条滚动到指定位置, 在指尖数据基础上累积
+
+---
+
+## 日期**对象**
+
+**`new Date()`** 
+
+- getDate()   日
+- getDay()    星期 -1 
+- getMonth()   月 -1
+- getMinutes()  分钟
+- getFullYear()   年
+- getSeconds()  秒
+- getTime()   至今毫秒数
+- getTimeZoneOffset()  本地时间与格林威治时间分钟差
+
+---
+
+## 定时器 / 运动函数
+
+`setTimeout()`  `setInterval()`
+
+> 内部 this 指向 window
+>
+> 移除方法: **clearInterval()**  **clearTimeout() ** 接收定时器执行的返回值
+>
+> setTimeout("内容", 1000)  这里可以将 "内容" 的代码作 javascript 代码执行
+
+#### 运动函数
+
+`window.requestAnimationFrame` 
+
+```javascript
+//	运动函数兼容
+window.requestAnimationFrame = window.requestAnimationFrame || function(callback){ return setTimeout(callback, 1000/60) };
+
+window.cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
+
+//	简单使用
+document.onclick = function () {
+    var speed = 5;
+    var cssL = parseFloat(window.getComputedStyle(op)['left']);
+    (function run() {
+        op.style.left = cssL + speed++ + 'px';
+        if (parseFloat(window.getComputedStyle(op)['left']) < 500) {
+            window.requestAnimationFrame(run)
+        }
+    })()
+}
+```
+
+
+
+---
+
+## 事件
+
+### 事件绑定和解绑
+
+**绑定事件**
+
+- element.onclick = function() {}   一个元素的同一事件只能绑定一个处理反馈
+- element.addEventListener('click', function() {}, false) / element.attachEvent('click', function() {})   一个元素的同一事件可以绑定多个处理反馈
+
+```javascript
+//	句柄绑定方式
+//	元素.on事件名 = 方法
+//	addEventListener 绑定方式
+ele.attachEvent('click', function() {
+	//	内部 this 指向 window
+})
+```
+
+**解绑事件**
+
+- element.onclick = null 
+- element.removeEventListener() / element.detachEvent()
+
+### 事件对象
+
+**`event`**  对象
+
+**`event.target`**  事件源
+
+```javascript
+element.onclick = function(event) {
+    var event = event || window.event;
+    var target =  event.target || event.srcElement;	//	事件源 可以作事件委托
+    if (target.nodeName != 'UL') {
+        console.log(target.innerHTML)
+    }
+}
+```
+
+### 事件处理模型
+
+> 事件处理模型: 冒泡 捕获 (同一个对象的同一个类型只存在一种处理模型)
+>
+> **冒泡**: 结构上存在父子关系, 如果把事件绑定给子元素身上, 父元素的事件也会被触发(从内向外一层层冒泡)
+>
+> **捕获**: 结构上存在父子关系, 会存在事件捕获的功能, 同一事件 自外向里捕获, IE不存在捕获
+>
+> 执行顺序: 先捕获 后冒泡
+
+**取消冒泡**
+
+event.stopPropagation()	IE9+
+
+event.cancelBubble = true
+
+```javascript
+function stop(event) {
+    window.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
+}
+```
+
+**阻止默认**
+
+return false
+
+event.preventDefault()	主流
+
+event.returnValue = false   IE
+
+```javascript
+document.addEventListener('contextmenu', function (ev) {
+    var ev = ev || window.event
+    ev.preventDefault ? ev.preventDefault() : (ev.returnValue = false);
+    return false;
+})
+```
+
+**事件封装**
+
+```javascript
+var xiaobaiEvent = {
+    readyEvent: function (callback) {	//文档结构树完成执行
+        if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', function () {
+                callback();
+                document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+            }, false);
+        } else {
+            document.attachEvent('onreadystatechange', function () {
+                callback();
+                document.detachEvent('onreadystatechange', arguments.callee);
+            })
+        }
+    },
+    //	注册事件
+    addEvent: function (element, type, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(type, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent('on' + type, function () {
+                handler.call(element);
+            })
+        } else {
+            element['on' + type] = handler;
+        }
+    },
+    // 移除事件
+    removeEvent: function (element, type, handler) {
+        if (element.removeEventListener) {
+            element.removeEventListener(type, handler, false);
+        } else if (element.detachEvent) {
+            element.detachEvent('on' + type, handler);
+        } else {
+            element['on' + type] = null;
+        }
+    },
+    //阻止冒泡
+    stopPropagation: function (event) {
+        this.getEvent();
+        if (window.stopPropagation) {
+            event.stopPropagation();
+        } else {
+            event.cancelBubble = true;
+        }
+    },
+    //默认行为阻止
+    preventDefault: function (event) {
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.renturnValue = false;
+        }
+    },
+    //获取事件源
+    getTarget: function (event) {
+        return event.target || event.SrcElement;
+    },
+    //获取event
+    getEvent: function (event) {
+        return event = event || window.event;
+    }
+};
+```
+
+
+
+### 鼠标事件
+
+- click	单击
+- mouseenter / mouseleave 鼠标移入移出 不冒泡
+- mouseover / mouseout 鼠标移入移出 冒泡
+- mousedown 鼠标按下
+- mouseup 鼠标抬起
+- mousemove 鼠标按下情况再移动
+
+**区分鼠标键值**
+`event.button` 
+
+- 左键 0
+- 右键 2
+
+### 键盘事件
+
+- keydown 按下
+- keypress  抬起, 只响应字符类键盘按键
+- keyup      抬起
+
+**键值**
+
+**`keyCode`**
+
+```javascript
+document.addEventListener('keyup', function (ev) {
+    console.log(ev.keyCode);
+    if (ev.keyCode == 39) {
+        ppp.style.left = (count+=10) + 'px';
+    }
+}, false)
+```
+
+#### input事件
+
+- change 文本内容改变(失去焦点)
+- focus    获得焦点
+- blur      失去焦点
+
+**窗体事件**
+
+scroll   滚动条滚动触发
+
+load     文档加载完毕
+
+
+
+---
+
+## 异步加载JS
+
+### 绘制页面
+
+domTree (深度优先原则) -> cssTree -> randerTree
+
+**页面重排 reflow** (dom结构重新生成, 重新渲染)
+
+dom节点的删除, 添加, 宽高变化, 位置变化, display, offsetWidth
+
+**页面重绘 repaint** (局部重绘)
+
+dom 颜色更改等
+
+### 异步加载js
+
+> js加载的缺点: 加载工具方法没有必要阻塞文档, 过多js加载会影响页面效率, 一旦网速不好, 整个网站将等待js加载而不进行后续渲染等工作.
+>
+> 有些工具方法需要按需加载, 用到再加载.
+
+**javascript 异步加载的三种方式**
+
+- defer 异步加载, 弹药等到dom文档全部解析完才会被执行. 只有IE能用, 也可以将代码写到标签内部.
+
+```html
+<script type="text/javascript" src="xxx.js" defer="defer"></script>
+```
+
+- async 异步加载, 加载完就指向, async 只能加载外部脚本, 不能把js写在script 标签里. 主流IE9+
+
+```html
+<script type="text/javascript" src="xxx.js" aysnc="sysnc"></script>
+```
+
+- 创建 script, 插入到DOM中, 加载完毕后callBack *
+
+```javascript
+loadScript('tools.js', function () {
+    test();
+});
+//	异步加载JS
+function loadScript(url, callback) {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    if (script.readyState) { //IE
+        script.onreadystatechange = function () {
+            if (script.readyState == "loaded" || script.readyState == "complete") {
+                script.onreadystatechange = null;
+                callback();
+            }
+        };
+    } else { //Others: Firefox, Safari, Chrome, and Opera
+        script.onload = function () {
+            callback();
+        };
+    }
+    script.src = url;
+    document.body.appendChild(script);
+}
+```
+
+### JS时间线
+
+>① 创建Document对象 开始解析web页面   (document.readyState = 'leading')
+>
+>② 遇到 link 外部 css ,创建线程加载, 并继续解析.
+>
+>③ 遇到外部 script, 未设定async defer 浏览器加载, 阻塞以致加载完毕才继续解析.
+>
+>④ 遇到外部 script 设定了 async defer, 浏览器创建线程, 对于 defer 的script脚本,等待文档解析完毕再执行 , 对于 anync 的 script 脚本, 加载完立即执行, 继续解析.
+>
+>⑤ 遇到 img 等, 正常解析dom结构, 异步加载 src , 继续解析.
+>
+>⑥ 文档解析完毕 (document.readyState = 'interactive').
+>
+>⑦ 文档解析完成, 所有设置了 defer 的 script脚本按序执行.
+>
+>⑧ document 对象触发 DOMContentLoaded 事件, 标志着从程序执行.
+>
+>⑨ 所有的 async 脚本加载完成并执行后, img等加载完毕后 (readyState = 'complete')
+>
+>⑩ 异步响应方式处理用户输入, 网络事件
+
+### DOM结构加载完成执行代码
+
+```javascript
+function domReady(callback) {
+    if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', function () {
+            callback();
+            document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+        }, false)
+    } else {
+        document.attachEvent('onreadystatechange', function () {
+            if (document.readyState == 'complete') {
+                callback();
+                document.detachEvent('onreadystatechange', arguments.callee);
+            }
+        })
+    }
+}
+```
+
+
+
+---
+
+## 正则表达式 RegExp
+
+转义字符 `\`
+
+特殊:  `\n` 换行    `\r` 行结束   `\t` 缩进
+
+`正则表达式`
+
+> 匹配特殊字符或有特殊搭配原则的字符集的最佳选择
+
+方式
+
+- `/规则/修饰符`  直接量
+- new RegExp(规则, 修饰符)  正则对象
+
+>  一般我们选择直接量方式, 对象方式创建可以传变量
+
+修饰符:
+
+- `i` 忽略大小写
+- `g` 全局匹配
+- `m` 多行匹配
+
+### 支持正则方法
+
+- **test()**
+
+
+- **match()** 字符串方法
+
+```javascript
+//	test() 和 match() 的使用
+var reg = /^a/gm;
+var str = 'abcde\na';
+reg.test(str);	//true
+str.match(reg);	//['a', 'a']
+```
+
+- **search()** 字符串方法, 返回匹配位置 匹配不到返回 -1
+- **split()**  字符串方法, 按规则切割字符串
+- **replace()**  字符串方法, 替换匹配内容 `$` 引用子表达式
+
+```javascript
+//	replace() 非正则表达式
+var str = 'aabc';
+str.replace('a', 'b'); //'babc'	替换一次	
+//	正则表达式形式
+str.replace(/a/g, 'b'); // 'bbbc' 全局匹配替换
+
+//	倒序演示  aabb - > bbaa  使用 $ 来反向引用
+var reg = /(\w)\1(\w)\2/g;
+var str = "aabb";
+str.replace(reg, '$2$2$1$1');	//	bbaa
+
+//	可以传递一个 function, return 结果就是输出结果
+str.replace(reg, function($, $1, $2){	//	bbaa
+    return $2 + $2 + $1 + $1;	
+})
+```
+
+- **reg.exec()** 配合 **reg.lastIndex(游标)** 属性的使用 *
+
+```javascript
+//	reg.exec() 的使用 , 挂载全局匹配的情况
+var reg = /ab/g;
+var str = 'ababab';
+console.log(reg.lastIndex); //	0
+console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefined]
+console.log(reg.lastIndex); //	2
+console.log(reg.exec(str));	//	["ab", index: 2, input: "ababab", groups: undefined]
+console.log(reg.lastIndex);	//	4
+console.log(reg.exec(str));	//	["ab", index: 4, input: "ababab", groups: undefined]
+console.log(reg.lastIndex);	//	6
+console.log(reg.exec(str));	//  null
+console.log(reg.lastIndex);	//	0
+console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefined]
+
+//	更改lastIndex(游标)后的情况: 控制游标匹配位置
+var reg = /ab/g;
+var str = 'ababab';
+console.log(reg.lastIndex); //	0
+console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefined]
+reg.lastIndex = 0;	//   设置游标位置 
+console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefined]
+console.log(reg.lastIndex); //	2
+reg.lastIndex = 0;	//   设置游标位置 
+console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefined]
+
+//	reg 没有全局匹配的情况下, 游标永远是 0, 匹配到的永远是第一个
+```
+
+### 正则规则
+
+**表达式**
+
+`[]` 一个表达式表示一个字符
+
+`^`  查找任何不在表达式中的内容
+
+`()`  一个区间, 查找任何设置的选项
+
+```javascript
+var reg = /[^a][0-9A-z]/g;
+var str = 'ab1cd';
+str.match(reg);	//	['b1', 'cd']
+
+//() 查找任何设置的选项
+var reg = /(red|blue|green)[0-9]/g;
+var str = 'red520';
+str.match(reg);	//	['red5']
+```
+
+**元字符**
+
+`.`  查找单个字符, 除了换行和行结束符 `[^\r\n]`
+
+`\w`  单词字符 `[0-9A-z_]`      	`\W`  非单词字符  `[^\w]`
+
+`\d`  数字字符 `[0-9]`   	`\D` 非数字字符  `[^\d]`
+
+`\s`  空白字符 `[\t\n\t\v\f]` 	    `\S`  非空白字符 
+
+`\b` 单词边界 	 `\B` 非单词边界
+
+```javascript
+var reg = /\bhello\b/g;
+var str = 'hello world';
+str.match(reg); //	hello
+```
+
+`\uxxxx`  匹配 unicode 字符 (啥都可以匹配)
+
+`[\w][\W]`  补集 表示匹配所有
+
+**量词**
+
+`n+`  {1, } 至少一个n的字符串
+
+`n{1, }`
+
+`n*`  {0, } 逻辑上可以匹配空值
+
+`n?`  {0, 1}
+
+`n{x} `  {x} 个
+
+`n{x, y}` {y-x} 个
+
+```javascript
+//	* => {0, } 逻辑上有位置的, 空.  贪婪匹配原则
+var reg = /\d*/g;
+var str = 'abc';
+str.match(reg);	// ['', '', '', '']	
+
+var reg2 = /\w*/g;
+str.match(reg2); //	['abc', '']
+
+var reg3 = /\d+/g;
+str.match(reg3); //	['abc']
+```
+
+`^n`  `n$ `  以n开头 n结尾 
+
+**子表达式** `()` 配合 `\num`  的使用  ---  **反向引用字表达式中的内容**
+
+```javascript
+//	\num 复制第num个子表达式内容
+var str = 'aaaa';
+var reg = /(\w)\1/g;
+str.match(reg);	//	\1 在这里的作用是 复制一次第一个子表达式中内容
+
+//	匹配aabb
+var reg = /(\w)\1(\w)\2/g; 
+
+//	子表达式 配合 exec()类数组集合.第一位是匹配的源字符串, 第二位是第一个子表达式, 以此类推
+var str = 'aabb';
+var reg = /(\w)\1(\w)\2/g; 
+console.log(reg.match(str));//	['aabb'] 非全局匹配的情况行如exec结果, 如果使用全局匹配, 直接返回 匹配结果.
+console.log(reg.exec(str));	//	(3) ["aabb", "a", "b", index: 0, input: "aabb", groups: undefined]
+```
+
+**正向预查(正向断言)** and **非正向预查**
+
+`?=`   `?!`
+
+```javascript
+var str = 'abaaaa';
+var reg = /a(?=b)/g;	//	a后面跟着b  b只是参与修饰, 不参与匹配
+str.match(reg); //	['a']
+
+// 非正向预查
+var reg2 = /a(?!b)/g;	//	a后面不是b的a 
+str.match(reg2); //	['a', 'a', 'a', 'a'];
+```
+
+**非贪婪匹配规则**
+
+`{n, }? ` `*?` `+?`  `??`  `{m, n}?`
+
+
+
+### 简单练习
+
+```javascript
+//	字符串去重
+var str = 'aaaaaaabbbbbbbbbbbccccccccccc';
+var reg = /(\w)\1*/g;
+str.replace(reg, '$1');
+
+// 100.1000.000	形式
+var str = '10000000000000';
+var reg = /(?=(\B)(\d{3})+$)/g;			
+str.replace(reg, '.');	//	100,000,000,000,000
+//	从后往前 3个字母 匹配多个 /((\d{3})+$)/g
+//	空的后面带上述条件 /(?=(\d{3})+$)/g   匹配空: 不写
+//	去除单词开头	/(?=(\B)(\d{3})+$)/g   
+```
+
+### 常用正则
+
+1 Email地址：^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+2 域名：[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?
+3 InternetURL：^http://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$
+4 手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$
+5 电话号码("XXX-XXXXXXX"、"XXXX-XXXXXXXX"、"XXX-XXXXXXX"、"XXX-XXXXXXXX"、"XXXXXXX"和"XXXXXXXX)：^(\(\d{3,4}-)|\d{3.4}-)?\d{7,8}$ 
+6 国内电话号码(0511-4405222、021-87888822)：\d{3}-\d{8}|\d{4}-\d{7}
+7 身份证号：
+15或18位身份证：^\d{15}|\d{18}$
+15位身份证：^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$
+18位身份证：^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$
+8 短身份证号码(数字、字母x结尾)：^([0-9]){7,18}(x|X)?$
+或
+^\d{8,18}|[0-9x]{8,18}|[0-9X]{8,18}?$
+9 帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$
+10 密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：^[a-zA-Z]\w{5,17}$
+11 强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间)：^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$ 
+12 日期格式：^\d{4}-\d{1,2}-\d{1,2}
+13 一年的12个月(01～09和1～12)：^(0?[1-9]|1[0-2])$
+14 一个月的31天(01～09和1～31)：^((0?[1-9])|((1|2)[0-9])|30|31)$ 
+15 钱的输入格式：
+16 1.有四种钱的表示形式我们可以接受:"10000.00"
+和
+"10,000.00", 和没有 "分" 的
+"10000" 和 "10,000"：^[1-9][0-9]*$ 
+17 2.这表示任意一个不以0开头的数字,但是,这也意味着一个字符"0"不通过,所以我们采用下面的形式：^(0|[1-9][0-9]*)$ 
+18 3.一个0或者一个不以0开头的数字.我们还可以允许开头有一个负号：^(0|-?[1-9][0-9]*)$ 
+19 4.这表示一个0或者一个可能为负的开头不为0的数字.让用户以0开头好了.把负号的也去掉,因为钱总不能是负的吧.下面我们要加的是说明可能的小数部分：^[0-9]+(.[0-9]+)?$ 
+20 5.必须说明的是,小数点后面至少应该有1位数,所以"10."是不通过的,但是
+"10" 和 "10.2" 是通过的：^[0-9]+(.[0-9]{2})?$ 
+21 6.这样我们规定小数点后面必须有两位,如果你认为太苛刻了,可以这样：^[0-9]+(.[0-9]{1,2})?$ 
+22 7.这样就允许用户只写一位小数.下面我们该考虑数字中的逗号了,我们可以这样：^[0-9]{1,3}(,[0-9]{3})*(.[0-9]{1,2})?$ 
+23 8.1到3个数字,后面跟着任意个 逗号+3个数字,逗号成为可选,而不是必须：^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$ 
+24 备注：这就是最终结果了,别忘了"+"可以用"*"替代如果你觉得空字符串也可以接受的话(奇怪,为什么?)最后,别忘了在用函数时去掉去掉那个反斜杠,一般的错误都在这里
+25 xml文件：^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$
+26 中文字符的正则表达式：[\u4e00-\u9fa5]
+27 双字节字符：[^\x00-\xff]
+(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))
+28 空白行的正则表达式：\n\s*\r (可以用来删除空白行)
+29 HTML标记的正则表达式：<(\S*?)[^>]*>.*?|<.*?
+/> (网上流传的版本太糟糕，上面这个也仅仅能部分，对于复杂的嵌套标记依旧无能为力)
+30 首尾空白字符的正则表达式：^\s*|\s*$或(^\s*)|(\s*$)
+(可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)
+31 腾讯QQ号：[1-9][0-9]{4,}
+(腾讯QQ号从10000开始)
+32 中国邮政编码：[1-9]\d{5}(?!\d)
+(中国邮政编码为6位数字)
+33 IP地址：\d+\.\d+\.\d+\.\d+ (提取IP地址时有用)
+
+ 
+
+---
+
+# Jquery
+
+**jq不做具体的学习笔记, 平时遇到的一些有意义的做下简单笔记**
+
+## 学习
+
+### Ajax
+
+在 jQuery 中 ajax 方一共有四个
+
+**get**	 	**post**	 **ajax**	 **getJson**
+
+- **$.get 方法**
+
+  **$.get(url,[callback],[type])** 
+
+  在 jqury 中 $ === jQuery
+
+  参数说明：
+
+  ​	url :  必须参数, 表示请求的url地址
+
+  ​	callback: 可选参数, 表示请求成功之后触发的回调函数
+
+  ​	type : 	可选参数, 期望的返回数据类型, 常见的有 json, xml, text, **html**
+
+- **$.post** 方法
+
+  **$.post(url,[data],[callback],[type])**
+
+  参数说明:
+
+  ​	url :  必须参数, 表示请求的url地址
+
+  ​	data: 传递的参数
+
+  ​	callback: 可选参数, 表示请求成功之后触发的回调函数
+
+  ​	type : 	可选参数, 期望的返回数据类型, 常见的有 json, xml, text, html
+
+- **$.ajax** 方法
+
+  **$.ajax(Join对象)**
+
+  Json 对象中的属性:
+
+   -	async	    是否异步, 默认是
+   -	cache          是否使用缓存, 默认是, 当 dataType 为 jsonp 或者 script 的时候默认是否
+   -	complete   当请求执行完成的时候触发的回调函数, 完成不一定表示成功
+   -	data            表示传递的参数, 是一个 json 格式
+   -	dataType   期望的返回值数据类型, 常见 json, xml, text, html
+   -	success      表示请求成功之后触发的回调
+   -	type            表示请求的类型, 如 get, post
+   -	url               表示请求地址
+
+## 案例
+
+### 选择器相关案例:
+
+**表单选择器(复选框)的选择, 并选择出被选中的复选框元素**
+
+```jquery
+$checkedObj = $(':checkbox:checked');
+```
+
+![1541215349755](.\javaScript\1541215349755.png)
