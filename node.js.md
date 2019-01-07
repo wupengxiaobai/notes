@@ -454,6 +454,25 @@ Url {
 
 **我们要清楚的明白, 请求路径只是一个标识而已. 具体请求文件是什么由服务器决定**
 
+#### events 模块
+
+```js
+//	异步有结果, 执行事件
+const EventEmitter = require('events').EventEmitter
+const myEmtter = new EventEmitter
+const fn = () => {
+    console.log('这是某异步的回调函数')
+}
+myEmtter.on('someEvents',fn)
+//	这里有一个异步的操作
+setTimeout(() => {
+    //	异步有结果, 触发执行函数
+    myEmtter.emit("someEvents")
+},2000)
+```
+
+![1546878050611](.\node\1546878050611.png)
+
 ### 用户自定义模块
 
 - require  加载
@@ -922,11 +941,33 @@ console.log(buf.toString('base64');
 
 ![1543296908536](.\node\1543296908536.png)
 
-------
+## API
+
+### 异步API
+
+- process.nextTick(callback)
+
+- setImmediate(callback)
+
+**nodeJS中代码执行队列**
+
+```
+nacro-task:
+	script(全部的代码) 定时器 setImmediate I/0(读写操作)
+micro-task:
+	process.nextTick() Promise
+```
+
+```js
+//	异步代码执行优先级
+process.nextTick() > Promise.then() > 定时器 >  setImmediate > I/0 操作
+```
+
+
+
+
 
 ## 其它知识点
-
-
 
 ### ip和端口号
 
