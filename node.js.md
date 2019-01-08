@@ -222,8 +222,8 @@ const xxx = require('核心模块');
 #### fs 模块(文件读写)
 
 - fs.mkdir(文件夹名, 回调) 创建文件夹
-
 - **fs.readdir(文件,回调) 读取文件目录**
+- fs.statSync() 拿到文件状态 
 
 ```js
 // 多个异步操作有时候不可以正常读取文件.
@@ -245,7 +245,7 @@ fs.readdir('./aaa', (err, files) => {
 })
 ```
 
-- **fs.readFile**  **fs.writeFile**
+- **fs.readFile读内容**  **fs.writeFile写内容** **fs.watchFile监听内容**
   - fs.readFile(path[, options], callback)
   - fs.writeFile(file, data[, options], callback)
 
@@ -280,8 +280,6 @@ fs.writeFile('./data/write', '大家好,我是node.js,正在执行写文件的�
 
 ![1543123590061](.\node\1543123590061.png)
 
-
-
 **封装promise版本的readFile, 鄙视回调地狱**
 
 ```javascript
@@ -310,6 +308,14 @@ pReadFile('./data/a.txt')
     .then((data) => {
         console.log(data)
     })
+```
+
+**fs.existsSync（path）**
+
+判断路径是否存在
+
+```js
+
 ```
 
 
@@ -454,6 +460,52 @@ Url {
 
 **我们要清楚的明白, 请求路径只是一个标识而已. 具体请求文件是什么由服务器决定**
 
+**另外一种方式解析地址演示**
+
+![1546948215657](.\node\1546948215657.png)
+
+**url 中的构造函数**
+
+```js
+//	resolve 模块 
+const url = require('url');
+url.resolve('/one/two/three', 'four');         // '/one/two/four'
+url.resolve('http://example.com/', '/one');    // 'http://example.com/one'
+url.resolve('http://example.com/one', '/two'); // 'http://example.com/two'
+```
+
+#### querystring 查询字符串
+
+查询字符串
+
+- querystring.parse()
+- querystring.stringify()
+- querystring.unescape（str）
+
+```js
+const querystring = require('querystring')
+const qs = querystring.parse('w=%D6%D0%CE%C4&foo=bar', null, null, {
+  decodeURIComponent: 'base64'
+});
+console.log(qs)
+//	{w: 'xxx', foo: 'bar'}
+const qs2 = querystring.stringify(qs, ';',":");
+//	w:%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD;foo:bar
+console.log(qs2)
+```
+
+#### assert 断言
+
+非期望值则抛出错误
+
+- assert.deepStrictEqual（actual，expected [，message]）测试 `actual` 和 `expected` 参数之间的深度相等
+- assert.notDeepStrictEqual（actual，expected [，message]）测试深度不相等
+- assert.strictEqual（actual，expected [，message]）确定的 `actual` 和 `expected` 参数之间的严格相等性
+
+- assert.notStrictEqual(actual, expected[, message]) 确定的 `actual` 和 `expected` 参数之间的严格不等式
+
+- assert.ifError（value）如果 `value `不是 `undefined` 或 `null`
+
 #### events 模块
 
 ```js
@@ -472,6 +524,25 @@ setTimeout(() => {
 ```
 
 ![1546878050611](.\node\1546878050611.png)
+
+#### crypto 加密
+
+![1546955481163](.\node\1546955481163.png)
+
+```js
+const crypto = require('crypto')
+/**
+ * @param {String} password 用户密码
+ * @param {String} KEY 附加密钥
+ */
+
+module.exports = function (password, KEY = "wupeng is a handsome man") {
+    const hmac = crypto.createHmac('sha256', KEY)
+    hmac.update(password)
+    const passwordHex = hmac.digest("hex")
+    return passwordHex
+}
+```
 
 ### 用户自定义模块
 
