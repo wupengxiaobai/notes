@@ -645,7 +645,7 @@ server.listen(3000);
 
 - `request.rawHeaders`
 
-	 	`request.httpVersopm`
+- 	`request.httpVersopm`
 
 - `request.method` 
 
@@ -1669,9 +1669,143 @@ compiled({name: 'moe'});
 //	=> "hello: moe"
 ```
 
-
-
 ------
+
+## koa2
+
+**初始化操作**
+
+```js
+npm i -S koa@latest  安装最新版本
+```
+
+```js
+const Koa = require('koa')
+const app = new Koa
+
+//中间件
+app.use(async (ctx, next) => {
+    //	ctx 上下文对象
+    //	next 下步操作
+})
+app.use(async (ctx, next) => {})
+```
+
+
+
+
+
+### 实战笔记
+
+#### koa-static(静态资源目录管理模块)
+
+
+
+#### koa-session(会话模块)
+
+```js
+//	app.js
+//	1) 导入koa-session模块
+const koaBody = require('koa-body')
+//  session 配置
+app.keys = ["wupeng is a handsome man!"]
+//  2)session 配置的对象
+const CONFIG = {
+  key: 'Sid',
+  maxAge: 60 * 60 * 1000, //  过期时间
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+  rolling: true, // 是否刷新过期时间(从最后一个操作开始计时)  
+  renew: false
+}
+//	3) 注册session
+app.use(session(CONFIG, app)) // 注册session
+
+
+
+
+//	user.js -> login
+//	一般我们在登录的时候设置服务端的session和客户端的cookies, 以检验用户是否登录
+//	..... 登录业务
+//  登录校验成功, 我们则需要一个session保存用户登录状态**
+//  1)设置客户端的cookie
+ctx.cookies.set("username", res.username, {
+    //  配置cookie属性: 主机, 作用路径, 有效时间
+    domain: "localhost",
+    path: "/",
+    maxAge: 60 * 60 * 1000,	//	过期时间
+    httpOnly: true, //  true -> 不让客户端访问 cookie
+    overwrite: false,
+    signed: true //  签名, 默认true
+})
+ctx.cookies.set("uid", res.id, {
+    domain: "localhost",
+    path: "/",
+    maxAge: 60 * 60 * 1000,
+    httpOnly: true,
+    overwrite: false,
+    signed: true
+})
+//  2)设置服务端的 session
+ctx.session = {
+    username: res.username,
+    uid: res.id
+}
+//  ...渲染视图
+
+
+
+
+//	router.js
+//	加载首页, 我们需要通过一个中间件来判断(保存) session 是否是最新的(用户登录状态是否过期)
+router.get('/index', user.keepLogin, async (ctx) => {
+    //	首页的渲染
+    await ctx.render('index', {
+        session: ctx.session	//	session 对象数据传递给模板, 通过判断session进行其他业务逻辑层显示
+    })
+})
+
+//	user.js -> keepLogin 
+keepLogin: async (ctx, next) => {
+    //	console.log(ctx.session.isNew)
+    //  crx.session.isNew 如果值是 undefined 表示未过期(即用户登录状态仍有, session是一个数据对象), 我们直接走 next()*
+    //	如果 ctx.session.isNew 值为 true,说明服务端没有保存的session数据, 这里再判断客户端 cookies 中有没有我们服务端需要的数据对象, 有则保存 session
+    if (ctx.session.isNew) { //  如果是新的值
+        if (ctx.cookies.get("username")) { //  用户通过登录被动记录了cookie
+            //   我们保存session
+            ctx.session = {
+                username: ctx.cookies.get('username'),
+                uid: ctx.cookies.get('uid')
+            }
+        }
+    }
+    await next()
+}
+
+
+
+
+//	user.js -> loginout
+//	退出业务, 清除session/cookies
+logout: async (ctx) => {
+    //  清空 cookies, 清空session, 重定向
+    ctx.session = null;
+    ctx.cookies.set("username", null, {
+        maxAge: 0
+    })
+    ctx.cookies.set("uid", null, {
+        maxAge: 0
+    })
+    ctx.redirect("/")
+},
+```
+
+
+
+
+
+---
 
 ## Express
 
@@ -3101,50 +3235,36 @@ $('#profileBtn').on('click', function (ev) {
 **后端代码**
 
 ```javascript
-const express = require('express')
-const app = express()
-const path = require('path')
-
-
-//  处理图片上传部署
-const multer = require('multer')
+//  a.处理头像的业务
+const multer = require('multer');
 //设置文件上传路径和文件命名
-let tupianName = ''
+let tupianName = '';
 //  配置上传文件相关(保存目录文件, 重命名)
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         //文件上传成功后会放入public下的upload文件夹
-        cb(null, path.join(__dirname, '/upload'))
+        cb(null, path.join(__dirname, './../../public/images/avatarUpload'))
     },
     filename: function (req, file, cb) {
+        // console.log(file);
         let ext = file.originalname.substr(file.originalname.indexOf('.'))
-        tupianName = new Date().getTime() + ext
-        //设置文件的名字为其原本的名字，也可以添加其他字符，来区别相同文件，例如file.originalname+new Date().getTime()利用时间来区分
+        tupianName = new Date().getTime() + ext;
+        //设置文件的名字为其原本的名字，也可以添加其他字符，来区别相同文件，例如file.originalname+new Date().getTime();利用时间来区分
         cb(null, tupianName)
     }
-})
+});
 var upload = multer({
     storage: storage
-})
-
-
-
-//  接收post请求的图片上传
-app.post('/upload', upload.single('file'), (req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    var url = path.join(__dirname, '/node/upload/' + tupianName)
+});
+//处理来自前端的ajax请求, single文件上传 并且返回保存路径给前端
+router.post('/avatarUpload', upload.single('file'), function (req, res, next) {
+    //拼接文件上传后的网络路径，
+    var url = '/public/images/avatarUpload/' + tupianName;
     //将其发回客户端
-    res.send({
-        code: '200',
-        msg: 'wupeng is a handsome man!',
-        url: url
-    })
-})
-
-
-
-app.listen(9000, function () {
-    console.log('running in 9000...')
-})
+    res.status(200).json({
+        code: 6,
+        avatarData: url
+    });
+});
 ```
 
