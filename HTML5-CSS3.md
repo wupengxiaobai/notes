@@ -53,59 +53,15 @@
 </html>
 ```
 
-#### <u>**选择器**</u>
+# CSS3
 
-###### 	关联选择器
+## 样式属性
 
-```css
- ~ 选择 某个元素之后的所有  div ~ p -> div后面的所有p
-```
+### 背景属性
 
-###### 	属性选择器
+**背景图片属性**
 
-```css
-img[^='deg']    选择以deg开头的img标签
-img[$='png']    选择以png结尾的img标签
-img[*='h']      选择包含h的img标签
-```
-
-###### 	伪类选择器
-
-```css
- p:first-child     选择p的父元素,再选择父元素的第一个为p
- p:first-of-type   选择p的父元素,再选择父元素的第一个p
- p:last-child      选择最后一个为p
- p:last-of-type    选择最后一个p元素
- p:nth-child(2)    选择第二个为p
- p:nth-of-type(2)  选择第二个p
- p:nth-last-child(2)     选择倒数第二个为p
- p:nth-last-of-type(2)   选择倒数第二个p
- p:only-child      选择仅有一个为p
- p:only-of-type    选择仅有一个p
-```
-
-###### 	其它选择器
-
-```css
-input:enabled   /   input:disabled  选择input能/不能被操作的input
-p:empty     	选择内容为空的p
-p:target    	选择被锚点激活的p   (css选项卡1)
-input:checked   选择被选中的单选框或者复选框  (css选项卡2)
-```
-
-###### 	新增伪元素
-
-```css
-p::selection 选择被选中的文本内容
-```
-
-------
-
-# ***背景属性***
-
-#### <u>**背景图片属性**</u>
-
-- ​	背景尺寸  background-size
+- 背景尺寸  **background-size**
 
   100% 100%  	不按比例撑满盒子
 
@@ -113,7 +69,7 @@ p::selection 选择被选中的文本内容
 
   contain	 	使用(按比例缩放,直到一边到头)
 
-- ​        背景原点  background-origin
+- 背景原点  **background-origin**
 
   padding-box	(默认)从内边距开始显示背景
 
@@ -121,7 +77,7 @@ p::selection 选择被选中的文本内容
 
   content-box     从内容区开始
 
-- ​        背景裁切  background-clip
+- 背景裁切  **background-clip**
 
   padding-box   从内边距开始裁切显示
 
@@ -129,42 +85,47 @@ p::selection 选择被选中的文本内容
 
   content-box    从内容区开始裁切显示
 
-- ​        多背景应用   
+- 多背景应用   
 
   background: url() no-repeat, url() no-repeat color
 
-- ​        背景的复合简写
+- 背景的复合简写
 
   background: color url repeat position(位置)/size(大小) origin(原点) clip(裁切显示) attachment(fixed)
 
-#### **<u>背景颜色属性(image)</u>**
+#### 背景渐变色(background-image)
 
 ​	rgba()  rgb色彩255 a透明度1
 
   	hsl()    h颜色360 s饱和度100% l亮度100%
 
-###### 	<u>线性渐变:</u>从某个方向渐变到另一个方向
+###### <u>线性渐变:</u>从某个方向渐变到另一个方向
 
 ​	linear-gradient(to 方位(或角度),颜色1 颜色范围,颜色2 颜色范围)
 
 ```css
+/*
+	1. 开始颜色和结束颜色
+	2. 渐变的方向
+	3. 渐变的范围
+*/
 linear-gradient(
-                渐变反向(to center / deg),
-                颜色1 范围(yellow 10px),
-                颜色2 范围(skyblue 15px)
-            )
+	渐变反向(to center / deg),
+	颜色1 范围(yellow 10px),
+	颜色2 范围(skyblue 15px)
+)
 ```
 
 ######         <u>径向渐变:</u>从一个点向四周扩散
 
-​	radial-gradient(半径 at 位置,颜色1 颜色范围,颜色2 颜色范围)
+​	radial-gradient(半径 at 位置, 颜色1 颜色范围,颜色2 颜色范围)
 
 ```css
 radial-gradient(
-                半径(50px) at 位置(50px 50px /  center center / 50%  50%),
-                颜色1 范围,
-                颜色2 范围
-            )
+	半径(50px) at 位置(50px 50px /  center center / 50%  50%),
+	颜色1 范围,
+	颜色2 范围
+)
 ```
 
 ###### 	<u>重复渐变</u>
@@ -173,17 +134,17 @@ radial-gradient(
 
 ​	repeating-linear-gradient()
 
-###### <u>可设置背景大小</u>
+###### 可设置背景大小
 
 ​	因为是背景图片的性质,所以设置background-size 可以实现背景的规律重复(未设置repeat下)
 
-------
 
-# ***边框圆角,文本属性***
+
+###  盒子阴影,边框圆角,文本属性
 
 #### 边框圆角
 
-​	border-radius: x1 x2 x3 x4 / y1 y2 y3 y4
+**border-radius**: x1 x2 x3 x4 / y1 y2 y3 y4
 
 ​	边框
 
@@ -192,6 +153,12 @@ radial-gradient(
 ​		border-color	边框颜色 四个值对应 上下左右
 
 ​		border-width  	边框厚度
+
+#### 盒子阴影
+
+**box-shadow**
+
+​	位置x 位置y 模糊度blur 扩散距离spread 颜色rgba 内阴影inset
 
 #### 边框背景
 
@@ -226,11 +193,11 @@ radial-gradient(
     /*round 环绕 完整的自适应(等比缩放) */
     /*stretch 拉伸, 拉伸显示 变宽内容 变形*/
     /*repeat 平铺 从边框的中间向两边填充*/
-    border-image-repeat: stretch;
+    border-image-repeat: round;
 }
 
 //html
-<div class="box">
+<div class="box"></div>
 ```
 
 #### 文本属性
@@ -273,10 +240,6 @@ radial-gradient(
 
   可以多组(凹凸字)
 
-- <u>**box-shadow**</u>   盒子阴影
-
-  位置x 位置y 模糊度blur 扩散距离spread 颜色rgba 内阴影inset
-
 - <u>**text-stroke**</u>    文字描边
 
   width宽度 color颜色
@@ -289,9 +252,62 @@ radial-gradient(
 
   lowercase    小写
 
-------
+## 选择器
 
-# ***过渡 / 动画  / 变化  / 空间***
+#### 关联选择器
+
+```css
+ ~ 选择 某个元素之后的所有  div ~ p -> div后面的所有p
+```
+
+#### 属性选择器
+
+```css
+img[^='deg']    选择以deg开头的img标签
+img[$='png']    选择以png结尾的img标签
+img[*='h']      选择包含h的img标签
+```
+
+#### 伪类选择器
+
+```css
+ p:first-child     		选择p的父元素,再选择父元素的第一个为p
+ p:first-of-type   		选择p的父元素,再选择父元素的第一个p
+ p:last-child      		选择最后一个为p
+ p:last-of-type    		选择最后一个p元素
+ p:only-child      		选择仅有一个为p
+ p:only-of-type    		选择仅有一个p 
+ p:nth-child(2)    		选择第二个为p
+ p:nth-of-type(2)  		选择第二个p
+ p:nth-last-child(2)    选择倒数第二个为p
+ p:nth-last-of-type(2)  选择倒数第二个p
+	备注: 类似 nth-of-type(n)
+		n 的取值大于等于0
+		n 可以设置预定的值
+			odd [选中奇数位置的元素]
+			even[选中偶数位置的元素]
+		n 可以是一个表达式
+			an + b 的格式
+```
+
+#### 其它选择器
+
+```css
+input:enabled   /   input:disabled  选择input能/不能被操作的input
+p:empty     	选择内容为空的p
+p:target    	选择被锚点激活的p   (css选项卡1)
+input:checked   选择被选中的单选框或者复选框  (css选项卡2)
+p:first-line 	选中第一行
+p:first-letter  选中第一个字符
+```
+
+#### 新增伪元素
+
+```css
+p::selection 选择被选中的文本内容
+```
+
+## ***过渡 / 动画  / 变化  / 空间***
 
 #### <u>**过渡**</u>
 
@@ -307,26 +323,24 @@ radial-gradient(
 ​	**animation: name duration delay timing-function iteration-count direction**
 
 - ​	动画时长 animation-duration
-
 - ​        动画延迟 animation-delay
+- ​        运动方式 animation-timing-function 
 
-- ​        运动方式 animation-timing-function
+- ​        动画逆波 animation-direction                    alternate  反向运动
 
-- ​        执行次数 animation-iteration-count           infinite     无限执行
-
-- ​        运动方向 animation-direction                    alternate 规定执行反向运动
+- ​        执行次数 animation-iteration-count         infinite     无限执行
 
 - ​        动画结束 animation-fill-mode                    forwards 保持动画最后的状态
 
 - ​        执行状态 animation-play-state                  paused / running    暂停/继续
 
-- ​        steps(num)                                               帧动画,一帧执行num次
+- ​        steps(num)                                                    x帧动画,一帧执行num次
 
   ```css
   animation: bgPlay 1s steps(11) infinite;/*steps 帧动画*/
   ```
 
-#### <u>**变化**</u>
+#### 变化
 
 - transform           占据文档流位置,但是变化不影响文档流布局
   -   rotate3d(x, y, z, deg)   xyz值为1则对应坐标轴旋转开启,  deg旋转的角度
@@ -335,7 +349,7 @@ radial-gradient(
   -   skew(x, y)                   倾斜(deg)
 -   transform-origin                 变化的基点 (默认值是center center),第三个参数是在Z轴上的距离
 
-#### **<u>空间</u>**
+#### 空间
 
 ​	transform-style  变化空间   preserve-3d
 
@@ -411,7 +425,7 @@ function cssTransform(obj, attr, val) {
 
 ------
 
-# ***Flex弹性盒模型***
+# ***Flex弹性(伸缩)布局***
 
 <u>Flex盒子模型: 规定主轴的排列方向, 项目的对齐方式</u>
 
@@ -419,33 +433,31 @@ function cssTransform(obj, attr, val) {
 <div style="display: flex;display:-webkit-flex"></div>
 ```
 
+#### 父容器属性:
 
-
-#### <u>Flex容器属性:</u>
-
-- ​	**flex-direction** 		决定主轴方向(子项目的排列方向)
-  1. row 		                 主轴为水平方向
+- **flex-direction** 	 决定主轴方向(子项目的排列方向)
+  1. row 		           主轴为水平方向
   2. row-reverse              主轴为水平方向,逆向排列
   3. column                     主轴为垂直方向
   4. column                     主轴为垂直方向,你喜爱那个排列
-- ​       **flex-wrap**                         决定项目是否换行
+- **flex-wrap**              决定项目是否换行
   1. wrap                         在剩余空间内垂直居中显示, 由上至下
   2. wrap-reverse            在剩余空间内垂直居中显示, 由下至上
   3.  no-wrap                   不进行换行,平均分配空间 (默认值)
-- ​       **flex-flow**                           flex-direction 和 flex-wrap 的复合简写
-- ​       **justify-content**                 决定子项目在主轴上的对齐方式
+- **flex-flow**                           flex-direction 和 flex-wrap 的复合简写
+- **justify-content**     决定子项目在主轴上的对齐方式
   1. flex-start                   主轴起点对齐 (默认值)  
   2. flex-end                    主轴终点对齐
   3. center                       主轴中心对齐 
   4. space-around           主轴两端对齐 (两端有空隙) 
   5. space-between         主轴两端对齐 (两端无空隙)
-- ​       **align-items**                        决定子项目在交叉轴上的对齐方式 (单行情况)
+- **align-items**            决定子项目在交叉轴上的对齐方式 (单行情况)
   1. flex-start                    交叉轴上起点对齐 (默认值)
   2. flex-end                     交叉轴上终点对齐
   3. center                        交叉轴上中心对齐
   4. baseline                     文本底部基线对齐
   5. stretch                        项目未设置宽高,高度继承,宽度由自身内容撑开  
-- ​      **align-content**                      决定子项目在交叉轴上的对齐方式 (多行情况)
+- **align-content**        决定子项目在交叉轴上的对齐方式 (多行情况)
   1. flex-start                    交叉轴上起点对齐
   2. flex-end                     交叉轴上终点对齐
   3. center                        交叉轴上中心对齐
@@ -633,9 +645,15 @@ window.history
 
 
 
-###  多媒体
+###  操作多媒体
 
 **`video `  `audio`**
+
+```html
+ 
+```
+
+
 
 **媒体操作都是dom操作, 如果是jq必须转dom, `.get(0)`  `[0]`** 
 
@@ -1150,7 +1168,7 @@ box.ondrop = function(e){
 
 前端方面只要是处理大数据或者想提高数据处理性能，那一定是少不了 ArrayBuffer对象
 
-`ArrayBuffer`表示二进制数据的原始缓冲区，该缓冲区用于存储各种类型化数组的数据。
+`ArrayBuffer` 表示二进制数据的原始缓冲区，该缓冲区用于存储各种类型化数组的数据。
 
 ```
 Int8Array             8位有符号整数
@@ -1634,7 +1652,7 @@ $.ajax({
 
 # ***Canvas***
 
-#### <u>Canvas</u>
+#### 什么是Canvas?
 
 ​	在渲染复杂的动效/把数据可视化图形显示等都会用到canvas技术, 比 dom 操作性能更高.
 
@@ -1662,11 +1680,11 @@ $.ajax({
     /*4.绘制直线*/
     cxt.lineTo(200,100);
     /*5.描边*/
-    ctx.stroke();
+    cxt.stroke();
 </script>
 ```
 
-#### 	<u>绘制样式属性 / 绘制方式</u>
+####  绘制样式属性 / 绘制方式 
 
 ```js
 /*样式属性
@@ -1686,7 +1704,7 @@ $.ajax({
     /*  stroke和fill都有的情况下,后者会覆盖前者的样式  */
 ```
 
-#### <u>绘制线条</u>
+####  绘制线条 
 
 - lineWidth 线宽, 默认1px
 - lineCap 线末端类型 butt(默认) round square
@@ -1716,24 +1734,17 @@ cxt.closePath();	// 闭合路径，一般用于链接开始到结束的连线
 
 **关于线条的问题**
 
-默认宽度是1px,默认黑色. **产生2px颜色变浅** 的原因是对齐的点是线的中心位置, 相当于把线分成两个0.5px, 显示的时候会不饱和, 浏览器默认显示1px, 所以会增加宽度, 颜色也变浅了. 
+默认宽度是1px,默认黑色. **产生2px颜色变浅** 的原因是对齐的点是线的中心位置, 相当于把线分成两个0.5px, 显示的时候会不饱和, 浏览器默认显示1px, 所以会增加宽度, 颜色也变浅了.
 
-解决: **前后移动0.5px即可**
+解决: **前后移动0.5px **
 
 ```javascript
 cxt.moveTo(100.5, 100.5);
 ```
 
-**非零环绕规则**
 
-> 1. 看一块区域是否填充
-> 2. 从这个区域拉一条直线
-> 3. 看和这条直线相交的轨迹
-> 4. 如果是顺序针轨迹 +1
-> 5. 如果是逆时针规矩 -1
-> 6. 计算轨迹总和 如果非0 则填充 是0 则不填充
 
-#### <u>绘制矩形</u>
+#### 绘制矩形
 
 ```js
 /* 
@@ -1749,9 +1760,9 @@ cxt.rect(10, 100, 100, 50);     //  绘制矩形,如果有边框线的情况下,
 cxt.stroke();                   //  创建笔触
 ```
 
-#### <u>图形路径</u>
+#### 图形路径
 
-###### 	<u>路径</u>
+###### 路径
 
 ```js
 /*
@@ -1767,7 +1778,7 @@ cxt.closePath();	//	闭合路径
 cxt.stroke();
 ```
 
-###### 	<u>封闭路径</u>
+###### 封闭路径
 
 ```js
 /*  继承性, 默认是下面会继承可以继承的属性.
@@ -1793,7 +1804,7 @@ cxt.stroke();
     cxt.stroke();
 ```
 
-#### <u>图形边界属性</u>
+####  图形边界属性 
 
 ```js
 /*
@@ -1814,7 +1825,94 @@ cxt.closePath();
 cxt.stroke();
 ```
 
-#### <u>绘制圆</u>
+#### 非零环绕原则
+
+> 绘制一个如下图形
+>
+> 1. 看一块区域是否填充
+> 2. 从这个区域拉一条直线
+> 3. 看和这条直线相交的轨迹
+> 4. 如果是顺序针轨迹 +1
+> 5. 如果是逆时针规矩 -1
+> 6. 计算轨迹总和 如果非0 则填充, 是0. 
+
+![1549455931637](./html/1549455931637.png)
+
+```
+#	条件
+	1. 绘制的是一个闭合图形
+	2. 在绘制的时候, 出现逆时针和顺时针两个方向
+#	非零环绕原则
+	1.任意找一点, 越简单越好
+	2.以点为原心, 绘制一条射线(相交的边越少越好)
+	3.以射线为半径顺时针旋转, 相交的边同向记+1, 反向记-1, 如果相交的区域等于0, 则不填充
+	4.非零区域填充
+```
+
+![1549456550786](./html/1549456550786.png)
+
+```html
+<canvas width="500" height="350" style="border:1px solid #ddd;margin:50px auto;display: block"></canvas>
+<script>
+    var canvas = document.querySelector('canvas')
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#333';
+    ctx.moveTo(100, 100)
+    ctx.lineTo(100, 300)
+    ctx.lineTo(300, 300)
+    ctx.lineTo(300, 100)
+    ctx.closePath()
+    ctx.stroke()
+
+    // ctx.beginPath()
+    ctx.moveTo(150, 150)
+    ctx.lineTo(250, 150)
+    ctx.lineTo(250, 250)
+    ctx.lineTo(150, 250)
+    ctx.closePath()
+    ctx.stroke()
+
+    ctx.fill()
+</script>
+```
+
+#### 绘制动画效果
+
+![1549465592836](./html/1549465592836.png)
+
+```html
+<!--
+	实现动画效果:
+		1.先清屏
+		2.绘制图形
+		3.处理变量
+-->
+<canvas width="500" height="350" style="border:1px solid #ddd;margin:50px auto;display: block"></canvas>
+<script>
+    var canvas = document.querySelector('canvas')
+    var ctx = canvas.getContext('2d');
+
+    //	步长
+    var step = 5;
+    //	方向变量
+    var direction = 1;
+    //	开始位置
+    var startX = 0;
+    setInterval(function() {
+        //	清除矩形选区
+        ctx.clearRect(0, 0, 500, 350);
+        ctx.fillRect(startX, 50, 100, 100);
+        if (startX > (canvas.clientWidth - 100)) {
+            direction = -1;
+        } else if (startX < 0) {
+            direction = 1;
+        }
+        startX = startX + step * direction;
+    }, 20)
+</script>
+```
+
+#### 绘制圆
 
 ```js
 /*
@@ -1834,7 +1932,75 @@ cxt.closePath();
 cxt.stroke();
 ```
 
-#### <u>变化</u>
+**动画圆**
+
+分析: 
+
+![1549468637927](C:\Users\mengbao\AppData\Roaming\Typora\typora-user-images\1549468637927.png)
+
+```html
+<canvas width="250" height="250" style="border:1px solid #ddd;margin:50px auto;display: block"></canvas>
+<script>
+    var canvas = document.querySelector('canvas')
+    var ctx = canvas.getContext('2d');
+    //	画布宽高
+    var canvasW = canvasH =  canvas.clientWidth;
+    // 绘制动态圆
+    var yX = yY = 0;	//	动员初始x, y坐标
+    var yR = 10, yuanR = 100;	//	动员半径
+    var deg = 0;
+
+    //	静态路径/圆绘制
+    function jY(){
+        //	圆
+        ctx.beginPath();
+        ctx.strokeStyle = 'skyblue';
+        ctx.arc(canvasW/2, canvasH/2, yuanR, 0, 360 / 180 * Math.PI, false);
+        ctx.stroke();
+        ctx.closePath();
+        //	横线
+        ctx.beginPath();
+        ctx.moveTo(canvasW/2, 0);
+        ctx.lineTo(canvasW/2, canvasH);
+        ctx.stroke();
+        ctx.closePath();
+        //	树线
+        ctx.beginPath();
+        ctx.moveTo(0, canvasH/2);
+        ctx.lineTo(canvasW, canvasH/2);
+        ctx.stroke();
+        ctx.closePath();
+    }
+    jY();
+
+    //	动画圆绘制
+    function runY(yX, yY) {
+        ctx.beginPath();
+        ctx.fillStyle = 'deeppink';
+        ctx.arc(yX, yY, yR, 0, 360 / 180 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    setInterval(function(){
+        //	清除画布
+        ctx.clearRect(0,0,canvasW,canvasH)
+        //	绘制静态
+        jY()
+        //	自动增长度数
+        if(deg >=360) deg = 0;
+        deg ++;
+        //	位置变化
+        yX = canvasW/2 + Math.cos(deg/180*Math.PI) * yuanR;
+        yY = canvasW/2 + Math.sin(deg/180*Math.PI) * yuanR;
+        //	绘制动态圆
+        runY(yX, yY)
+    },20)
+
+</script>
+```
+
+#### 变化
 
 ```js
 /*
@@ -1861,7 +2027,7 @@ cxt.closePath();
 cxt.stroke();
 ```
 
-#### <u>绘制图片</u>
+####  绘制图片
 
 > 绘制图片的三种方式
 >
@@ -1873,6 +2039,8 @@ cxt.stroke();
 //	加载图片到内存即可
 //	1.创建一个img对象
 let image = new Image();
+//	必须等图片加载完毕	
+image.src = 'images/01.jpg'
 //	2.绑定加载完成事件
 image.onload = function(){
     console.log(image);
@@ -1891,9 +2059,6 @@ image.onload = function(){
     //	图片对象(this) 绘制在画布的坐标(x y) 图片的大小(剪切x y) canvas显示坐标(x, y) 图片的大小(canvas上图片显示大小)
      ctx.drawImage(image, 100, 100, 100, 100 0, 0, 200, 200);
 }
-//	必须等图片加载完毕	
-image.src = 'images/01.jpg'
-
 ```
 
 ```js
@@ -2027,7 +2192,7 @@ img.src = '1.jpg';
 </html>
 ```
 
-#### <u>绘制video</u>
+#### 绘制video
 
 ```js
 var oVideo = document.querySelector('video');
@@ -2038,7 +2203,7 @@ function play() {
 }
 ```
 
-#### <u>创建填充图片背景</u>
+#### 创建填充图片背景
 
 ```js
 /*
@@ -2055,7 +2220,7 @@ img.onload = function () {
 cxt.closePath();
 ```
 
-#### <u>渐变</u>
+#### 渐变
 
 ```js
 /*
@@ -2147,7 +2312,7 @@ cxt.textBaseline = 'top';
 var w = cxt.measureText('小白是世界上最帅的男子').width;
 // cxt.strokeText('小白是世界上最帅的男子 ',250,250);
 cxt.fillText('小白是世界上最帅的男子 ',w/2,0);
-cxt.closePath();
+cxt.closePath(); 
 ```
 
 #### <u>阴影</u>
@@ -2158,7 +2323,7 @@ cxt.closePath();
 	shadowOffsetY	y轴偏移量
 	shadowBlur 		模糊度
 	shadowColor	 	颜色
-*/
+*/ 
 cxt.shadowOffsetX = 100;
 cxt.shadowOffsetY = 100;
 cxt.shadowBlur = 5;

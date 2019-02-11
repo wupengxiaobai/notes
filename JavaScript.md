@@ -1,7 +1,5 @@
 #  JavaScript 学习笔记
 
----
-
 ## 历史
 
 ### web 发展史
@@ -84,8 +82,6 @@ Firefox4.0 JeagerMonkey
 <script type="text/javascript" src="xxx.js">
 ```
 
-
-
 ### 基础语法
 
 #### 变量
@@ -111,6 +107,14 @@ var a,
   - 变量名可以包括 字母  _   $   数字 
   - 不可以使用关键字和保留字
 
+##### 变量作用域
+
+```
+1. 首先查看当前作用域
+2. 查看当前作用域的上级有没有
+3. ...直到全局作用域
+```
+
 
 #### 值类型(数据类型)
 
@@ -123,10 +127,15 @@ var a,
   //	数据的更改, 原来的栈内存值并没有改变, 只是名归为原来的房间的号码, 值不会被清除, 只会累积下来, 直至内存沾满之后从头开始, 覆盖名为房间号的值
   ```
 
-  - **Number**
-  - **Boolean**         布尔
-  - **String**
+  - **number**
+  - **boolean** 
+    - true
+    - false
+  - **string**
   - **undefined**
+    - 一个变量被声明但是未赋值即 undefined 类型的值
+    - 一个变量声明了但是被赋值了 undefined
+    - 一个对象中, 不存在的属性的值也是 undefined
   - **null**
 
 
@@ -141,9 +150,9 @@ var a,
   - **Array**   []
   - **Object**  {}
   - **function**
-  - ....
+  - **Date**
+  - **正则**
 
-  ​
 
 #### 语法的基本规则
 
@@ -697,17 +706,68 @@ b doding 	->	b [[scope]]	->	0: bAO
 c defined	->	c [[scope]] ->	0: bAO
 							    1: aAO
                               	2: GO
+                                
 c doing		->	c [[scope]] ->  0: cAO
 							    1: bAO
                                 2: aAO
                                 3: GO
 ```
 
+#### 作用域链
+
+由于作用域是相对而言的, 如果存在多级作用域, 这个变量又来自于哪里? 我们把这个变量的查找过程称之为作用域链
+
+**意义**: 查找变量 (确定变量来自于哪里, 变量是否可以访问)
+
+简单的来说, 作用域链可以用以下几句话来概括(却额定一个变量来自于哪个作用域)
+
+​	查看当前作用域, 如果当前作用域声明了这个变量, 就确定结果
+
+​		查找当前作用域的上级作用域, 也就是当前函数的上级函数, 看看上级函数中有没有声明
+
+   			再查看上级函数的上级函数, 直到全局作用域为止
+
+​				如果全局作用域中也没有, 我们就认为这个变量未声明
+
 #### 闭包
 
 > 当内部函数被保存到了外部时，将会产生闭包. 闭包会导致原有作用域链不释放, 造成内存泄露.
 
-**作用**
+**闭包的应用场景**
+
+1. 模块化
+
+2. 防止变量污染
+
+```js
+/*
+	模块化小例子
+*/
+var ktv = (function () {
+    //  保护了 smallPrice和total变量, 外部不能直接访问.
+    var smallPrice = 1000;
+    var total = 0;
+	//	自执行函数直接返回一个对象, 对象包括了该模块的一些方法(闭包函数)
+    return {
+        buy(price) {
+            price = price || 0;
+            total += price;
+        },
+        pay() {
+            console.log(total < smallPrice ? ('当前商品总价为' + total + '未到最低消费标准, 请继续购买~') : ('现可以付钱, 一共需要支付 ' + total + ' 元'));
+        },
+        //	必须拥有一定权限方可对私有变量最低消费进行修改
+        editPrice(jurisdictionCode, newPrice) {	
+            if (jurisdictionCode === 888) {
+                smallPrice = newPrice;
+                console.log('当前最低消费额度修改为: ' + newPrice)
+            } else {
+                console.log('对不起, 您权限不够!')
+            }
+        }
+    }
+})()
+```
 
 - 实现公有变量 (函数累加器)
 
@@ -724,7 +784,7 @@ var myAdd = add();
 console.log(myAdd());
 console.log(myAdd());
 console.log(myAdd());
-console.log(myAdd());
+console.log(myAdd())
 ```
 
 - 作缓存 (存储结构)
@@ -787,6 +847,14 @@ var init = (function() {
         change();
     }
 }())
+```
+
+**闭包的释放**
+
+```js
+var bbfun = (function(){return{fun1(){},func2(){}}})()
+//	闭包释放问题, 直接为null | undefined
+bbfun = null;
 ```
 
 #### 立即执行函数
@@ -879,6 +947,229 @@ obj2.push(6);
 console.log(obj);
 ```
 
+#### 函数的四种调用及this指向问题
+
+##### 函数的调用方式
+
+```js
+/*
+	函数调用, this 指向 window
+*/
+var age = 18;
+function fn(){
+    console.log(this.age)
+}
+fn()	//	18 
+
+//	特殊例子
+var p = {
+    age: 15,
+    say:function(){
+        console.log(this.age)
+    }
+}
+var f1 = p.say
+f1()	//	18
+
+```
+
+##### 方法的调用方式
+
+```js
+/*
+	方法的调用, this 指向调用方法的对象
+*/
+function Person(){
+    this.age = 20;
+}
+Person.prototype.run = function(){
+    console.log(this.age)
+}
+var p1 = new Person()
+p1.run()	//	20
+
+
+var p2 = {
+    height: 167,
+    travel: function(){
+        console.log(this.height)
+    }
+}
+p2.travel()	//	167
+
+
+//	特殊例子
+var length: 50;
+var clear = function(){
+    console.log(this.length)
+}
+var tom = { lenghh:100, c: clear };
+tom.c()	//	100
+
+var tony = { d:clear, length:30 }
+tony.d()	//	30
+```
+
+##### 构造函数的调用方式
+
+```js
+/*
+	通过 new 关键字调用, 函数内部this指向构造函数的实例
+*/
+function fn(name){
+    this.name = name
+}
+var _n = new fn("小白");	//	_n 有个name属性, 值为 小白
+
+
+//	特殊例子
+function jQuery(){
+    var _init = jQuery.prototype._init;
+    return new _init();
+}
+jQuery.prototype = {
+    constructor:jQuery,
+    length:100,
+    _init:function(){
+        //	此时的 _init.prototype 并不是 jQuery.prototype, _init 内部没有length属性,所以为 undefined
+        console.log(this.length)
+    }
+}
+jQuery()	//	undefined   -------  通过new 调用 _init() 其内部 this 指向 _init 构造函数的实例
+
+
+//	修改特殊例子
+function jQuery() {
+    var _init = jQuery.prototype._init;
+    return new _init();
+}
+jQuery.prototype = {
+    constructor: jQuery,
+    length: 100,
+    _init: function () {
+        //	this指向init构造函数的实例
+        console.log(this.length)
+    }
+}
+//	修改函数 _init 的原型, 直接指向 jQuery 的原型
+jQuery.prototype._init.prototype =  jQuery.prototype
+jQuery()	//	100
+```
+
+**tip: ** 对象属性查找规则
+
+```
+ //	->	首先查看本身有无 length 属性
+ //	->	如果本身没有, 去原型对象中查找
+ //	->	如果原型对象中没有, 去原型对象的原型对象中找, 直到根对象(Object.prototype)
+ //	-> 	再没有, 我们认为该对象没有该属性, 即访问对象不存在的属性, 值为 undefined
+```
+
+##### 上下文调用方式
+
+```js
+/*
+	call/apply
+		方法的第一个参数决定了函数内部this的值
+*/
+function f1(){
+    console.log(this)
+}
+f1.call([1,2,3])
+f1.call({a:1,b:2})
+f1.call(1)
+f1.call("abc")
+f1.call(true)
+f1.call(null)
+f1.call(undefined)
+```
+
+**tip**: call/apply 方法的第一个参数
+
+1. 如果是一个对象类型, 那么函数内部的 this 指向该对象
+
+2. 如果是 undefined/null, 那么函数内部的 this 指向window
+
+3. 如果是数字 this 指向对应的Number 构造函数的实例   1 ---> new Number(1)
+
+   如果是字符串, this 指向对应 String 构造函数的实例 "abc" ---> new String("abc")
+
+   如果是布尔值, this 指向对应 Boolean 构造函数的实例 true ---> new Boolean(true)
+
+**call/bind 区别: 函数传参形式不同**
+
+```js
+/*
+	bind 只改变函数this指向, 不帮助函数执行.
+*/
+var obj = {
+    age: 18,
+    run: function(){
+        setTimeout(function(){
+            console.log(this.age)	//	18? 此时 this 指向 window, 所以这里正确打印的应该是 undefined
+        },50)
+    }
+}
+
+//	修改, 通过bind改变this指向
+var obj = {
+    age: 18,
+    run: function(){
+        setTimeout((function(){
+            console.log(this.age)	//	18? 此时 this 指向 window
+        }).bind(this),50)	//	通过bind修改this指向为 obj, 所以此时打印 18
+    }
+}
+obj.run()	//	18
+
+//	例子2
+function speed(){
+    console.log(this.seconds)
+}
+//	指向了bind方法之后, 产生一个新函数, 这个新函数的逻辑和原来的还是一样, 唯一的不同就是 this指向被修改了
+var speedBind = speed.bind({ seconds:100 })
+speedBind()	//	100
+
+//	简化写法如下
+(function speed(){
+    console.log(this.seconds)
+}).bind({ seconds:100 })()	//	100
+
+//	例子3
+var obj2 = {
+    name: "西瓜",
+    drink: (function(){
+        console.log(this.name)
+    }).bind({ name: "橙汁" })
+}
+obj2.drink()	//	橙汁
+```
+
+##### 实现bind方法
+
+```js
+//  手动实现bind方法
+//1. bind 方法应该放在函数的原型中
+//2. bind 方法不代替函数执行
+
+Function.prototype._bind = function (target) {
+    //  target 表示新函数的内部 this 的值
+    //  利用闭包创建一个内部函数, 返回所谓的新函数
+    return () => {
+        this.call(target)
+    }
+    /* var _this = this;
+      return function () {
+        _this.call(target)
+      } */
+}
+
+function fn() {
+    console.log(this)	//	{ gender: '男' }
+}
+fn._bind({ gender: '男' })();
+```
+
 
 
 ---
@@ -905,6 +1196,7 @@ var obj = {
 }
 //	增
 obj.look = 'face to face';
+obj['look'] = 'face to face';
 //	删
 delete obj.look;
 //	查
@@ -1086,7 +1378,7 @@ function MyInfo(name, age, sex) {
 
 > 原型链  
 >
-> 绝对大多数的对象最终都会继承自Object.prototype 
+> 绝对大多数的对象最终都会继承自 Object.prototype  -->  ps: 除了 Object.create(null)
 >
 > Object.create(原型) 
 
@@ -1200,6 +1492,36 @@ function Student(name, age, sex, grade) {
 var student = new Student();
 ```
 
+```js
+//	例子2
+function Fn(name, age, sex) {
+    this.name = name;
+    this.age = age;
+    this.sex = sex
+}
+Fn.prototype.say = function () {
+    console.log('hello, myName is', this.name)
+}
+var person1 = new Fn('小白', 19, '男')
+person1.say()
+
+
+//  借用构造函数实现继承
+function Fn2(name, age, sex, girlName) {
+    Fn.apply(this, [name, age, sex])
+    this.say = Fn.prototype.say;
+    this.girlFriend = girlName
+}
+Fn2.prototype.sayMore = function () {
+    console.log('My name is ' + this.name + ', I have a girlFriend and her name is ' + this.girlFriend)
+}
+var person2 = new Fn2('小白菜', 19, '男', 'GEM')
+person2.say()
+person2.sayMore()
+```
+
+
+
 - 共享原型
 
 > 不嗯能够随便改动自己的原型
@@ -1244,7 +1566,7 @@ var inherit = (function() {
         Target.prototype.constructor = Target;
         Target.prototype.uber = Origin.prototype;	
     }
-}());
+})();
 ```
 
 ```js
@@ -1600,6 +1922,12 @@ console.log(5);
 
 ---
 
+## BOM
+
+
+
+---
+
 ## DOM
 
 > Document Object Model 文档对象模型
@@ -1935,7 +2263,7 @@ document.addEventListener('contextmenu', function (ev) {
 })
 ```
 
-**事件封装**
+**简单事件封装**
 
 ```javascript
 var xiaobaiEvent = {
@@ -2293,7 +2621,7 @@ str.match(reg); //	hello
 
 `\uxxxx`  匹配 unicode 字符 (啥都可以匹配)
 
-`[\w][\W]`  补集 表示匹配所有
+`[\w\W]` 匹配所有
 
 **量词**
 
@@ -2381,63 +2709,598 @@ str.replace(reg, '.');	//	100,000,000,000,000
 
 ### 常用正则
 
-1 Email地址：^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
-2 域名：[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?
-3 InternetURL：^http://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$
-4 手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$
-5 电话号码("XXX-XXXXXXX"、"XXXX-XXXXXXXX"、"XXX-XXXXXXX"、"XXX-XXXXXXXX"、"XXXXXXX"和"XXXXXXXX)：^(\(\d{3,4}-)|\d{3.4}-)?\d{7,8}$ 
-6 国内电话号码(0511-4405222、021-87888822)：\d{3}-\d{8}|\d{4}-\d{7}
-7 身份证号：
-15或18位身份证：^\d{15}|\d{18}$
-15位身份证：^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$
-18位身份证：^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$
-8 短身份证号码(数字、字母x结尾)：^([0-9]){7,18}(x|X)?$
-或
-^\d{8,18}|[0-9x]{8,18}|[0-9X]{8,18}?$
-9 帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]{4,15}$
-10 密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：^[a-zA-Z]\w{5,17}$
-11 强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间)：^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$ 
-12 日期格式：^\d{4}-\d{1,2}-\d{1,2}
-13 一年的12个月(01～09和1～12)：^(0?[1-9]|1[0-2])$
-14 一个月的31天(01～09和1～31)：^((0?[1-9])|((1|2)[0-9])|30|31)$ 
-15 钱的输入格式：
-16 1.有四种钱的表示形式我们可以接受:"10000.00"
-和
-"10,000.00", 和没有 "分" 的
-"10000" 和 "10,000"：^[1-9][0-9]*$ 
-17 2.这表示任意一个不以0开头的数字,但是,这也意味着一个字符"0"不通过,所以我们采用下面的形式：^(0|[1-9][0-9]*)$ 
-18 3.一个0或者一个不以0开头的数字.我们还可以允许开头有一个负号：^(0|-?[1-9][0-9]*)$ 
-19 4.这表示一个0或者一个可能为负的开头不为0的数字.让用户以0开头好了.把负号的也去掉,因为钱总不能是负的吧.下面我们要加的是说明可能的小数部分：^[0-9]+(.[0-9]+)?$ 
-20 5.必须说明的是,小数点后面至少应该有1位数,所以"10."是不通过的,但是
-"10" 和 "10.2" 是通过的：^[0-9]+(.[0-9]{2})?$ 
-21 6.这样我们规定小数点后面必须有两位,如果你认为太苛刻了,可以这样：^[0-9]+(.[0-9]{1,2})?$ 
-22 7.这样就允许用户只写一位小数.下面我们该考虑数字中的逗号了,我们可以这样：^[0-9]{1,3}(,[0-9]{3})*(.[0-9]{1,2})?$ 
-23 8.1到3个数字,后面跟着任意个 逗号+3个数字,逗号成为可选,而不是必须：^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$ 
-24 备注：这就是最终结果了,别忘了"+"可以用"*"替代如果你觉得空字符串也可以接受的话(奇怪,为什么?)最后,别忘了在用函数时去掉去掉那个反斜杠,一般的错误都在这里
-25 xml文件：^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$
-26 中文字符的正则表达式：[\u4e00-\u9fa5]
-27 双字节字符：[^\x00-\xff]
-(包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))
-28 空白行的正则表达式：\n\s*\r (可以用来删除空白行)
-29 HTML标记的正则表达式：<(\S*?)[^>]*>.*?|<.*?
-/> (网上流传的版本太糟糕，上面这个也仅仅能部分，对于复杂的嵌套标记依旧无能为力)
-30 首尾空白字符的正则表达式：^\s*|\s*$或(^\s*)|(\s*$)
-(可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)
-31 腾讯QQ号：[1-9][0-9]{4,}
-(腾讯QQ号从10000开始)
-32 中国邮政编码：[1-9]\d{5}(?!\d)
-(中国邮政编码为6位数字)
-33 IP地址：\d+\.\d+\.\d+\.\d+ (提取IP地址时有用)
+```js
+//	去除两边空格
+function trim(str) {
+    return str.replace(/^\s+|\s+$/g, "")
+}
+```
 
- 
+
 
 ---
 
+# es6常用
+
+##### 模板字符串
+
+1. 解决字符串和变量拼接
+2. 解决字符串换行
+
+```js
+let variable = '一个变量';
+s4 = `abc${variable}`;	//	'abc一个变量'
+```
+
+##### 解构赋值
+
+1. 节省字符
+2. 区分变量
+
+```js
+let obj = { name:'abc', age: 18 }
+//	使用解构赋值方式获取 name , age
+let { name } = obj
+console.log(name) 	//	'abc'
+
+//	方便对比
+function fn({
+    name,
+    age,
+    gender
+}, options) {
+    console.log(name, age, gender, '\n');
+    console.log(options.hobbies, options.likeGirlType)
+}
+
+fn({
+    name: '小白',
+    age: 18,
+    gender: '男'
+}, {
+    hobbies: '吃,唱歌,代码',
+    likeGirlType: '上得厅堂下得厨房,独立自信'
+})
+
+//	解构并赋予别名, 使用别名进行访问
+let obj = { name: '小白', age: 18, gender: '男' }
+let { name:objName, age:objAge, gender } = obj
+console.log(objName, objAge) //	小白 18
+
+//	补充: 属性的简写
+var a = 3;
+var c = 5;
+var b = { a, c };
+//	b对象有一个a属性, a属性的值来自于a变量
+//	b对象还有一个c属性, c属性的值来自于c变量
+console.log(b);	//	{ a: 3, c:5 }
+```
+
+### 函数扩展
+
+##### rest 参数
+
+解决箭头函数中不能使用 arguments 实参列表, 此时可以使用 rest 参数代替
+
+```js
+// arguments 实参列表
+function fn() {
+    for (const key in arguments) {
+        console.log(arguments[key])
+    }
+}
+fn(1, 2, 3, 4, 5)
+
+//	rest 参数
+function fn2(...args) {
+    //  此时 ...args 就是 rest 参数
+    //	---> 是一个变量, 这个变量是一个数组, 数组里面包含了这个函数调用时传递的所有实参. 
+    console.log(args) //  (5) [1, 2, 3, 4, 5]
+    //	验证rest参数数据类型
+    //	console.log(args instanceof Array)	//	true
+    //	console.log(Array.isArray(args))	//	true	es5
+    //	console.log(Object.prototype.toString.call(args))	//	"[Object Array]"
+}
+fn2(1, 2, 3, 4, 5)
+
+
+//	例子
+;((...args) => {
+    console.log(args); //  (6) [1, 2, 3, 4, 5, 520]
+})(1, 2, 3, 4, 5, 520)
+```
+
+**补充: 判断数据类型**
+
+```
++ typeof 
+	typeof 只能判断 数字, 字符串, 布尔值, undefined, 函数
++ Object.prototype.toString.call()
+	- 5 	---> 	'[Object Number]'
+	- "abc"	--->	'[Object String]'
+	- true 	--->	'[Object Boolean]'
+	- null	--->	'[Object Null]'
+	- undefined --->'[Object Undefined]'
+	- [1,2,3]	--->'[Object Array]'
+	- function(){} ---> '[Object Function]'
+	- new Date()--->'[Object Date]'
+    - /abc/	--->	'[Object RegExp]'
+```
+
+##### 箭头函数
+
+1. 替换匿名函数
+2. 没有独立的作用域
+
+```js
+//	一个参数 () 可以省略
+var fn = function (name){}
+var fn = name => {}
+
+//	0个或多个参数, ()不能省略
+var fn = function (){}
+var fn = () => {}
+var fn = (name, age) => {}
+
+//	只有一条return语句, {} 可以省略
+var fn = function (){ return 'abc' }
+var res1 = ()	=> 'abc'
+console.log(res1)	//	abc
+
+var res2 = (name => name)('小白')
+console.log(res2)	//	小白
+
+//	例子
+var students = [1, 3, 5, 520]
+students.forEach(value => {})
+
+/*
+	this指向例子
+		普通匿名函数和具名函数可以决定函数内部的this值, 箭头函数不可以
+*/	
+var p = {
+    age: 18,
+    run:()=>{
+        setTimeout(()=>{
+            console.log(this);	//	window
+        })
+    },
+    travel(){
+        setTimeout(()=>{
+            console.log(this);	//	p
+        })
+    }
+}
+p.run()
+p.travel()
+```
+
+**tips: **箭头函数和匿名函数的区别
+
+1. 箭头函数内部的this对象, 就是定义时所在的对象, 而不是使用时所在的对象
+2. 不可以当做构造函数, 也就是说, 不能通过 new 命令, 否则会抛出错误
+3. 不可以使用 arguments 对象, 该对象在箭头函数内部不存在, 可以使用 rest 参数代替
+4. 不可以使用 yield 命令, 因此箭头函数不能用作 Generator 函数
+
+### 对象的扩展
+
+##### Object.assign
+
+进行对象的浅拷贝
+
+```js
+var source = {
+    age: 18,
+    height: 170,
+    className: '三年二班'
+}
+//	克隆一个新对象处理
+var newObj = Object.assign({}, source)
+newObj.name = '小白'
+
+//	克隆另一种方式
+var newObj2 = {
+    name: '乖宝宝',
+    likeGirlType: '感性'
+}
+Object.assign(newObj2, source)
+
+console.log('source对象: ', source)
+console.log('拷贝后的新对象: ', newObj)
+console.log('拷贝后的新对象2: ', newObj2)
+```
+
+##### 对象的扩展运算符
+
+```js
+//	使用对象扩展运算符实现克隆
+var obj = { age: 18, gender: '男' }
+var obj2 = { ...obj }
+var obj3 = { ...obj, name:'小白' }
+var obj4 = { ...obj, gender: '女', name: "小妹" }
+var arr = [1,2,4,520]
+var arr1 = [ ...arr,250 ]
+console.log('obj: ',obj,'obj2: ',obj2,'obj3: ',obj3,'obj4: ',obj4,'arr:',arr,'arr1:',arr1)
+```
+
+
+
+### Promise/Async
+
+#### Promise
+
+为什么要有promise: 解决回调地狱的问题
+
+```js
+$.get("/getUser",function(res){
+    $.get("/getUserDetail",function(){
+        $.get("/getCart",function(){
+            $.get("/getBooks",function(){
+                //	...
+            })
+        })
+    })
+})
+```
+
+##### 基本用法
+
+```js
+//	把异步操作放到 promise 中
+function fn(options){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            //	其实异步操作逻辑到这里就已经执行完毕了
+            //	就可以告诉外界,可以执行其它操作了
+            //	如何告诉外界,让其得知?
+            resolve(options)
+        },100)
+    })
+}
+
+fn('你好, 这是第一步').then(res=>{
+    console.log(res)
+    fn('你好, 这是第二步').then(res=>{
+        console.log(res)
+    })
+})
+```
+
+**promise 如何解决回调地狱?**
+
+```js
+function f1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('第一步')
+            //	执行完毕, 并告知外界执行完毕
+            resolve()
+        },1000)
+    })
+}
+function f2() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('第二步')
+            resolve()
+        },1000)
+    })
+}
+function f3() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('第三步')
+            resolve()
+        },1000)
+    })
+}
+
+f1().then(res => {
+    //	返回一个promise对象
+    return f2();
+}).then(res=>{
+    return f3();
+}).then(res => {
+    setTimeout(() => {
+        console.log('完成')
+    },1000)
+})
+
+```
+
+**promise执行**
+
+```js
+var promise = new Promise((resolve, reject) => {
+    //  b  把需要的执行的异步操作放在这里
+    $.get("/getUser", res => {
+        //  获取数据的异步操作已经完毕, 等待下一步执行, 通过调用 resolve 函数, 告诉外界你可以执行下一步操作了
+        //  c
+        resolve(res)
+        //  而执行的下一步操作, 其实就是写在 then 的回调函数中的
+    })
+})
+
+//  a
+promise.then(res => {
+    //  d 执行后续的操作
+    console.log(res)
+})
+```
+
+##### Promise错误处理
+
+```js
+function getBooks(){
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            url: "/getBooks",
+            success(res){
+                //	成功获取数据. 并传递res结果
+                resolve(res)
+            },
+            error(err){
+                //	如果失败了, 执行reject函数, 并传递error数据
+                reject(err)
+            }
+        })
+    })
+}
+
+//	第一种方式
+getBooks().then(res=>{
+    //	resolve了
+    console.log('成功了: ',res)
+},err=>{
+    //reject 了
+    console.log(err)
+})
+
+//	第二种方式(推荐使用)
+getBooks().then(res=>{
+    //	resolve了
+    console.loig('成功了: ',res)
+}).catch(err=>{
+    //	捕获了错误
+    console.log('发生错误: ',err)
+})
+```
+
+```
+上述2种错误处理方式, 第二种更加推荐使用
+	a. 不仅仅可以捕获到reject传递的参数
+	b. 还可以捕获到 成功回调中发送的错误
+```
+
+```js
+function f1(name){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            if(name === 'success'){
+                resolve('成功')
+            }else{
+                reject('失败')
+            }
+        })
+    })
+}
+
+f1('success').then(res=>{
+    console.log(res)
+}).catch(err=>{
+    console.log(err)
+})
+
+//	catch 还可以抛出在成功/失败回调中出现的错误
+f1('success').then(res=>{
+    console.log(res)
+    res();	//	这是一行会发生错误的代码
+}).catch(err=>{
+    console.log(err)	
+})
+```
+
+#### Async
+
+async 其实就是 Promise 的语法糖
+
+##### **基本使用**
+
+```js
+function f1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('你好~')
+            resolve()
+        }, 1000)
+    })
+}
+
+
+;(async () => {
+    await f1()
+    console.log('第一步执行完毕')
+    await f1()
+    await f1()
+    console.log('完成执行')
+})()
+
+console.log('asyncFunc 外部代码')
+```
+
+**async 函数处理返回值**
+
+```js
+function f1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('你好~')
+        }, 1000)
+    })
+}
+
+;(async () => {
+    let res1 = await f1()
+    console.log('第一次执行f1完毕: ', res1)
+    let res2 = await f1()
+    console.log('第二次执行f1完毕: ', res2)
+    let res3 = await f1()
+    console.log('第三次执行f1完毕: ', res3)
+    console.log('完毕')
+})()
+
+
+//	需求提升
+function q() {
+    return new Promise((resolve, reject) => {
+        resolve('resolve q方法')
+    })
+}
+
+var o1 = {
+    say: async () => {
+        console.log('say方法: ')
+        const res = await q()
+        console.log(res)
+    },
+    run: async () => {
+        console.log('run方法: ')
+        const res = await q()
+        console.log(res)
+    }
+}
+//  需求: 要求先执行say方法, 在say执行完后执行run方法
+;(async () => {
+    await o1.say()
+    console.log('暂停区-----')
+    await o1.run()
+})()
+```
+
+##### async 函数错误处理
+
+```js
+function f1() {
+    return new Promise((resolve, reject) => {
+        reject('你好')
+    })
+}
+
+;(async () => {
+    try { //  非失败情况执行
+        const res = await f1()
+        console.log('成功了: ',res)
+    } catch (e) {
+        //  失败情况执行
+        console.log('失败了: ',e)
+    }
+})()
+```
+
+```
++ await 可以执行异步操作, 但是 await 必须放在 async 函数中执行
++ await 操作可以有返回值, 这个返回值表示promise操作成功的返回值
++ 如果await 里面执行的异步操作发生了 reject, 或发生了错误, 那么只能使用 try..catch 语法进行错误处理
+```
+
+### class 类
+
+class 是 原型构造函数的语法糖
+
+##### 定义一个类
+
+```js
+function Person(name, age){
+    this.name = name;
+    this.age = age
+}
+Person.prototype.run = function(){
+    console.log(`一个${this.age}岁的大哥在跑步!`)
+}
+var p1 = new Person("小白", 18)
+
+
+//	class 类
+class Student{
+    //	构造方法
+    constructor(name, age){
+        this.name = name;
+        this.age = age
+    }
+    run(){
+        console.log(`一个${this.age}岁的大哥在跑步!`)
+    }
+}
+var s1 = new Student("小白菜", 19)
+```
+
+##### 静态成员
+
+1. 静态属性: 通过类本身访问: Person.maxAge
+2. 静态方法: 通过类本身访问: Person.born()
+
+```js
+class Animal {
+    constructor() {
+    }
+	//	定义静态方法
+    static born() {
+        console.log('小呆萌出生了')
+    }
+}
+//  静态属性定义需要在class外面
+Animal.maxAge = 200;
+//  执行静态方法
+Animal.born()
+```
+
+##### 类的继承
+
+```js
+//	父类
+class Person {
+    constructor(name, age, gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+    sayHi() {
+        console.log(`hello! my name is ${this.name}. I am ${this.age} years old.`)
+    }
+}
+
+//	子类继承父类
+class Man extends Person {
+    constructor(name, age, gender, hobies) {
+        // 规定必须调用父类构造方法, 不调用报错
+        super(name, gender, age)
+        //	调用父类构造法方法, 从而给子类的实例添加 name, gender, age 属性
+        this.hobies = hobies
+    }
+    sayHobby() {
+        console.log(`我的爱好有${this.hobies}`)
+    }
+}
+
+var p1 = new Person('小白', 18, '男')
+var m1 = new Man('小白菜', 19, '男', '大眼睛可爱感性')
+```
+
+
+
+
+
 # Jquery
 
-**jq不做具体的学习笔记, 平时遇到的一些有意义的做下简单笔记**
+## 模拟jQuery
+
+
+
+
 
 ## 学习
+
+**jq不做具体的学习笔记, 常用**
 
 ### Ajax
 

@@ -2,6 +2,18 @@
 
 ​	**将一个复杂的程序依据一定的规则(规范)封装成几个块(文件), 并进行组合在一起块的内部数据/实现是私有的, 只是向外暴露了一些接口(方法)与外部其它模块通信**
 
+**基础实现**
+
+```js
+var KTV = (function(){
+    return {
+        pay(){},
+        buy(){},
+        //,...
+    }
+})()
+```
+
 ## 模块化的进化史
 
 - 最早, 我们这么写代码
@@ -214,7 +226,7 @@ modules1(modules2);
 
 浏览器端默认不支持 require 和 export 所以必须使用依赖 browserify 打包编译 js 生成编译后的 js在引入
 
-## RequireJS(AMD)
+## *RequireJS(AMD)
 
 #### 规范
 
@@ -251,6 +263,23 @@ require(['module1', 'module2'], function(m1, m2){
     //	使用 m1/m2
 })
 ```
+
+##### 模块的返回值
+
+```js
+require(['module1', 'module2', 'module3'], function(m1, m2, m3){
+    //	主动加载
+    m3()
+    
+    //	按需(点击执行)加载使用 m1/m2
+    document.getElementById('button').onclick = function(){
+        //	按钮点击调用 m1 的初始化函数执行
+        m1.init();
+    }
+})
+```
+
+
 
 #### 实现(浏览器端)
 
@@ -326,6 +355,8 @@ require(['module1', 'module2'], function(m1, m2){
 ![1543388141325](.\javascript\1543388141325.png)
 
 ![1543388201759](.\javascript\1543388201759.png)
+
+
 
 ## SeaJS(CMD)
 
