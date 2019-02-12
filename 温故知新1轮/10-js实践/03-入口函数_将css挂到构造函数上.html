@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+
+        //  获取页面指定选择的所有的元素
+        var elements = document.querySelectorAll(selector)
+
+        //  把DOM操作的方法都放到了了原型中, 如此看似可以正常访问, 但是也存在问题
+        //  弊端: 破坏了原生的对象结构
+        NodeList.prototype.css = (name, value) => {
+          elements.forEach(item => {
+            item['style'][name] = value
+          })
+        }
+
+        return elements
+      }
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    // $("div").css('color','red')
+    $("div").css('color', 'red')
+    $("span").css('background', 'blue')
+  </script>
+</body>
+
+</html>

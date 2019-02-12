@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+
+        return new F(selector)  //  实例化对象消耗内存不可避免
+      }
+
+      //  jQuery对象的构造函数
+      function F(selector) {
+        //  将DOM元素挂到该对象上
+        var elements = document.querySelectorAll(selector)
+        // this.elements = elements
+        //  直接将元素挂在到this上
+        elements.forEach((item, index) => {
+          this[index] = item
+        })
+        this.length = elements.length
+      }
+
+      F.prototype = {
+        constructor: F,
+        //  基础设置css的方法
+        css(name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    $("div").css('color', 'red')
+    $("span").css('background', 'blue')
+
+    console.log($('div') == $('span'))  //  false 实例化对象不相同
+    console.log($('div').css === $('span').css) //  true  共用对象的css方法
+  </script>
+</body>
+
+</html>

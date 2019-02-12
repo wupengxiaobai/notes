@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      font-size: 20px;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      jQuery.fn.extend = jQuery.extend = function (...args) {
+        let target, source = [...args]
+        if (args.length === 1) {
+          target = this
+        } else {
+          target = source[0]
+          source.splice(0, 1)
+        }
+        Object.assign(target, ...source)
+        return target
+      }
+
+      //  在构造函数上添加方法, 用于 $.方法名
+      jQuery.extend({
+        each(obj, cb) {
+          if ((length in obj) && obj.length >= 0) {
+            for (let i = 0; i < obj.length; i++) {
+              cb.call(obj[i], i, obj[i])
+            }
+          } else {
+            for (let i in obj) {
+              cb.call(obj[i], i, obj[i])
+            }
+          }
+        },
+        type(data) {
+          var type = Object.prototype.toString.call(data)
+          return type.replace(/\[object\s|\]/g, "").toLowerCase()
+        }
+      })
+
+      jQuery.fn.extend({
+        each(cb) {
+          jQuery.each(this, cb)
+        }
+      })
+
+      //  样式相关操作
+      jQuery.fn.extend({
+        //  this --> jQuery.fn
+        css(...args) {
+          let arg1 = args[0],
+            arg2 = args[1];
+          //  获取css   css('color') 获取选择的第一个元素的样式
+          //  设置css 
+          //    设置一个css   css('color','red')  设置全部元素样式
+          //    设置多个css   css({ color: 'red', fontSize: '20px'})  设置全部元素样式
+
+          //  通过判断实参个数
+          if (args.length === 1) {
+            //  分别获取和设置多个样式
+            if (jQuery.type(arg1) === 'string') {
+              //  通过getComputedStyle 获取选择中的第一个元素的最终样式
+              let objStyle = window.getComputedStyle(this[0], null)
+              return objStyle[arg1]
+
+            } else {
+              //  给选中元素设置多个样式
+              this.each(function () {
+                // console.log(arg1)
+                jQuery.each(arg1, (index, item) => {
+                  // console.log(index)
+                  this.style[index] = item
+                })
+              })
+            }
+
+          } else {
+            //  给选中的所有元素设置样式
+            this.each(function (index, item) {
+              // item.style[arg1] = arg2
+              this.style[arg1] = arg2
+            })
+            return this
+          }
+
+        },
+        show() {
+          console.log('show')
+        },
+        hide() {
+          console.log('hide')
+        }
+      })
+
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    // 举例
+    console.log($('div').css('color'))
+    $('div:nth-of-type(odd)').css('color', 'green')
+    $('div').css({
+      'color': 'blue',
+      'fontSize': '50px'
+    })
+  </script>
+</body>
+
+</html>

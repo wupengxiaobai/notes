@@ -260,7 +260,46 @@ sync: 4.328125ms
 
 #### XML
 
-一种数据描述手段. 淘汰原因: 数据沉余太多
+XML是一种标记语言.  淘汰原因: 数据沉余太多
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<users>
+    <user>
+        <id>1</id>
+		<username>小白菜</username>
+        <loginName>小了白了兔</loginName>
+        <password>woaiwo1234</password>
+    </user>
+    <user>
+        <id>2</id>
+		<username>小白</username>
+        <loginName>白了又了白</loginName>
+        <password>woiaow</password>
+    </user>
+</users>
+```
+
+**客户端怎么去接收 xml 格式数据并解析**
+
+```js
+//	xml 和 html 的语法非常相似, 解析 html 的时候, 我们使用 dom 对象, 然后调用 dom 的 api 去进行解析
+document.querySelector("input").onclick = function(){
+    var xhr = new XMLHttpRequest()
+    xhr.open('get', "./xml.php")
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            //	如果服务器返回的是 xml 格式的数据, 我们通过 responseXML 接收
+            var dom = xhr.responseXML
+            var users = dom.querySelectorAll("user")
+            //	console.log(users)
+            useres[1].querySelector("username")	//	小白
+        }
+    }
+}
+```
+
+
 
 #### JSON
 
@@ -298,7 +337,7 @@ xhr.onreadystatechange = function () {
     if (this.readyState !== 4) return;
     var res = JSON.parse(this.responseText);
     //	目标所需数据
-    var context = { comments: res.data};
+    var context = { comments: res.data };
     //	借助模板引擎提供的API渲染数据
     var html = template('tmpl', context);
     demo.innerHTML = html;
@@ -325,63 +364,85 @@ xhr.onreadystatechange = function () {
 //  2. 写一个空的函数, 没有形参, 将刚才用例直接作为函数函数体
 //  3. 根据使用过程中的需求, 抽象参数
 
-function ajax (method, url, params, callback) {
-    if (arguments.length == 3) {
-        callback = params;
-        params = null;
-    }
+function ajax(options) {
 
-    method = method.toUpperCase();
-    params = params || null;
+    options.method = options.method.toUpperCase();
+    options.data = options.data || null;
 
-    // 如果传入的是一个json,转为urlencoded字符串方式
-    if (typeof params === 'object') {
+    if (typeof options.data === 'object') {
         var tempArr = [];
-        for (var key in params) {
-            var value = params[key];
+        for (var key in options.data) {
+            var value = options.data[key];
             tempArr.push(key + '=' + value);
         }
-        //	tempArr => ['key1=value1','key2=value2']
-        params = tempArr.join('&');
-        //	params => 'key1=value1&key2=value2'
+        options.data = tempArr.join('&');
     }
 
-    if (method === 'GET') {
-        url += '?' + params
+    if (options.method === 'GET') {
+        options.url += '?' + options.data
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
+    xhr.open(options.method, options.url);
 
     var data = null;
-    if (method === 'POST') {
+    if (options.method === 'POST') {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        data = params;
+        data = options.data;
     }
+
+    //  beforeSend 拦截: 正则验证, 请求前xxx效果等等
+    if (options.beforeSend) {
+        console.log('执行了 beforeSend 回调')
+        var beforeSendRes = options.beforeSend()
+        if (!beforeSendRes) {
+            return
+        }
+    }
+
     xhr.send(data);
 
     xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) return;
-        //	不能在封装的函数中主观的进行逻辑运用.
-        callback( this.responseText );
-
-        // 我们无法在内部包含函数中通过 return 给外部函数返回结果
-        // 使用回调函数, 让使用者自助处理该返回值
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                console.log('执行了 success 回调')
+                options.success && options.success(JSON.parse(this.responseText));
+            } else {
+                options.error && options.error('执行了error函数');
+            }
+        }
     }
 }
 
 
-
 //	我们在使用
-ajax('GET', 'time.php', function (data) {
-    console.log(data);
-});
+/* ajax({
+      method: 'GET',
+      url: 'http://localhost:3000/',
+      data: {
+        id: 1
+      },
+      success: function (data) {
+        console.log(data);
+      }
+    }); */
 
-ajax('post', 'add.php', {
-    key1: 'value1',
-    key2: 'value2'
-}, function (data) {
-    console.log(JSON.parse(data));
+ajax({
+    method: 'post',
+    url: 'http://localhost:3000/',
+    data: {
+        key1: 'value1',
+        key2: 'value2'
+    },
+    beforeSend: function () {
+        return true
+    },
+    success: function (data) {
+        console.log(data)
+    },
+    error: function (res) {
+        console.log(res)
+    }
 });
 ```
 

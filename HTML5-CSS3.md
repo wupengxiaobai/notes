@@ -1936,7 +1936,7 @@ cxt.stroke();
 
 分析: 
 
-![1549468637927](C:\Users\mengbao\AppData\Roaming\Typora\typora-user-images\1549468637927.png)
+![1549468637927](.\html\1549468637927.png)
 
 ```html
 <canvas width="250" height="250" style="border:1px solid #ddd;margin:50px auto;display: block"></canvas>

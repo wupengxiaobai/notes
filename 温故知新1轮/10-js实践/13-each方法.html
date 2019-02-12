@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      jQuery.fn.extend = jQuery.extend = function (...args) {
+
+        let target, source = [...args]
+
+        if (args.length === 1) {
+          target = this
+
+        } else {
+          target = source[0]
+          source.splice(0, 1)
+
+        }
+
+        Object.assign(target, ...source)
+
+        return target
+      }
+
+      //  添加一些工具类的方法: $.extend({})
+      jQuery.extend({
+        //  可以遍历数组(伪数组)和对象
+        each(obj, cb) {
+          //  拆分为两种情况: 数组使用for, 对象使用for...in
+
+          //  数组遍历需要考虑数组和伪数组
+          //  [1,2,3]
+          //  {0:111, 1:222, 2:333, length:3}
+          if ((length in obj) && obj.length >= 0) {
+            for (let i = 0; i < obj.length; i++) {
+              //  执行回调函数, 并修改this指向为当前的项
+              cb.call(obj[i], i, obj[i])
+              //  cb.apply(obj[i], [i, obj[i]])
+            }
+
+          } else {
+            //  遍历对象
+            for (let i in obj) {
+              cb.call(obj[i], i, obj[i])
+            }
+          }
+        }
+      })
+
+      // jQuery.fn.extend({})
+
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    $.each([{
+      name: '小白',
+      age: 19,
+      gender: '男',
+      likeGirlType: '感性'
+    },{
+      name: '小白菜',
+      age: 18,
+      gender: '男',
+      likeGirlType: '素质'
+    }], function (index, value) {
+      console.log('index---', index, 'value----', value, 'this---', this)
+    })
+  </script>
+</body>
+
+</html>

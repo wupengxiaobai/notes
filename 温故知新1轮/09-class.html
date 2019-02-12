@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //  类的继承
+    class Person {
+      constructor(name, age, gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+      }
+
+      sayHi() {
+        console.log(`hello! my name is ${this.name}. I am ${this.age} years old. I like 感性的 girl~`)
+      }
+    }
+
+    class Man extends Person {
+      constructor(name, hobies) {
+        super(name) // 继承父类必须在构造函数中调用 super
+        this.hobies = hobies
+      }
+      sayHobby() {
+        console.log(`我的爱好有${this.hobies}`)
+      }
+    }
+
+    var p1 = new Person('小白', 18, '男')
+    var m1 = new Man('小白菜', '大眼睛可爱感性')
+
+
+    //  类的静态成员属性
+    /* class Animal {
+
+      constructor() {
+      }
+
+      static born() {
+        console.log('小呆萌出生了')
+      }
+    }
+    //  静态属性定义需要在class外面
+    Animal.maxAge = 200;
+    //  执行静态方法
+    Animal.born()
+ */
+    //  基本
+    /* function Person(name, age) {
+      this.name = name;
+      this.age = age
+    }
+    Person.prototype.run = function () {
+      console.log(`一个${this.age}岁的大哥在跑步!`)
+    }
+    var p1 = new Person("小白", 18)
+
+
+
+
+    class Student {
+      //	构造方法
+      constructor(name, age) {
+        this.name = name;
+        this.age = age
+      }
+      run() {
+        console.log(`一个${this.age}岁的大哥在跑步!`)
+      }
+    }
+    var s1 = new Student("小白菜", 19)
+    Student.sta() */
+  </script>
+</body>
+
+</html>

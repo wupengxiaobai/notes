@@ -279,7 +279,14 @@ require(['module1', 'module2', 'module3'], function(m1, m2, m3){
 })
 ```
 
+##### 模块解决循环依赖
 
+```
++ a 已经依赖了 b
++ b 中先添加 require 模块的依赖, 然后添加 a 的依赖, 但是并不要通过回调函数的形参获取返回值
+	- define(['require', 'a'], function(require) {})
+	- 在b中需要执行a模块代码, 我们只需要在 执行 a 模块代码的时候, 执行require('a')() 即可
+```
 
 #### 实现(浏览器端)
 

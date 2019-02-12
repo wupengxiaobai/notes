@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div>div事件</div>
+
+
+  <script>
+    var dom = document.querySelector('div')
+    //  特殊场景, 一次事件
+    dom.addEventListener('click', function f1() {
+      console.log(f1)
+      dom.removeEventListener('click', f1)
+    })
+  </script>
+</body>
+
+</html>

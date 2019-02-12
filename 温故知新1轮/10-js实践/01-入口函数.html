@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    //  给页面中的所有div设置字体颜色为红色
+    //  $("div").css("color","red")
+
+
+
+    //  1. 要封装的库应该是一个独立的单元:  模块化概念****** 
+    //  ---> a. 不依赖其它第三方库
+    //  ---> b. 里面的东西大部分与世隔绝, 只有$和jQuery暴露在全局中
+
+    (function (global) {
+      //  global 保存了 window 对象的引用
+      function jQuery() {
+
+
+      }
+      global.$ = global.jQuery = jQuery
+    })(window)
+  </script>
+</body>
+
+</html>

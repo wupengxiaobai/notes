@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      jQuery.fn.extend = jQuery.extend = function (...args) {
+
+        let target, source = [...args]
+
+        //  $.extend({})  ---> 给 $ 添加属性
+        //  $.fn.extend({})  ---- 给 $.fn 添加属性
+        if (args.length === 1) {
+          //  走给 $ 添加属性, 给实例添加属性
+
+          target = this
+
+        } else {
+          //  超过一个实参, 给 $.fn(jQuery.prototype) 添加属性
+
+          target = source[0]
+          source.splice(0, 1)
+
+        }
+
+        Object.assign(target, ...source)
+
+        return target
+      }
+
+      //  添加一些工具类的方法: $.extend({})
+      jQuery.extend({
+        each() {
+          console.log('each')
+        },
+        ajax() {
+          console.log('ajax')
+        }
+      })
+
+      //  添加一些dom方法: $.fn.extend({})
+      jQuery.fn.extend({
+        attr() {
+          console.log('attr')
+        },
+        on() {
+          console.log('on')
+        }
+      })
+
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+
+
+
+    /* var obj = {}
+    $.extend(obj, {
+      a: 1,
+      b: 2
+    }, {
+      c: 3,
+      d: 4,
+      b: 2
+    })
+
+    $.fn.extend({
+      extendFn1() {
+        console.log('原型对象上扩展方法1')
+      },
+      extendFn2() {
+        console.log('原型对象上扩展方法2')
+      }
+    }) */
+  </script>
+</body>
+
+</html>

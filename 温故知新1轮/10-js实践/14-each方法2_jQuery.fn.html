@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      jQuery.fn.extend = jQuery.extend = function (...args) {
+        let target, source = [...args]
+        if (args.length === 1) {
+          target = this
+        } else {
+          target = source[0]
+          source.splice(0, 1)
+        }
+        Object.assign(target, ...source)
+        return target
+      }
+
+      //  添加一些工具类的方法: $.extend({})
+      jQuery.extend({
+        each(obj, cb) {
+          if ((length in obj) && obj.length >= 0) {
+            for (let i = 0; i < obj.length; i++) {
+              cb.call(obj[i], i, obj[i])
+            }
+
+          } else {
+            //  遍历对象
+            for (let i in obj) {
+              cb.call(obj[i], i, obj[i])
+            }
+          }
+        }
+      })
+
+      //  dom操作相关方法
+      jQuery.fn.extend({
+        each(cb) {
+          jQuery.each(this, cb)
+        }
+      })
+
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    $('div').each(function (index, element) {
+      if (index > 0) {
+        element.style.color = 'deeppink'
+      }
+    })
+
+    /* $.each([{
+      name: '小白',
+      age: 19,
+      gender: '男',
+      likeGirlType: '感性'
+    }, {
+      name: '小白菜',
+      age: 18,
+      gender: '男',
+      likeGirlType: '素质'
+    }], function (index, value) {
+      console.log('index---', index, 'value----', value, 'this---', this)
+    }) */
+  </script>
+</body>
+
+</html>

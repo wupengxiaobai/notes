@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //  错误处理
+    //	使用 try{}catch(e){}
+    function f1() {
+      return new Promise((resolve, reject) => {
+        reject('你好')
+      })
+    }
+
+    (async () => {
+      try { //  非失败情况执行
+        const res = await f1()
+        console.log('成功了: ',res)
+      } catch (e) {
+        //  失败情况执行
+        console.log('失败了: ',e)
+      }
+    })()
+
+
+    // 需求升级
+    /* function q() {
+      return new Promise((resolve, reject) => {
+        resolve('resolve q方法')
+      })
+    }
+
+    var o1 = {
+      say: async () => {
+        console.log('say方法: ')
+        const res = await q()
+        console.log(res)
+      },
+      run: async () => {
+        console.log('run方法: ')
+        const res = await q()
+        console.log(res)
+      }
+    }
+    //  需求先执行say方法, 在say执行完后执行run方法
+
+    ;
+    (async () => {
+      await o1.say()
+      console.log('暂停区-----')
+      await o1.run()
+    })() */
+
+
+
+    //  async 获得函数返回值
+    /* function f1() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('你好~')
+        }, 1000)
+      })
+    }
+
+    ;
+    (async () => {
+      let res1 = await f1()
+      console.log('第一次执行f1完毕: ', res1)
+      let res2 = await f1()
+      console.log('第二次执行f1完毕: ', res2)
+      let res3 = await f1()
+      console.log('第三次执行f1完毕: ', res3)
+
+      console.log('完毕')
+    })() */
+
+
+
+
+    //  基本认知
+    /* function f1() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log('你好~')
+          resolve()
+        }, 1000)
+      })
+    }
+
+    
+    ;(async () => {
+      await f1()
+      console.log('第一步执行完毕')
+      await f1()
+      await f1()
+      console.log('完成执行')
+    })()
+
+    console.log('asyncFunc 外部代码') */
+  </script>
+</body>
+
+</html>

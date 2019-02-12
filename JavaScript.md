@@ -3286,7 +3286,15 @@ var p1 = new Person('小白', 18, '男')
 var m1 = new Man('小白菜', 19, '男', '大眼睛可爱感性')
 ```
 
+### 模块化
 
+```
+//	导出
+export default {}
+
+//	引入
+import {} from '../module.js'
+```
 
 
 

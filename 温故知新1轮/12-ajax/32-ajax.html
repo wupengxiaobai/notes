@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ajax</title>
+</head>
+
+<body>
+
+  <script>
+    //	封装的套路
+    //	1. 写一个相对比较完善的用例
+    //  2. 写一个空的函数, 没有形参, 将刚才用例直接作为函数函数体
+    //  3. 根据使用过程中的需求, 抽象参数
+
+    function ajax(options) {
+
+      options.method = options.method.toUpperCase();
+      options.data = options.data || null;
+
+      if (typeof options.data === 'object') {
+        var tempArr = [];
+        for (var key in options.data) {
+          var value = options.data[key];
+          tempArr.push(key + '=' + value);
+        }
+        options.data = tempArr.join('&');
+      }
+
+      if (options.method === 'GET') {
+        options.url += '?' + options.data
+      }
+
+      var xhr = new XMLHttpRequest();
+      xhr.open(options.method, options.url);
+
+      var data = null;
+      if (options.method === 'POST') {
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        data = options.data;
+      }
+
+      //  beforeSend 拦截: 正则验证, 请求前xxx效果等等
+      if (options.beforeSend) {
+        console.log('执行了 beforeSend 回调')
+        var beforeSendRes = options.beforeSend()
+        if (!beforeSendRes) {
+          return
+        }
+      }
+
+      xhr.send(data);
+
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            console.log('执行了 success 回调')
+            options.success && options.success(JSON.parse(this.responseText));
+          } else {
+            options.error && options.error('执行了error函数');
+          }
+        }
+      }
+    }
+
+    //	我们在使用
+    /* ajax({
+      method: 'GET',
+      url: 'http://localhost:3000/',
+      data: {
+        id: 1
+      },
+      success: function (data) {
+        console.log(data);
+      }
+    }); */
+
+    ajax({
+      method: 'post',
+      url: 'http://localhost:3000/',
+      data: {
+        key1: 'value1',
+        key2: 'value2'
+      },
+      beforeSend: function () {
+        return true
+      },
+      success: function (data) {
+        console.log(data)
+      },
+      error: function (res) {
+        console.log(res)
+      }
+    });
+  </script>
+</body>
+
+</html>

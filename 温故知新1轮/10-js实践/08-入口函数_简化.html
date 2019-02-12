@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+
+        return new jQuery.fn.init(selector)
+      }
+
+      //  定义jQuery.fn === jQuery.prototype
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      //  修改init构造函数的原型对象为jQuery构造函数的原型对象
+      jQuery.fn.init.prototype = jQuery.fn
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    $("div").css('color', 'red')
+    $("span").css('background', 'blue')
+
+  </script>
+</body>
+
+</html>

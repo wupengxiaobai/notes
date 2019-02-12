@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+
+        //  最终解决方案: 返回一个自定义对象
+        return new F(selector)
+      }
+
+      //  jQuery对象的构造函数
+      function F(selector) {
+        //  jQuery 内部封装了获取元素的引擎 Sizzle
+
+        //  将DOM元素挂到该对象上
+        var elements = document.querySelectorAll(selector)
+        this.elements = elements
+      }
+
+      F.prototype = {
+        constructor: F,
+        //  css 方法
+        css(name, val) {
+          //  遍历DOM元素, 赋予样式
+          this.elements.forEach(item => {
+            item['style'][name] = val
+          })
+        }
+      }
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    // $("div").css('color','red')
+    $("div").css('color', 'red')
+    $("span").css('background', 'blue')
+  </script>
+</body>
+
+</html>

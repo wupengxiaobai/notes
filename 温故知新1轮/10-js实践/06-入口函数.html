@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        // var _init = jQuery.prototype.init;
+        // return new _init(selector)
+        //  等价于
+        return new jQuery.prototype.init(selector)
+      }
+
+
+      jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      //此时创建的jquery是init构造函数的实例
+      //css方法在jquery.prototype对象中
+      //--->为了让jquery对象能够访问到css方法
+      //--->让init的原型继承自jQuery.prototype
+      jQuery.prototype.init.prototype = jQuery.prototype
+      //-->1.创建了一个init的对象
+      //-->2.执行css方法
+      //  ---> 找对象本身没有css方法
+      //  ---> 找对象原型 init.prototype --> jQuery.prototype
+      //  ---> 发现jQuery.prototype 上有css方法. --->执行
+
+
+      //  
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    $("div").css('color', 'red')
+    $("span").css('background', 'blue')
+
+    console.log($('div') == $('span')) //  false 实例化对象不相同
+    console.log($('div').css === $('span').css) //  true  共用对象的css方法
+  </script>
+</body>
+
+</html>

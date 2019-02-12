@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+
+        //  获取页面指定选择的所有的元素
+        var elements = document.querySelectorAll(selector)
+
+        //  给每个元素添加一个css方法
+        //  弊端: 多少个元素就有多少个css方法. 资源内存严重泄露
+        console.log(elements)
+        elements.css = function (name, value) {
+          elements.forEach(item => {
+            item['style'][name] = value
+          })
+        }
+        return elements
+      }
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    // $("div").css('color','red')
+    $("div").css('color', 'red')
+  </script>
+</body>
+
+</html>

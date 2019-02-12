@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //  promise错误处理
+    function f1(name) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (name === 'success') {
+            resolve('成功')
+          } else {
+            reject('失败')
+          }
+        }, 1000)
+      })
+    }
+
+    // f1('success').then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+
+    f1('success').then(res => {
+      console.log(res)
+      res(); //	这是一个会发生错误的代码
+    }).catch(err => {
+      console.log(err) //	catch可以捕获到成功回调中的错误
+    })
+
+    //  promsie 解决回调地狱? 通过return 一个promise对象解决.
+    /* function f1() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log('第一步')
+          //	执行完毕, 并告知外界执行完毕
+          resolve()
+        }, 1000)
+      })
+    }
+
+    function f2() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log('第二步')
+          resolve()
+        }, 1000)
+      })
+    }
+
+    function f3() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log('第三步')
+          resolve()
+        }, 1000)
+      })
+    }
+
+    f1().then(res => {
+      //	返回一个promise对象
+      return f2();
+    }).then(res => {
+      return f3();
+    }).then(res => {
+      setTimeout(() => {
+        console.log('完成')
+      }, 1000)
+    }) */
+
+
+
+    //  实际开发
+    /* var promise = new Promise((resolve, reject) => {
+      //  b  把需要的执行的异步操作放在这里
+      $.get("/getUser", res => {
+        //  获取数据的异步操作已经完毕, 等待下一步执行, 通过调用 resolve 函数, 告诉外界你可以执行下一步操作了
+        //  c
+        resolve(res)
+        //  而执行的下一步操作, 其实就是写在 then 的回调函数中的
+      })
+    })
+
+    //  a
+    promise.then(res => {
+      //  d 执行后续的操作
+      console.log(res)
+    }) */
+
+
+
+
+    //	把异步操作放到 promise 中
+    /* function fn(options) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          //	其实异步操作逻辑到这里就已经执行完毕了
+          //	就可以告诉外界,可以执行其它操作了
+          //	如何告诉外界,让其得知?
+          resolve(options)
+        }, 1000)
+      })
+    }
+
+    fn('你好, 这是第一步').then(res => {
+      console.log(res)
+      fn('你好, 这是第二步').then(res => {
+        console.log(res)
+      })
+    }) */
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      font-size: 20px;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div style="display:none">222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          if (jQuery.type(selector) === "string") {
+            //  如果是jQuery选择器
+            var elements = document.querySelectorAll(selector)
+            elements.forEach((item, index) => {
+              this[index] = item
+            })
+            this.length = elements.length
+
+          } else if (selector.nodeType) {
+            //  如果是dom元素 ---> jQuery元素
+            //  { 0: xxx, length:1 }
+            // console.log(this)
+            this[0] = selector
+            this['length'] = 1
+          }
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      jQuery.fn.extend = jQuery.extend = function (...args) {
+        let target, source = [...args]
+        if (args.length === 1) {
+          target = this
+        } else {
+          target = source[0]
+          source.splice(0, 1)
+        }
+        Object.assign(target, ...source)
+        return target
+      }
+
+      //  在构造函数上添加方法, 用于 $.方法名
+      jQuery.extend({
+        each(obj, cb) {
+          if ((length in obj) && obj.length >= 0) {
+            for (let i = 0; i < obj.length; i++) {
+              cb.call(obj[i], i, obj[i])
+            }
+          } else {
+            for (let i in obj) {
+              cb.call(obj[i], i, obj[i])
+            }
+          }
+        },
+        type(data) {
+          var type = Object.prototype.toString.call(data)
+          return type.replace(/\[object\s|\]/g, "").toLowerCase()
+        }
+      })
+
+      jQuery.fn.extend({
+        each(cb) {
+          jQuery.each(this, cb)
+        }
+      })
+
+      //  样式相关操作
+      jQuery.fn.extend({
+        //  this --> jQuery.fn
+        css(...args) {
+          let arg1 = args[0],
+            arg2 = args[1];
+
+          //  通过判断实参个数
+          if (args.length === 1) {
+            //  讨论获取和设置多个样式
+            if (jQuery.type(arg1) === 'string') {
+              //  通过getComputedStyle 获取选择中的第一个元素的最终样式
+              let objStyle = window.getComputedStyle(this[0], null)
+              return objStyle[arg1]
+
+            } else {
+              let _this = this
+              jQuery.each(arg1, (index, item) => {
+                _this.css(index, item)
+              })
+              return this
+
+            }
+
+          } else {
+            //  给选中的所有元素设置样式
+            this.each(function (index, item) {
+              this.style[arg1] = arg2
+            })
+            return this
+          }
+
+        },
+        show() {
+          this.css('display', 'block')
+          return this
+        },
+        hide() {
+          this.css('display', 'none')
+          return this
+        },
+        toggle() {
+          //  判断每一个元素, 如果隐藏则显示, 显示则隐藏
+          this.each(function (index, item) {
+            //  问题: jQuery(this) 都会产生一个新的jQuery对象
+            //  每次产生新的jQuery对象都会开辟一块新的内存,
+            //  这里的 dom元素是唯一的, 所以导致内存泄露
+
+            /* if (jQuery(this).css('display') === 'none') {
+              jQuery(this).css('display', 'block')
+            } else {
+              jQuery(this).css('display', 'none')
+            } */
+
+            /*  if (jQuery(this).css('display') === 'none') {
+               jQuery(this).show()
+             } else {
+               jQuery(this).hide()
+             } */
+
+            //  解决方案一:
+            /* $this = jQuery(this);
+            $this.css('display') === 'none' ?
+              $this.show() :
+              $this.hide() */
+
+            //  解决方案二:
+            $this = jQuery(this)
+            $this[$this.css('display') === 'none' ? 'show' : 'hide']()
+
+          })
+
+          return this
+        }
+      })
+
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    // 举例
+    $('div').css('color')
+    $('div:nth-of-type(odd)').css('color', 'green')
+    $('div').css({
+      'color': 'blue',
+      'fontSize': '50px'
+    })
+    $('div').toggle()
+  </script>
+</body>
+
+</html>

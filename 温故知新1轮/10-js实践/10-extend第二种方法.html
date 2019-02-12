@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      //  $.extend  $.fn.extend
+      jQuery.fn.extend = jQuery.extend = function (...args) {
+        //  目标对象不同
+        //  ---> 如果是 $.extend, 目标对象是 args[0]
+        //  ---> 如果是 $.fn.extend, 目标对象是 $.fn -> this
+        //  数据对象不同
+        //  ---> 如果是 $.extend, 数据来源是 args 的第二个开始以及后面所有对象
+        //  ---> 如果是 $.fn.extned, 数据来源是 args 中所有对象
+        // console.log(this)
+
+        let target, source = [...args]
+        //  所以我们需要分情况讨论
+        if (this === jQuery) {
+          //  走了 $.extend
+          target = args[0]
+          source.splice(0, 1)
+        } else {
+          //  走了 $.fn.extend
+          target = this
+        }
+
+        // console.log(source)
+        source.forEach((item, index) => {
+          Object.keys(item).forEach(key => {
+            target[key] = item[key]
+          })
+        })
+
+        // console.log(target)
+
+        return target
+      }
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    //  $.extend 实现: 第一种: 合并对象为一个对象
+    //  var obj = {name:"xxx", age:18}
+    //  var obj3 = {gender: "女"}
+    //  var obj2 = {}
+
+    //  将obj和obj3中的属性一一添加到obj2对象中. 拷贝/混入继承
+    // $.entend(obj2,obj,obj3)
+
+
+    var obj = {}
+    $.extend(obj, {
+      a: 1,
+      b: 2
+    }, {
+      c: 3,
+      d: 4,
+      b: 2
+    })
+
+    //  $.fn.extend 实现: 第二种: 如果是在 prototype上扩展, 则给构造函数原型对象添加方法
+    $.fn.extend({
+      extendFn1() {
+        console.log('原型对象上扩展方法1')
+      },
+      extendFn2() {
+        console.log('原型对象上扩展方法2')
+      }
+    })
+  </script>
+</body>
+
+</html>

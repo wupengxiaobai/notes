@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var source = {
+      age: 18,
+      height: 170,
+      className: '三年二班'
+    }
+    //	克隆一个新对象处理
+    var newObj = Object.assign({}, source)
+    newObj.name = '小白'
+
+    //	克隆另一种方式
+    var newObj2 = {
+      name: '乖宝宝',
+      likeGirlType: '感性'
+    }
+    Object.assign(newObj2, source)
+
+    console.log('source对象: ', source)
+    console.log('拷贝后的新对象: ', newObj)
+    console.log('拷贝后的新对象2: ', newObj2)
+  </script>
+</body>
+
+</html>

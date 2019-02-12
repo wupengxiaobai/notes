@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AMD基本使用</title>
+
+
+</head>
+
+<body>
+  <button id="user">执行用户模块</button>
+  <button id="product">执行商品模块初始化</button>
+
+  <!-- 引入 require.js -->
+  <script src="./require.js"></script>
+  <script>
+
+    require(['product', 'user'], function (product, user) {
+
+      //  按需加载
+      document.getElementById('product').onclick = function () {
+        product.init()
+      }
+
+      document.getElementById('user').onclick = function () {
+        user()
+      }
+
+
+      //  这里是首页其它js代码逻辑
+      console.log('首页模块最后一行 console')
+    })
+  </script>
+
+
+
+</body>
+
+</html>

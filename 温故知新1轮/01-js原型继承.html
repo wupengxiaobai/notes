@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>Document</title>
+  <style>
+    .box {
+      padding: 10px;
+      margin: 10px;
+      width: 100px;
+      height: 100px;
+      background: deepskyblue;
+      border: 10px solid pink;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class='box'></div>
+
+  <script>
+    function Fn(name, age, sex) {
+      this.name = name;
+      this.age = age;
+      this.sex = sex
+    }
+    Fn.prototype.say = function () {
+      console.log('hello, myName is', this.name)
+    }
+    var person1 = new Fn('小白', 19, '男')
+    person1.say()
+
+
+    //  借用构造函数实现继承
+    function Fn2(name, age, sex, girlName) {
+      Fn.apply(this, [name, age, sex])
+      this.say = Fn.prototype.say;
+      this.girlFriend = girlName
+    }
+    Fn2.prototype.sayMore = function () {
+      console.log('My name is ' + this.name + ', I have a girlFriend and her name is ' + this.girlFriend)
+    }
+    var person2 = new Fn2('小白菜', 19, '男', 'GEM')
+    person2.say()
+    person2.sayMore()
+  </script>
+</body>
+
+</html>

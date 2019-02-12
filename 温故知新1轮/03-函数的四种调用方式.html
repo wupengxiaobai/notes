@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  <script>
+    //  手动实现bind方法
+    //1. bind 方法应该放在函数的原型中
+    //2. bind 方法不代替函数执行
+
+    /* Function.prototype._bind = function (target) {
+      //  target 表示新函数的内部 this 的值
+      //  利用闭包创建一个内部函数, 返回所谓的新函数
+
+      return () => {
+        this.call(target)
+      }
+      // var _this = this;
+      // return function () {
+      //   _this.call(target)
+      // }
+    }
+
+    function fn() {
+      console.log(this)
+    }
+    fn._bind({ gender: '男' })();
+ */
+    age = 18
+    var obj = {
+      age: 24,
+      say() {
+        // console.log(this.age)  //  obj调用age, this -> obj
+        console.log(age)  //  say函数所在作用域是全局, 所以这里值为18
+      }
+    }
+
+    obj.say()
+
+
+
+
+    /* 
+    //  bind 使用
+    var obj = {
+      age: 18,
+      run: function () {
+        setTimeout((function () {
+          console.log(this.age) //	18? 此时 this 指向window
+        }).bind(this), 50)
+      }
+    }
+    obj.run()
+
+
+    function speed() {
+      console.log(this.seconds)
+    }
+    //	指向了bind方法之后, 产生一个新函数, 这个新函数的逻辑和原来的还是一样, 唯一的不同就是 this指向被修改了
+    var speedBind = speed.bind({
+      seconds: 100
+    })
+    speedBind(); //	100
+
+
+    (function speed() {
+      console.log(this.seconds)
+    }).bind({
+      seconds: 100
+    })();
+
+
+    var obj2 = {
+      name: "西瓜",
+      drink: (function () {
+        console.log(this.name)
+      }).bind({
+        name: "橙汁"
+      })
+    }
+    obj2.drink() //	橙汁 */
+
+
+
+    // function fn(name) {
+    //   this.name = name
+    // }
+    // var _n = new fn("小白"); //	_n 有个name属性, 值为 小白
+
+
+    //	特殊例子
+    // function jQuery() {
+    //   var _init = jQuery.prototype._init;
+    //   return new _init();
+    // }
+    // jQuery.prototype = {
+    //   constructor: jQuery,
+    //   length: 100,
+    //   _init: function () {
+    //     console.log(this.length)
+    //   }
+    // }
+    // jQuery() //	undefined   -------  通过new 调用 _init() 其内部 this 指向 _init 构造函数的实例
+
+
+    /* function jQuery() {
+      var _init = jQuery.prototype._init;
+      return new _init();
+    }
+
+    jQuery.prototype = {
+      constructor: jQuery,
+      length: 100,
+      _init: function () {
+        console.log(this.length)
+      }
+    }
+    //	修改函数 _init 的原型, 直接指向 jQuery 的原型
+    jQuery.prototype._init.prototype =  jQuery.prototype
+    jQuery() */
+
+
+
+
+    /* function Person() {
+      this.age = 20;
+    }
+    Person.prototype.run = function () {
+      console.log(this.age)
+    }
+    var p1 = new Person()
+    p1.run() //	20
+
+    var p2 = {
+      height: 167,
+      traval: function () {
+        console.log(this.height)
+      }
+    }
+    p2.traval() //	167 */
+
+
+
+
+
+
+    /* var age = 18;
+
+    function fn() {
+      console.log(this.age)
+    }
+    fn() //	18 
+
+    //	特殊例子
+    var p = {
+      age: 15,
+      say: function () {
+        console.log(this.age)
+      }
+    }
+    var f1 = p.say
+    f1() //	18 */
+  </script>
+</body>
+
+</html>

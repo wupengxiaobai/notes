@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ajax封装</title>
+</head>
+
+<body>
+  <script>
+    function ajax(type, url, data, cb) {
+      //  底层是封装 XMLHttpRequest
+      var xhr = new XMLHttpRequest()
+
+      if(type == 'get'){
+        
+      }
+      xhr.open(type, url + '?' + data)
+      xhr.send(null)
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+          if (xhr.status == 200) {
+            // console.log(JSON.parse(xhr.responseText))
+            cb(JSON.parse(xhr.responseText))
+          }
+        }
+      }
+    }
+
+
+
+    ajax('get', 'aaa.php', 'name=zhangsan&age=18', function (data) {
+      console.log(data)
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AMD基本使用</title>
+
+
+</head>
+
+<body>
+
+
+  <!-- 引入 request.js -->
+  <script src="./request.js"></script>
+  <script>
+    // 在一个单页面应用中, 只需要调用一次 rquire, 后面全是 define
+    require(['cart', 'user'], function () {
+      //  这里是首页其它js代码逻辑
+      console.log('首页非模块代码逻辑')
+    })
+
+
+
+
+    //  最终输出逻辑?
+    //    ---> cartDetail.js 代码
+    //  ---> cart.js 代码
+    //    ---> userDetail.js代码
+    //  ---> user.js 代码
+    //  --->首页代码逻辑最后输出
+
+  </script>
+
+
+
+</body>
+
+</html>

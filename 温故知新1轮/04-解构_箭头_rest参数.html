@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>es6重点</title>
+</head>
+
+<body>
+
+  <script>
+    //  箭头函数
+    var fn = function () {
+      return 'abc'
+    }
+    var fn = (() => 'abc')()
+    console.log(fn)
+
+    var res = (name => name)('小白')
+    console.log(res)
+
+    var p = {
+      age: 18,
+      run: () => {
+        setTimeout(() => {
+          console.log(this); //	window
+        })
+      },
+      travel() {
+        setTimeout(() => {
+          console.log(this); //	p
+        })
+      }
+    }
+    p.run()
+    p.travel()
+
+
+    // rest 参数
+    /* function fn() {
+      for (const key in arguments) {
+        console.log(arguments[key])
+      }
+    }
+    fn(1, 2, 3, 4, 5)
+
+
+    function fn2(...rest) {
+      //  此时 rest 就是实参列表, 是一个由所有实参组成的数组
+      console.log(rest) //  (5) [1, 2, 3, 4, 5]
+    }
+    fn2(1, 2, 3, 4, 5)
+
+
+    ;
+    ((...args) => {
+      console.log(args); //  (6) [1, 2, 3, 4, 5, 520]
+    })(1, 2, 3, 4, 5, 520) */
+
+
+    //  解构赋值
+    /* function fn({
+      name,
+      age,
+      gender
+    }, options) {
+      console.log(name, age, gender, '\n');
+      console.log(options.hobbies, options.likeGirlType)
+    }
+
+    fn({
+      name: '小白',
+      age: 18,
+      gender: '男'
+    }, {
+      hobbies: '吃,唱歌,代码',
+      likeGirlType: '上得厅堂下得厨房,独立自信'
+    })
+
+    let obj = {
+      name: '小白',
+      age: 18,
+      gender: '男'
+    }
+    let {
+      name: objName,
+      age: objAge,
+      gender
+    } = obj
+    console.log(objName, objAge) //	小白 18 */
+  </script>
+</body>
+
+</html>

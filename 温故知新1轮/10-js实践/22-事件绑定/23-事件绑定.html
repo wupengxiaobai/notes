@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <div>div1</div>
+  <div>div2</div>
+  
+  <script src="./js/jquery.core.js"></script>
+  <!-- <script src="./js/jquery.style.js"></script> -->
+  <script src="./js/jquery.util.js"></script>
+  <script src="./js/jquery.event.js"></script>
+
+  <script>
+    $('div').on('click', function(){
+      console.log(this)
+    })
+  
+  </script>
+</body>
+</html>

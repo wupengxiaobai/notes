@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>11</div>
+  <div>222</div>
+  <div>333</div>
+  <span class="span">444</span>
+
+
+  <script>
+    (function (window) {
+
+      function jQuery(selector) {
+
+        return new jQuery.fn.init(selector)
+      }
+
+      jQuery.fn = jQuery.prototype = {
+        constructor: jQuery,
+        init: function (selector) {
+          var elements = document.querySelectorAll(selector)
+          elements.forEach((item, index) => {
+            this[index] = item
+          })
+          this.length = elements.length
+        },
+        css: function (name, val) {
+          [].forEach.call(this, item => {
+            item.style[name] = val
+          })
+        }
+      }
+
+      jQuery.fn.init.prototype = jQuery.fn
+
+      //  $.extend
+      jQuery.extend = function (...args) {
+        //  这里的extend方法参数并不确定
+        //  所以我们建议不使用形参, 使用arguments或...rest获取实参
+
+        // console.log(args)
+        //  我们需要将第二个参数及其后的所有参数中的属性遍历添加到第一个参数中
+
+        //  目标对象
+        let target = args[0]
+
+        //  数据对象
+        args.splice(0, 1)
+        args.forEach((item, index) => {
+          Object.keys(item).forEach(key => {
+            target[key] = item[key]
+          })
+        })
+
+        /* for (let i = 1; i < args.length; i++) {
+          let argI = args[i];
+          for (let key in argI) {
+            target[key] = argI[key]
+          }
+        } */
+
+        console.log(target)
+
+        return target
+      }
+
+      window.$ = window.jQuery = jQuery
+    })(window)
+
+    //  $.extend 实现:
+    //  var obj = {name:"xxx", age:18}
+    //  var obj3 = {gender: "女"}
+    //  var obj2 = {}
+
+    //  将obj和obj3中的属性一一添加到obj2对象中. 拷贝/混入继承
+    // $.entend(obj2,obj,obj3)
+
+    var obj = {}
+    $.extend(obj, {
+      a: 1,
+      b: 2
+    }, {
+      c: 3,
+      d: 4,
+      b: 2
+    })
+  </script>
+</body>
+
+</html>
