@@ -1,0 +1,8 @@
+@charset "utf8";
+.community-header .layui-nav-item > a {
+  font-size: 18px;
+}
+.community-header i.layui-icon {
+  font-size: 16px;
+  margin-right: 5px;
+}

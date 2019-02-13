@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+.content {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background: url('../images/404.jpg') no-repeat center/cover;
+}
+
+#goback {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  cursor: pointer;
+}
+
+#goIndex {
+  position: absolute;
+  bottom: 25%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  cursor: pointer;
+}
+
+#goback:hover,
+#goIndex:hover {
+  text-decoration: underline;
+}

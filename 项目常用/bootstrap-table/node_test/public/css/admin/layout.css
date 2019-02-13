@@ -1,0 +1,45 @@
+html,
+body {
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  left: 200px;
+  width: calc(100% - 200px);
+  height: calc(100% - 60px);
+  background: #fff;
+}
+
+.layui-tab {
+  height: 100%;
+}
+
+.layui-tab-content {
+  height: calc(100% - 41px) !important;
+  box-sizing:border-box;
+}
+.layui-tab-item.layui-show{
+  height: 100%;
+}
+
+.mainIframe{
+  height: 100%!important;
+}
+
+.rightmenu {
+  width: 120px;
+  line-height: 45px;
+  text-align: center;
+  border: 1px solid #dddddd;
+}
+
+.rightmenu li {
+  color: #368;
+  background: #fff;
+}
+
+.rightmenu li:hover {
+  background: #368;
+  color: #fff;
+}

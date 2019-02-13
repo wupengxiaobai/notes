@@ -1,0 +1,143 @@
+.container {
+	margin-top: 15px;
+	padding-bottom: 40px;
+}
+
+.left-main {
+	padding: 0 20px;
+}
+
+.left-main .article-wrapper,
+.left-main .comments-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	background: #fff;
+	margin-bottom: 20px;
+}
+
+.left-main .article-wrapper .title {
+	padding-top: 10px;
+	font-size: 32px;
+}
+
+.left-main .article-wrapper .desc {
+	margin: 10px 0;
+}
+
+.left-main .article-wrapper .main {
+	padding: 20px 20px 35px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.left-main .comments-wrapper .title,
+.left-main .comments-wrapper .history-comments .history-title {
+	position: relative;
+	padding: 10px 20px;
+	text-align: center;
+	width: 100%;
+	font-size: 28px;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+.left-main .comments-wrapper .title::after,
+.left-main .comments-wrapper .history-comments .history-title::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background: #ddd;
+	z-index: 0;
+}
+
+.left-main .comments-wrapper .title span,
+.left-main .comments-wrapper .history-comments span {
+	position: relative;
+	display: inline-block;
+	padding: 0 20px;
+	z-index: 2;
+	background: #fff;
+}
+
+.left-main .comments-wrapper .writer-comment {
+	padding: 0 20px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.left-main .comments-wrapper .writer-comment textarea {
+	margin-bottom: 10px;
+}
+
+.left-main .comments-wrapper .history-comments {
+	width: 100%;
+}
+
+.comments-list {
+	padding: 0 20px 20px;
+}
+
+.comments-list .comments-item {
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.comments-list .comments-item.no-item {
+	display: none;
+}
+
+.comments-list .comments-item:last-child {
+	border-bottom: 1px solid transparent;
+}
+
+.comments-list .comments-item .publisher-info {
+	display: flex;
+}
+
+.comments-list .comments-item .publisher-info .avatar {
+	flex: 0 0 36px;
+	margin-right: 10px;
+	height: 36px;
+	background-color: #ddd;
+	border-radius: 3px;
+}
+
+.comments-list .comments-item .publisher-info .desc {
+	flex: 1;
+}
+
+.comments-list .comments-item .content {
+	text-indent: 2em;
+	margin-top: 3px;
+}
+
+.right-main {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+}
+
+.right-main .author-wrapper {
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0px 0px 1px 1px #ddd;
+	border-radius: 5px;
+}
+
+.right-main .author-wrapper .avatar {
+	width: 150px;
+	border-radius: 5px;
+}
+
+.right-main .author-wrapper .name {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 22px;
+	color: #333;
+}

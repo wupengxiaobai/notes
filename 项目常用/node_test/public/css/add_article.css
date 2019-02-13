@@ -1,0 +1,11 @@
+@charset "utf8";
+
+.articleAddWrapper {
+  margin: 10px auto;
+  background: #fff;
+}
+
+.layui-tab-title {
+  padding-top: 20px;
+  font-weight: bold;
+}

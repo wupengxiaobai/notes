@@ -1,0 +1,9 @@
+body {
+  background: #ddd;
+  font-family: '微软雅黑'
+}
+
+.float-right {
+  margin-left: 10px;
+  float: right;
+}
