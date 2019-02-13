@@ -11,7 +11,7 @@ router.post('/upload/avatar', upload.single('file'), operationUpload.upLoadAvata
 router.post('/saveData', test.saveData)
 
 //  获取数据
-router.get('/getData',test.getData)
+router.get('/getData', test.getData)
 
 //  NotFound 等处理页面
 router.get("*", async (ctx) => {

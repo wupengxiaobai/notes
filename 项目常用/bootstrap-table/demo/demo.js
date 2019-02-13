@@ -1,7 +1,10 @@
 (function () {
   var hk = {
+    host: 'http://localhost:3000/',
     init: function () {
       this.initEvent()
+      // this.getData()
+      this.initTable()
     },
     initEvent: function () {
       this.submitForm()
@@ -63,6 +66,57 @@
             }
           }
         })
+      })
+    },
+    //  获取数据
+    getData(params = {
+      page: 1,
+      pageSize: 5
+    }) {
+      var _this = this
+      $.ajax({
+        url: _this.host + 'getData',
+        data: params,
+        dataType: 'json',
+        success(res) {
+          if (res.errCode === 0) {
+            formatData = res.data
+            //  处理数据, 初始化 bootstrap-table 数据
+            _this.initTable(formatData)
+          }
+        }
+      })
+    },
+    //  初始化table
+    initTable() {
+      var _this = this;
+      $("#table").bootstrapTable({
+        url: _this.host + 'getData?page=1&pageSize=10',
+        pagination: true,
+        /*  开启服务端分页
+          服务端给我返回的数据必须是如此格式 {rows:[{},{}], total:12 }
+          客户端bootstrap-table 根据总记录数可以计算出来多少页
+        */
+        sidePagination: "server",
+        columns: [{
+            field: "id",
+            title: 'ID'
+          },
+          {
+            field: 'username',
+            title: '用户名'
+          }, {
+            field: 'description',
+            title: '描述'
+          },
+          {
+            field: 'avatar',
+            title: '头像'
+          }, {
+            field: 'operation',
+            title: '操作'
+          }
+        ]
       })
     }
 
