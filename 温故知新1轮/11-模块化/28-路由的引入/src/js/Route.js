@@ -31,6 +31,7 @@ define([], function () {
           route.component()
         } else {
           //  找不到, route为kon
+          console.log('未找到指定路由')
         }
       })
     },

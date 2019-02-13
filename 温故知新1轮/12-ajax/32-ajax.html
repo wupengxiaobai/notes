@@ -11,74 +11,72 @@
 <body>
 
   <script>
-    //	封装的套路
-    //	1. 写一个相对比较完善的用例
-    //  2. 写一个空的函数, 没有形参, 将刚才用例直接作为函数函数体
-    //  3. 根据使用过程中的需求, 抽象参数
+    var $ = {
+      ajax: function (options) {
+        options.method = options.method.toUpperCase();
+        options.data = options.data || null;
 
-    function ajax(options) {
-
-      options.method = options.method.toUpperCase();
-      options.data = options.data || null;
-
-      if (typeof options.data === 'object') {
-        var tempArr = [];
-        for (var key in options.data) {
-          var value = options.data[key];
-          tempArr.push(key + '=' + value);
+        if (typeof options.data === 'object') {
+          var tempArr = [];
+          for (var key in options.data) {
+            var value = options.data[key];
+            tempArr.push(key + '=' + value);
+          }
+          options.data = tempArr.join('&');
         }
-        options.data = tempArr.join('&');
-      }
 
-      if (options.method === 'GET') {
-        options.url += '?' + options.data
-      }
-
-      var xhr = new XMLHttpRequest();
-      xhr.open(options.method, options.url);
-
-      var data = null;
-      if (options.method === 'POST') {
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        data = options.data;
-      }
-
-      //  beforeSend 拦截: 正则验证, 请求前xxx效果等等
-      if (options.beforeSend) {
-        console.log('执行了 beforeSend 回调')
-        var beforeSendRes = options.beforeSend()
-        if (!beforeSendRes) {
-          return
+        if (options.method === 'GET') {
+          options.url += '?' + options.data
         }
-      }
 
-      xhr.send(data);
+        var xhr = new XMLHttpRequest();
+        xhr.open(options.method, options.url);
 
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-          if (this.status == 200) {
-            console.log('执行了 success 回调')
-            options.success && options.success(JSON.parse(this.responseText));
-          } else {
-            options.error && options.error('执行了error函数');
+        var data = null;
+        if (options.method === 'POST') {
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          data = options.data;
+        }
+
+        //  beforeSend 拦截: 正则验证, 请求前xxx效果等等
+        if (options.beforeSend) {
+          // console.log('执行了 beforeSend 回调')
+          var beforeSendRes = options.beforeSend()
+          if (!beforeSendRes) {
+            return
+          }
+        }
+
+        xhr.send(data);
+
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4) {
+            if (this.status == 200) {
+              // console.log('执行了 success 回调')
+              options.success && options.success(JSON.parse(this.responseText));
+            } else {
+              options.error && options.error('执行了error函数');
+            }
           }
         }
       }
     }
 
+
     //	我们在使用
-    /* ajax({
+    $.ajax({
       method: 'GET',
       url: 'http://localhost:3000/',
       data: {
-        id: 1
+        username: '小白菜',
+        type: 'super'
       },
       success: function (data) {
         console.log(data);
       }
-    }); */
+    });
 
-    ajax({
+    /* $.ajax({
       method: 'post',
       url: 'http://localhost:3000/',
       data: {
@@ -94,7 +92,7 @@
       error: function (res) {
         console.log(res)
       }
-    });
+    }); */
   </script>
 </body>
 

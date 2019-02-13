@@ -35,10 +35,10 @@
       - /user/3
       - /user/edit/3
   
-    + 路由可以进行前进, 后退等盗汗操作
+    + 路由可以进行前进, 后退等dom操作
 
     前端路由的实现方式
-    + 1. 监听window对象的hashchange事件
+    + 1. 监听 window 对象的 hashchange 事件
       - hash值 通过该loaction.hash 获取 以 # 开头
       - 也可以通过 location.hash来设置 hash值, 也应该以 # 开头
 
