@@ -31,7 +31,8 @@ module.exports = {
     //  获取参数
     let {
       page,
-      pageSize
+      pageSize,
+      search
     } = ctx.query
 
     //  开始位置
@@ -39,9 +40,13 @@ module.exports = {
     //  跳过多少条
     let endIndex = pageSize
 
+    let where;
+    if (search) {
+      where = `where username like '%${search}%'`
+    }
 
     var getData = await new Promise((resolve, reject) => {
-      connect.query(`select * from test1 limit ${startIndex},${endIndex}`, (error, results) => {
+      connect.query(`select * from test1 ${where} limit ${startIndex},${endIndex}`, (error, results) => {
         if (error) return reject(error)
         return resolve(results)
       })
@@ -69,15 +74,36 @@ module.exports = {
         total:总记录数
       }
     */
-    getData.forEach(item => {
-      item.operation = `<button class="btn btn-xs btn-success" data-id=${item.id}>编辑</button>  <button class="btn btn-xs btn-danger" data-id=${item.id}>删除</button>`
-    })
-    
-    console.log(getData)
 
     ctx.body = {
       "rows": getData,
       "total": total
     }
+  },
+  //  删除数据
+  deleteData: async (ctx) => {
+    const {
+      id
+    } = ctx.query
+    console.log('----要删除的数据id是: ', id)
+    var deleteData = await new Promise((resolve, reject) => {
+      connect.query(`delete from test1 where id = ${id}`, (error, results) => {
+        if (error) return reject(error)
+        return resolve(results)
+      })
+    }).then(res => {
+      return {
+        errCode: 0,
+        msg: '删除数据成功'
+      }
+    }).catch(err => {
+      console.log('数据库操作失败-----', err)
+      return {
+        errCode: 1,
+        msg: '删除数据失败'
+      }
+    })
+
+    ctx.body = deleteData;
   }
 };

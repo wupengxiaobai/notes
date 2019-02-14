@@ -13,6 +13,9 @@ router.post('/saveData', test.saveData)
 //  获取数据
 router.get('/getData', test.getData)
 
+//  删除数据
+router.get('/deleteData', test.deleteData)
+
 //  NotFound 等处理页面
 router.get("*", async (ctx) => {
   ctx.body = {
