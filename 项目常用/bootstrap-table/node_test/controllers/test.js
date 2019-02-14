@@ -40,7 +40,6 @@ module.exports = {
     let endIndex = pageSize
 
 
-
     var getData = await new Promise((resolve, reject) => {
       connect.query(`select * from test1 limit ${startIndex},${endIndex}`, (error, results) => {
         if (error) return reject(error)
@@ -73,6 +72,8 @@ module.exports = {
     getData.forEach(item => {
       item.operation = `<button class="btn btn-xs btn-success" data-id=${item.id}>编辑</button>  <button class="btn btn-xs btn-danger" data-id=${item.id}>删除</button>`
     })
+    
+    console.log(getData)
 
     ctx.body = {
       "rows": getData,

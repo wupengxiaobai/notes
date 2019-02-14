@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'woaiwo',
+  password: '1234',
   database: 'temp' //	数据库名
 })
 
@@ -12,7 +12,7 @@ connection.connect((err) => {
     console.error('数据库连接失败: ' + err.stack);
     return;
   }
-  console.log('数据库 sharecommunity 连接成功!');
+  console.log('数据库 temp 连接成功!');
 });
 
 module.exports = connection

@@ -1,17 +1,17 @@
 (function () {
   var hk = {
     host: 'http://localhost:3000/',
-    init: function () {
+    init() {
       this.initEvent()
       // this.getData()
       this.initTable()
     },
-    initEvent: function () {
+    initEvent() {
       this.submitForm()
       this.uploadAvatar()
     },
     //  上传头像
-    uploadAvatar: function () {
+    uploadAvatar() {
       var file = $("#avatar")[0];
       file.onchange = function () {
         var formData = new FormData();
@@ -91,13 +91,24 @@
     initTable() {
       var _this = this;
       $("#table").bootstrapTable({
-        url: _this.host + 'getData?page=1&pageSize=10',
-        pagination: true,
+        url: _this.host + 'getData',
+        striped: true, //  隔行变色
         /*  开启服务端分页
           服务端给我返回的数据必须是如此格式 {rows:[{},{}], total:12 }
           客户端bootstrap-table 根据总记录数可以计算出来多少页
         */
+        //  传递给后端的参数
+        queryParams: function () {
+          var temp = {
+            page: 1,
+            pageSize: 5,
+          };
+          return temp;
+        },
+        pageList: [10, 25, 50, 100],
+        pagination: true, //是否分页 
         sidePagination: "server",
+        showRefresh: true,
         columns: [{
             field: "id",
             title: 'ID'
