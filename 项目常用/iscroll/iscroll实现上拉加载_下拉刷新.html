@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        header,
+        footer {
+            position: relative;
+            width: 100%;
+            height: 64px;
+            background: deepskyblue;
+        }
+
+        footer {
+            position: flex;
+            bottom: 0
+        }
+
+        #wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <header>这里是头部</header>
+
+    <div id="wrapper">
+        <ul></ul>
+    </div>
+    <footer>这里是底部</footer>
+    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+    <script src="./iscroll-master/is                                                                                 croll-master/build/iscroll-probe.js"></script>
+    <script>
+        //  滚动区域高度设置
+        $('#wrapper').height($('body').height() - 128 + 'px')
+        document.addEventListener('touchmove', function (e) {
+            e.preventDefault();
+        }, false);
+        var iscrollDemo = {
+            myScroll: null,
+            init() {
+                this.renderList()
+                this.initScroll()
+                this.eventListen()
+            },
+            //  初始 iscroll
+            initScroll() {
+                this.myScroll = new IScroll('#wrapper', {
+                    mouseWheel: true,
+                    scrollbars: true,
+                    probeType: 2 //  scroll 事件必须
+                })
+            },
+            //  监听滚动实现下拉刷新及上拉加载
+            eventListen() {
+                var _this = this;
+                var canRefresh = false;
+                var canLoadmore = false;
+
+                this.myScroll.on('scrollStart', function () {
+                    //  console.log('开始滚动')
+                })
+
+                this.myScroll.on('scroll', function () {
+                    //  下拉刷新判定
+                    if (_this.myScroll.y > 50) { //  可以下拉刷新
+                        canRefresh = true;
+                    }
+                    //  上拉加载判定                    
+                    if ((_this.myScroll.y - _this.myScroll.maxScrollY) < -50) {
+                        canLoadmore = true;
+                    }
+
+                })
+
+                this.myScroll.on('scrollEnd', function () {
+                    if (canRefresh) {
+                        console.log('执行刷新...');
+                        _this.renderList() //  重新加载渲染列表
+
+                        //  刷新iscroll
+                        setTimeout(function () {
+                            _this.refreshScroll()
+                        }, 0)
+
+                        canRefresh = false;
+                    }
+
+
+                    if (canLoadmore) {
+                        console.log('执行加载更多...');
+                        //  这里执行ajax请求数据并渲染dom
+                        var domstr = "";
+                        for (var i = 0; i < 10; i++) {
+                            domstr += '<li>新增内容' + i + '</li>'
+                        }
+                        $('ul').append(domstr)
+
+                        //  因为高度会发生变化, 需要刷新iscroll
+                        setTimeout(function () {
+                            _this.refreshScroll()
+                        }, 0)
+
+                        canLoadmore = false;
+                    }
+                })
+            },
+            //  刷新 iscroll 
+            refreshScroll() {
+                this.myScroll.refresh()
+            },
+            //  获取数据渲染列表
+            renderList() {
+                var str = "";
+                for (var i = 0; i < 30; i++) {
+                    str += '<li>初始渲染内容' + i + '</li>'
+                }
+                $('ul').html(str)
+            }
+
+        }
+
+        iscrollDemo.init()
+    </script>
+</body>
+
+</html>
