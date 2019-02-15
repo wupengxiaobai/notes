@@ -92,24 +92,52 @@
       var _this = this;
       $("#table").bootstrapTable({
         url: _this.host + 'getData',
-        striped: true, //  隔行变色
+        pagination: true, //是否分页
+
         /*  开启服务端分页
           服务端给我返回的数据必须是如此格式 {rows:[{},{}], total:12 }
           客户端bootstrap-table 根据总记录数可以计算出来多少页
         */
-        //  传递给后端的参数
-        queryParams: function () {
-          var temp = {
-            page: 1,
-            pageSize: 5,
-          };
-          return temp;
+        sidePagination: "server", //  服务端渲染
+        pageSize: 5, //  默认显示条数
+        showColumns: true, //  内容页下拉框
+        rowStyle: function (row, index) {
+          row.avatar = `<img src='${_this.host+ (row.avatar).match(/avatar\/\d+\_avatar\.[a-z]{3}/)[0]}' height='50'/>`;
+          row.operation = `<button class="btn btn-xs btn-success" data-id=${row.id}>编辑</button>  <button class="btn btn-xs btn-danger delete-btn" data-id=${row.id}>删除</button>`
+          return row
         },
-        pageList: [10, 25, 50, 100],
-        pagination: true, //是否分页 
-        sidePagination: "server",
-        showRefresh: true,
+        //  数据加载完成触发, 此时可以触发删除或者编辑等操作
+        onLoadSuccess() {
+          $('#table').on('click', '.delete-btn', function () {
+            var id = $(this).data('id');
+            $.ajax({
+              url: _this.host + 'deleteData',
+              data: {
+                id
+              },
+              success(res) {
+                console.log(res)
+              }
+            })
+          })
+        },
+        //  传递给后端的参数
+        queryParams: function (params) {
+          console.log(params)
+          
+          params.pageSize = params.limit
+          params.page = params.offset / params.pageSize + 1
+          params.search = params.search
+          //  return 值就是传递给后台的数据
+          return params;
+        },
+        pageList: [5, 10, 20, 30, 'All'], //  组别
+        showToggle: false,
+        striped: true, //  隔行变色
+        showRefresh: true, //  刷新
         columns: [{
+            checkbox: true //  复选框
+          }, {
             field: "id",
             title: 'ID'
           },
@@ -129,6 +157,10 @@
           }
         ]
       })
+    },
+    //  重置table
+    refreshTable() {
+
     }
 
   }
