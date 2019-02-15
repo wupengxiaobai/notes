@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>瀑布流</title>
+  <style>
+    .container{
+      position: relative;
+    }
+    .items {
+      position: relative;
+      margin: 0 auto;
+      width: 850px;
+    }
+
+    .item {
+      width: 150px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      box-shadow: 0 0 3px 1px #ddd;
+      text-align: justify
+    }
+
+    .item p {
+      padding: 0 5px;
+    }
+
+    .item img {
+      width: 100%;
+      vertical-align: top;
+    }
+
+    .loadMoreBtn {
+      position: relative;
+      left: 50%;
+      font-size: 22px;
+      padding: 20px 50px;
+      background: #ddd;
+      color: #ffffff;
+      border: none;
+      transform: translate3d(-50%, 0, 0);
+      outline: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- 图文主体 -->
+    <div class="items">
+    </div>
+
+    <button class="loadMoreBtn">加载更多</button>
+  </div>
+
+
+
+  <script src="../assets/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/art-template/lib/template-web.js"></script>
+  <script src="./jquerywaterfall.js"></script>
+
+  <script type="text/template" id="templateId">
+    {{each rows item}}
+    <div class="item">
+      <img src="{{host + item.avatar}}" alt="">
+      <p>邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀邓紫棋呀</p>
+    </div>
+    {{/each}}
+  </script>
+
+
+  <script>
+    (function () {
+      var wp = {
+        host: 'http://localhost:3000/',
+        page: 1,
+        pageSize: 5,
+        init() {
+          this.initEvent()
+          this.render()
+        },
+        initEvent() {
+          this.loadMore();
+        },
+        loadMore() {
+          var _this = this;
+          $('.loadMoreBtn').on('click', function () {
+            _this.page++;
+            _this.render({
+              page: _this.page,
+              pageSize: _this.pageSize
+            })
+
+          })
+        },
+        //  加载数据
+        render(params = {
+          page: 1,
+          pageSize: 5
+        }) {
+          var _this = this;
+          $.get(this.host + 'getData', params, function (res) {
+            if (res.rows.length) {
+              var html = template("templateId", {
+                rows: res.rows,
+                host: _this.host
+              })
+
+              $('.items').append(html)
+            } else {
+              alert('没有更多数据了')
+            }
+
+            //  执行瀑布渲染
+            $('.items').waterFall()
+
+          })
+        }
+      }
+      wp.init()
+    })()
+  </script>
+</body>
+
+</html>

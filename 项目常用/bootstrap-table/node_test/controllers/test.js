@@ -46,7 +46,7 @@ module.exports = {
     }
 
     var getData = await new Promise((resolve, reject) => {
-      connect.query(`select * from test1 ${where} limit ${startIndex},${endIndex}`, (error, results) => {
+      connect.query(`select * from test1 ${where} order by id desc limit ${startIndex},${endIndex} `, (error, results) => {
         if (error) return reject(error)
         return resolve(results)
       })
