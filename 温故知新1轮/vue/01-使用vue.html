@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>使用vue</title>
+  <style>
+    .active {
+      color: deeppink;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    var vm = new Vue({
+      el: "#app",
+      template: `<div>
+        <div v-if="msg">{{msg}}</div>
+        <hr>
+        <div v-for="(item,index) in list" 
+             :key="item.id"
+             @click="sayHello(item)"
+             :class="active==item.id?'active':''"
+        >
+          name --> {{item.name}} <br />
+          likeGirlType --> {{item.likeType}}
+        </div>
+        <hr>
+        <input type="text" v-model="inpval" />
+        <p>{{inpval}}</p>
+        <hr>
+        <input type="text" :value="inpval2" @input="model" placeholder="双向数据流实现原理" />
+        <p>{{inpval2}}</p>
+      </div>`,
+      data: {
+        msg: "hello vue",
+        list: [{
+          id: 1,
+          name: '小白',
+          likeType: '感性,下得厨房上得厅堂',
+        }, {
+          id: 2,
+          name: '小白菜',
+          likeType: '性感贤惠'
+        }],
+        active: 1,
+        inpval: '',
+        inpval2:''
+      },
+      methods: {
+        sayHello(item) {
+          console.log(this)
+          this.active = item.id;
+          alert("你好, 我喜欢" + item.likeType + "的类型")
+        },
+        model(e){
+          this.inpval2 = e.target.value
+        }
+      },
+      computed: {}
+    })
+  </script>
+</body>
+
+</html>
+<!--  
+  
+
+指令复习: 
+
+  单向数据流(单向数据绑定)
+  v-text  innerText   
+  v-html  innerHTML 即可以解析标签
+  {{}}  
+  
+
+  v-if 是真正的条件渲染, DOM元素被切换的过程中, 被销毁和重载
+  v-if 是懒惰的, 如果初始条件为假, 就什么都不做, 只到渲染条件为真值, 才会开始渲染条件块
+
+  v-show 不管你的初始条件是什么, 元素总会被渲染, 并且只是简单的基于 css 样式进行切换
+
+  小结来说, v-if 有更高的切换开销, v-show 有更高的初始渲染开销
+  ==> 频繁切换使用 v-show, 否则使用 v-if
+
+
+  v-for 渲染列表
+
+  v-bind:on 绑定事件
+
+  v-bind:class/style 绑定样式
+ 
+
+  双向数据流(双向数据绑定)
+    v-model
+    * 实现原理: oninput 事件 + e.target
+
+-->

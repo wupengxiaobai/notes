@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>使用vue</title>
+  <style>
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <h1>{{ title }}</h1>
+    <hr>
+    <Vheader></Vheader>
+    <Vbtn></Vbtn>
+  </div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    //  声明一个全局(公共)组件
+    Vue.component('Vbtn', {
+      template: `<div>
+          <button>{{name}}</button>
+      </div>`,
+      data() {
+        return {
+          name: '一个全局的btn组件'
+        }
+      }
+    })
+
+
+    // 声明一个局部组件
+    var Vheader = {
+      template: `<div>
+                    <span @click="sayHi">{{name}}</span>
+                </div>`,
+      //  局部组件的data必须是一个函数并返回一个对象
+      data() {
+        return {
+          name: 'header-wrapper组件'
+        }
+      },
+      methods: {
+        sayHi() {
+          console.log('我是header组件的sayhi方法')
+        }
+      }
+    }
+
+
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        title: '组件'
+      },
+      methods: {},
+      computed: {},
+      components: {
+        //  挂载局部组件
+        Vheader
+      }
+    })
+  </script>
+</body>
+
+</html>
+<!--  
+  组件
+    局部组件:
+      1. 声明并编写组件
+      2. 在实例化vue的vm对象上挂载组件
+
+    公共(全局)组件:
+      Vue.component('Vbtn',{})
+        第一个参数是组件名字
+        第二个参数是options
+
+      1. 声明并编写组件
+      2. 直接在页面中使用, 无需挂载
+-->
