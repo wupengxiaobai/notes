@@ -110,6 +110,13 @@
 
 **跑马灯小案例**  <u>要获取实例上的 data 中的数据 或者 methods 中的方法, 使用 this.xx  **this 指向 实例化的VM对象.**</u>
 
+##### 给 dom 元素添加特殊事件的绑定
+
+```js
+//	$nextTick 是在DOM更新循环结束之后执行延迟回调, 在修改数据后使用 $nextTick 可以在回调中获取到更新后的 DOM
+vm.$nextTick(function(){})
+```
+
 ##### **事件的修饰符**
 
 使用的时候要注意修饰符的先后顺序， 尤其是self的使用
@@ -767,7 +774,28 @@ computed: {
 }
 ```
 
+#### 获取dom元素(ref)
 
+```html
+<div ref="ele">一个元素</div>
+<one-component ref="component"></one-component>
+
+<script>
+new Vue({
+    el:"#app",
+    data:{},
+    mounted(){
+        this.getDom()
+    },
+    methods:{
+        getDom(){
+            console.log(this.$refs.ele)	//	--> 元素dom对象
+            console.log(this.$refs.component) // --> 组件对象
+        }
+    }
+})
+</script>
+```
 
 ### vue实例的生命周期
 
@@ -1693,8 +1721,8 @@ export default  router;
               <router-link to="/login" tag="span">登录</router-link>
               <router-link to="/register">注册</router-link>
             </p>
+        
             <!-- 路由出口 -->
-            <!-- 路由匹配到的组件将渲染在这里 指定动画-->
             <transition mode="out-in">
                 <router-view></router-view>
             </transition>
@@ -1706,13 +1734,14 @@ export default  router;
         <h1>这里是路由组件: 注册</h1>
     </script>
     <script>
-        //   1. 定义 (路由) 组件。
+        //   1. 定义(路由)组件。
         const Login = {
             template: '#loginTemplate'
         }
         const Register = {
             template: '#registerTemplate'
         }
+        
         //  2. 定义路由 每个路由应该映射一个组件
         const routes = [{
                 path: '/login',
@@ -1728,7 +1757,7 @@ export default  router;
             }
         ]
         // 3. 创建 router 实例，然后传 `routes` 配置
-        const routerObj = new VueRouter({
+        const router = new VueRouter({
             routes: routes,
             linkActiveClass: 'avtive',
             mode: 'history',
@@ -1738,7 +1767,7 @@ export default  router;
             data: {},
             methods: {},
             // 4. 创建和挂载根实例
-            router: routerObj
+            router: router
         })
     </script>
 </body>
@@ -1758,7 +1787,7 @@ this.$router.go(-1)
 
 #### 路由传递参数
 
-第一种: 使用 $.route.query 接收 序列化 参数
+第一种: 使用 `$.route.query` 接收 序列化 参数
 
 ```html
 <router-link to="/login?id=10&name='小白'">登录</router-link>
@@ -1778,7 +1807,7 @@ const Login = {
 }
 ```
 
-第二种: $.route.params 匹配规则
+第二种: `$.route.params` 接收动态路由参数
 
 ```html
 <router-link to="/register/10/小白">注册</router-link>
@@ -1852,6 +1881,7 @@ const register = {
             <h3>这里是user路由组件内部</h3>
             <router-link to="/user/login">登录</router-link>
             <router-link to="/user/register">注册</router-link>
+            
             <transition mode="out-in">
                 <router-view></router-view>
             </transition>
@@ -1897,6 +1927,16 @@ const register = {
 </body>
 </html>
 ```
+
+#### 动态路由
+
+**动态路由** : 
+
+```js
+
+```
+
+
 
 #### 编程式导航
 

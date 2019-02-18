@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <a href="#/home">home页面</a>
+  <a href="#/login">登录页面</a>
+
+  <div id="app"></div>
+
+  <script>
+    var oApp = document.getElementById('app')
+    window.onhashchange = function () {
+      var hash = location.hash
+      console.log(hash)
+      switch (hash) {
+        case '#/home':
+          oApp.innerHTML = '<div>我是home页面</div>'
+          break;
+        case '#/login':
+          oApp.innerHTML = '<div>我是login页面</div>'
+          break;
+        default:
+          break;
+      }
+    }
+  </script>
+</body>
+
+</html>
+
+
+<!-- 
+路由原理:
+  1) 传统开发方式 url 变化后, 立即发生请求响应整个页面, 有可能资源过多, 传统开发中会让页面出现白屏状态
+  2) SPA 单页面应用
+      锚点值的改变后不会立即发送请求, 而是在某个合适的实际, 发起ajax 请求, 局部改变页面的数据
+
+原生JS实现:
+  window.onhashchange 监听hash值改变的函数
+  location.hash 当前连接的hash值
+
+ -->

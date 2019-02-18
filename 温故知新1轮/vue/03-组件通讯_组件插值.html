@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>组件通讯, 组件插值, 全局组件值传递</title>
+</head>
+
+<body>
+  <div id="app">
+    <div v-for="item in cdata" :key="item.id">{{item.name}}</div>
+    <hr>
+    <son-compon :lists="lists" @cdata="getChildrenData">
+      <div class="header" slot="header">header</div>
+      <div class="footer" slot="footer">footer</div>
+    </son-compon>
+
+  </div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    // 一个子组件
+    var SonCompon = {
+      props: ['lists'],
+      template: `<div>
+                  <div v-for="item in lists" :key="item.id">{{item.name}}</div>
+                  <button @click="sendData">子组件button</button><br>
+                  <slot name="header">slot 默认内容</slot>
+                  <slot name="footer">slot 默认内容</slot>
+                </div>`,
+      data() {
+        return {
+          childrenData: [{
+            id:1,
+            name:'大白'
+          }, {
+            id: 2,
+            name: '大白菜'
+          }]
+        }
+      },
+      methods: {
+        sendData() {
+          this.$emit("cdata", this.childrenData)
+        }
+      }
+
+    }
+
+
+    var vm = new Vue({
+      el: "#app",
+      data: {
+        lists: [{
+          id: 1,
+          name: '小白'
+        }, {
+          id: 2,
+          name: '小白菜'
+        }],
+        cdata: []
+      },
+      methods: {
+        getChildrenData(data) {
+          console.log('来自子组件的数据', data)
+          this.cdata = data
+        }
+      },
+      components: {
+        'son-compon': SonCompon
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>嵌套路由</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    var Home = {
+      template: `
+                <div>
+                  <div>home组件</div>
+                  <router-link to="/home/song">歌曲</router-link>
+                  <router-link to="/home/movie">电影</router-link>
+                  <router-view></router-view>
+                </div>`
+    }
+    var Song = {
+      template: '<div>歌曲组件</div>'
+    }
+    var Movie = {
+      template: '<div>电影组件</div>'
+    }
+
+    var User = {
+      template: '<div>用户组件Params</div>'
+    }
+
+    var router = new VueRouter({
+      routes: [{
+          path: '/home',
+          component: Home,
+          children: [{
+            path: 'song',
+            component: Song
+          }, {
+            path: 'movie',
+            component: Movie
+          }]
+        },
+        {
+          path: '/user/:id',
+          component: User
+        }
+      ]
+    })
+
+
+    var App = {
+      template: `
+        <div>
+          <!--路由入口-->
+          <router-link to="/user/1">用户组件params</router-link>  
+          <router-link to="/home">home组件</router-link>
+
+          <!--路由出口-->
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+    var vm = new Vue({
+      el: "#app",
+      template: '<App />',
+      components: {
+        App
+      },
+      router: router,
+      mounted() {
+        console.log(this.$router) //  $router 表示路由信息对象
+        console.log(this.$route)
+        // this.$route.params 获取动态路由值
+        //  this.$route.query 获取路由query值
+      },
+    })
+  </script>
+</body>
+
+</html>
+
+
+<!-- 
+
+  路由参数
+    xxx.html/#/user/1           ===>  params 动态的路由参数
+    xxx.html/#/user?userId = 1  ===>  query
+
+
+
+
+
+
+
+
+
+
+ -->
