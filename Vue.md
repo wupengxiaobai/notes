@@ -1930,10 +1930,149 @@ const register = {
 
 #### 动态路由
 
-**动态路由** : 
+**使用常见** :  重复渲染同一组件
 
-```js
+```html
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>动态路由使用场景及注意点</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    var Hot = {
+      template: `<div>hot组件</div>`
+    }
+
+    var Home = {
+      template: `
+                <div>
+                  <div>home组件</div>
+                  <router-link to="/home/song">歌曲</router-link>
+                  <router-link to="/home/movie">电影</router-link>
+                  <router-view></router-view>
+                </div>`
+    }
+    
+    var Song = {
+      template: `<div>
+                  <h3>歌曲列表组件</h3>
+                  <router-link v-for="item in songLists" :key="item.id" :to="'/home/song/songDetail/'+item.id">{{item.name}}</router-link>
+                  <router-view></router-view>
+                </div>`,
+      data() {
+        return {
+          songLists: [{
+            id: 1,
+            name: 'song1'
+          }, {
+            id: 2,
+            name: 'song2'
+          }]
+        }
+      }
+    }
+    
+    var Movie = {
+      template: '<div>电影组件</div>'
+    }
+    
+    var SonDetail = {
+      template: '<div>歌曲详情{{id}}</div>',
+      data() {
+        return {
+          id: ''
+        }
+      },
+      mounted() {
+        this.getDetail(this.$route.params.id)
+      },
+      methods: {
+        getDetail(sonId) {
+          console.log(sonId)
+          this.id = sonId
+        }
+      },
+      watch: {
+        '$route'(to, from) {
+          var sonId = to.params.id
+          //  通过侦听params参数变化进行新一轮的请求数据并渲染结果
+          this.getDetail(sonId)
+        }
+      }
+    }
+    var router = new VueRouter({
+      routes: [{
+          path: '/home',
+          component: Home,
+          children: [{
+            path: 'song',
+            component: Song,
+            children: [{
+              path: 'songDetail/:id',
+              component: SonDetail
+            }]
+          }, {
+            path: 'movie',
+            component: Movie
+          }]
+        },
+        {
+          path: '/hot',
+          component: Hot
+        }
+      ]
+    })
+
+    var App = {
+      template: `
+        <div>
+          <!--路由入口-->
+          <router-link to="/hot">hot组件</router-link>  
+          <router-link to="/home">home组件</router-link>
+
+          <!--路由出口-->
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+    var vm = new Vue({
+      el: "#app",
+      template: '<App />',
+      components: {
+        App
+      },
+      router: router,
+      mounted() {
+        // console.log(this.$router) //  $router 表示路由信息对象
+        // console.log(this.$route)	
+      }
+    })
+  </script>
+</body>
+
+</html>
+<!-- 
+  动态路由:
+    /:variable 
+    根据动态路由渲染不同 params 参数的数据
+
+    tip: 
+    我们需要知道如此渲染的都是同一个组件
+    但是因为组件没有发生变化, 所以其声明周期也不会再次触发. 
+    如此我们可以通过 watch 侦听器来实现对动态路由参数的监听. 根据参数的不同重新请求参数对应的数据
+ -->
 ```
 
 
@@ -2077,6 +2216,163 @@ router.beforeEach((to, from, next) => {})
   - **next(false)**: 中断当前的导航.
   - **next('/') 或者 next({ path: '/' })**: 跳转到一个不同的地址。
   - **确保要调用 next 方法，否则钩子就不会被 resolved。**
+
+##### 守卫使用演示: 权限控制
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>路由守卫基本使用及编程式路由</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    //  退出
+    var Logout = {
+      template: `
+        <div>
+            <h3>退出当前用户</h3>
+            <button @click="logout">退出</button>
+        </div>
+      `,
+      methods: {
+        logout() {
+          localStorage.setItem('loginUser', '')
+        }
+      }
+    }
+    // 登录
+    var Login = {
+      template: `
+        <div>
+            <h3>用户登录</h3>
+            <input type="text" v-model="username" />
+            <input type="text" v-model="password" />
+            <button @click="login">登录</button>
+        </div>
+      `,
+      data() {
+        return {
+          username: '',
+          password: ''
+        }
+      },
+      methods: {
+        login() {
+          var username = this.username,
+            password = this.password;
+          localStorage.setItem('loginUser', JSON.stringify({
+            username,
+            password
+          }))
+        }
+      }
+
+    }
+    //  消息中心
+    var Infomation = {
+      template: `<div>消息中心（仅登录后可访问）</div>`
+    }
+    var Index = {
+      template: `<div>首页</div>`
+    }
+
+
+    // Vue.use(VueRouter)
+    var router = new VueRouter({
+      routes: [{
+        path: '/',
+        redirect: '/index'
+      }, {
+        path: '/user/login',
+        component: Login
+      }, {
+        path: '/user/logout',
+        component: Logout
+      }, {
+        path: '/index',
+        component: Index
+      }, {
+        path: '/information',
+        component: Infomation,
+        meta: { //  路由元信息, 在路由守卫中, 通过 to.meta 对象调用可以获取
+          isLogin: true
+        }
+      }]
+    })
+
+
+    //  注册全局守卫
+    router.beforeEach((to, from, next) => {
+      console.log('参数to ----------', to)
+      if (to.meta.isLogin == true) {
+        //  进入消息中心, 此时需要进行验证
+        console.log('登录信息验证, localStorage---------:', localStorage.getItem('loginUser'))
+        if (localStorage.getItem('loginUser')) {
+          console.log('有loginUser信息, 可以查看消息中心内容')
+          next();
+        } else {
+          //  没有loginUser信息, 直接跳转登录界面进行登录
+          next({
+            path: '/user/login'
+          })
+        }
+      } else {
+        next(); //  next 必须调用, 否则就停留在此处不会进行下一步
+      }
+    })
+
+
+    var App = {
+      template: `
+        <div>
+          <!--路由入口-->
+          <router-link to="/index">首页</router-link>
+          <router-link to="/information">消息中心</router-link>
+          <router-link to="/user/login">登录</router-link>  
+          <router-link to="/user/logout">退出</router-link>  
+
+          <!--路由出口-->
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+
+    var vm = new Vue({
+      el: "#app",
+      template: '<App />',
+      components: {
+        App
+      },
+      router: router
+    })
+  </script>
+</body>
+
+</html>
+
+
+<!-- 
+  路由守卫(权限管理方面) 
+
+  全局守卫
+  数据元信息
+
+ -->
+```
+
+
 
 #### 全局解析守卫
 

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>路由守卫基本使用及编程式路由</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    //  退出
+    var Logout = {
+      template: `
+        <div>
+            <h3>退出当前用户</h3>
+            <button @click="logout">退出</button>
+        </div>
+      `,
+      methods: {
+        logout() {
+          localStorage.setItem('loginUser', '')
+        }
+      }
+    }
+    // 登录
+    var Login = {
+      template: `
+        <div>
+            <h3>用户登录</h3>
+            <input type="text" v-model="username" />
+            <input type="text" v-model="password" />
+            <button @click="login">登录</button>
+        </div>
+      `,
+      data() {
+        return {
+          username: '',
+          password: ''
+        }
+      },
+      methods: {
+        login() {
+          var username = this.username,
+            password = this.password;
+          localStorage.setItem('loginUser', JSON.stringify({
+            username,
+            password
+          }))
+        }
+      }
+
+    }
+    //  消息中心
+    var Infomation = {
+      template: `<div>消息中心（仅登录后可访问）</div>`
+    }
+    var Index = {
+      template: `<div>首页</div>`
+    }
+
+
+    // Vue.use(VueRouter)
+    var router = new VueRouter({
+      routes: [{
+        path: '/',
+        redirect: '/index'
+      }, {
+        path: '/user/login',
+        component: Login
+      }, {
+        path: '/user/logout',
+        component: Logout
+      }, {
+        path: '/index',
+        component: Index
+      }, {
+        path: '/information',
+        component: Infomation,
+        meta: { //  路由元信息, 在路由守卫中, 通过 to.meta 对象调用可以获取
+          isLogin: true
+        }
+      }]
+    })
+
+
+    //  全局守卫
+    router.beforeEach((to, from, next) => {
+      // console.log('守卫参数to ----------', to)
+      if (to.meta.isLogin == true) {
+        //  进入消息中心, 此时需要进行验证
+        // console.log('登录信息验证, localStorage---------:', localStorage.getItem('loginUser'))
+        if (localStorage.getItem('loginUser')) {
+          // console.log('有loginUser信息, 可以查看消息中心内容')
+          next();
+        } else {
+          //  没有loginUser信息, 直接跳转登录界面进行登录
+          next({
+            path: '/user/login'
+          })
+        }
+      } else {
+        next(); //  next 必须调用, 否则就停留在此处不会进行下一步
+      }
+    })
+
+
+    var App = {
+      template: `
+        <div>
+          <!--路由入口-->
+          <router-link to="/index">首页</router-link>
+          <router-link to="/information">消息中心</router-link>
+          <router-link to="/user/login">登录</router-link>  
+          <router-link to="/user/logout">退出</router-link>  
+
+          <!--路由出口-->
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+
+    var vm = new Vue({
+      el: "#app",
+      template: '<App />',
+      components: {
+        App
+      },
+      router: router
+    })
+  </script>
+</body>
+
+</html>
+
+
+<!-- 
+  路由守卫(权限管理方面) 
+
+  全局守卫
+  数据元信息
+
+ -->

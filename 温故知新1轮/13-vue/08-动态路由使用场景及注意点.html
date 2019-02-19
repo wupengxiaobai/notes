@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>动态路由使用场景及注意点</title>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.js"></script>
+  <script>
+    var Hot = {
+      template: `<div>hot组件</div>`
+    }
+
+    var Home = {
+      template: `
+                <div>
+                  <div>home组件</div>
+                  <router-link to="/home/song">歌曲</router-link>
+                  <router-link to="/home/movie">电影</router-link>
+                  <router-view></router-view>
+                </div>`
+    }
+    var Song = {
+      template: `<div>
+                  <h3>歌曲列表组件</h3>
+                  <router-link v-for="item in songLists" :key="item.id" :to="'/home/song/songDetail/'+item.id">{{item.name}}</router-link>
+                  <router-view></router-view>
+                </div>`,
+      data() {
+        return {
+          songLists: [{
+            id: 1,
+            name: 'song1'
+          }, {
+            id: 2,
+            name: 'song2'
+          }]
+        }
+      }
+    }
+    var Movie = {
+      template: '<div>电影组件</div>'
+    }
+    var SonDetail = {
+      template: '<div>歌曲详情{{id}}</div>',
+      data() {
+        return {
+          id: ''
+        }
+      },
+      mounted() {
+        this.getDetail(this.$route.params.id)
+      },
+      methods: {
+        getDetail(sonId) {
+          console.log(sonId)
+          this.id = sonId
+        }
+      },
+      watch: {
+        '$route'(to, from) {
+          var sonId = to.params.id
+          //  通过侦听params参数变化进行新一轮的请求数据并渲染结果
+          this.getDetail(sonId)
+        }
+      }
+    }
+    var router = new VueRouter({
+      routes: [{
+          path: '/home',
+          component: Home,
+          children: [{
+            path: 'song',
+            component: Song,
+            children: [{
+              path: 'songDetail/:id',
+              component: SonDetail
+            }]
+          }, {
+            path: 'movie',
+            component: Movie
+          }]
+        },
+        {
+          path: '/hot',
+          component: Hot
+        }
+      ]
+    })
+
+    var App = {
+      template: `
+        <div>
+          <!--路由入口-->
+          <router-link to="/hot">hot组件</router-link>  
+          <router-link to="/home">home组件</router-link>
+
+          <!--路由出口-->
+          <router-view></router-view>
+        </div>
+      `
+    }
+
+    var vm = new Vue({
+      el: "#app",
+      template: '<App />',
+      components: {
+        App
+      },
+      router: router,
+      mounted() {
+        // console.log(this.$router) //  $router 表示路由信息对象
+        // console.log(this.$route)
+      }
+    })
+  </script>
+</body>
+
+</html>
+<!-- 
+  动态路由:
+    /:variable 
+    根据动态路由渲染不同 params 参数的数据
+
+    tip: 
+    我们需要知道如此渲染的都是同一个组件
+    但是因为组件没有发生变化, 所以其声明周期也不会再次触发. 
+    如此我们可以通过 watch 侦听器来实现对动态路由参数的监听. 根据参数的不同重新请求参数对应的数据
+
+
+ -->
