@@ -852,9 +852,9 @@ this.$http.jsonp('http://vue.studyit.io/api/jsonp').then(function(result){
 
 **下载 axios**	**`npm install axios`**
 
-**使用在线地址** 	**<script src="https://unpkg.com/axios/dist/axios.min.js"></script>**
+**使用在线地址** `<script src="https://unpkg.com/axios/dist/axios.min.js"></script>`
 
-> 参考文档: https://github.com/axios/axios
+> 参考文档:  https://www.npmjs.com/package/axios
 
 **基本 get 方式请求**
 
@@ -894,18 +894,18 @@ axios.get('/user', {
 
 ```javascript
 //	执行POST请求
- axios.post('/user', {
-     firstName: 'Fred',
-     lastName: 'Flintstone'
- }, {
-     'content-type': 'application/x-www-form-urlencoded'
- })
-     .then(function (response) {
-         console.log(response);
-     })
-     .catch(function (error) {
-         console.log(error);
-     });
+axios.post('/user', {
+    firstName: 'Fred',
+    lastName: 'Flintstone'
+}, {
+    'content-type': 'application/x-www-form-urlencoded'
+})
+    .then(function (response) {
+    console.log(response);
+})
+    .catch(function (error) {
+    console.log(error);
+});
 ```
 
 **注意: 使用axios的 post 时, 注意与后端请求头保持一致, 否则 后端无法获取请求数据.**
@@ -915,18 +915,191 @@ axios.get('/user', {
 ```javascript
 //	执行多个并发请求
 function getUserAccount() {
-  return axios.get('/user/12345');
+    return axios.get('/user/12345');
 }
 
 function getUserPermissions() {
-  return axios.get('/user/12345/permissions');
+    return axios.get('/user/12345/permissions');
 }
 
 axios.all([getUserAccount(), getUserPermissions()])
-  .then(axios.spread(function (acct, perms) {
+    .then(axios.spread(function (acct, perms) {
     // Both requests are now complete
-  }));
+}));
 ```
+
+#### 请求 config
+
+```js
+{
+  // 请求地址
+  url: '/user',
+ 
+  // 请求方式
+  method: 'get', // default
+ 
+  // 通用路径
+  baseURL: 'https://some-domain.com/api/',
+ 
+  // 发送请求之前, 修改请求参数
+  transformRequest: [function (data, headers) {
+    // Do whatever you want to transform the data
+    return data;
+  }],
+ 
+  // 修改返回值
+  transformResponse: [function (data) {
+    // Do whatever you want to transform the data
+    return data;
+  }],
+ 
+  // 请求头
+  headers: {'X-Requested-With': 'XMLHttpRequest'},
+ 
+  // 请求参数
+  params: {
+    ID: 12345
+  },
+ 
+  // 序列化请求参数
+  paramsSerializer: function(params) {
+    return Qs.stringify(params, {arrayFormat: 'brackets'})
+  },
+ 
+  // data 作为请求体发送
+  // 支持 'PUT', 'POST', and 'PATCH'
+  // 当transformRequest未设置的时候, 必须以下类型
+  // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
+  // - 浏览器端: FormData, File, Blob
+  // - Node端: Stream, Buffer
+  data: {
+    firstName: 'Fred'
+  },
+ 
+  // 设置请求超时时间
+  timeout: 1000,
+ 
+  //  跨站请求
+  withCredentials: false, // default
+ 
+  // `adapter` allows custom handling of requests which makes testing easier.
+  // Return a promise and supply a valid response (see lib/adapters/README.md).
+  adapter: function (config) {
+    /* ... */
+  },
+ 
+  // `auth` indicates that HTTP Basic auth should be used, and supplies credentials.
+  // This will set an `Authorization` header, overwriting any existing
+  // `Authorization` custom headers you have set using `headers`.
+  auth: {
+    username: 'janedoe',
+    password: 's00pers3cret'
+  },
+ 
+  // 返回值类型
+  responseType: 'json', // default
+ 
+  //	安全相关配置
+  // `xsrfCookieName` is the name of the cookie to use as a value for xsrf token
+  xsrfCookieName: 'XSRF-TOKEN', // default
+  // `xsrfHeaderName` is the name of the http header that carries the xsrf token value
+  xsrfHeaderName: 'X-XSRF-TOKEN', // default
+ 
+  // 原生事件上传进度处理
+  onUploadProgress: function (progressEvent) {
+    // Do whatever you want with the native progress event
+  },
+ 
+  // 原生事件下载进度处理
+  onDownloadProgress: function (progressEvent) {
+    // Do whatever you want with the native progress event
+  },
+ 
+  // 最大长度
+  maxContentLength: 2000,
+ 
+  // `validateStatus` defines whether to resolve or reject the promise for a given
+  // HTTP response status code. If `validateStatus` returns `true` (or is set to `null`
+  // or `undefined`), the promise will be resolved; otherwise, the promise will be
+  // rejected.
+  validateStatus: function (status) {
+    return status >= 200 && status < 300; // default
+  },
+ 
+  // `maxRedirects` defines the maximum number of redirects to follow in node.js.
+  // If set to 0, no redirects will be followed.
+  maxRedirects: 5, // default
+ 
+  // `socketPath` defines a UNIX Socket to be used in node.js.
+  // e.g. '/var/run/docker.sock' to send requests to the docker daemon.
+  // Only either `socketPath` or `proxy` can be specified.
+  // If both are specified, `socketPath` is used.
+  socketPath: null, // default
+ 
+  // `httpAgent` and `httpsAgent` define a custom agent to be used when performing http
+  // and https requests, respectively, in node.js. This allows options to be added like
+  // `keepAlive` that are not enabled by default.
+  httpAgent: new http.Agent({ keepAlive: true }),
+  httpsAgent: new https.Agent({ keepAlive: true }),
+ 
+  // 'proxy' defines the hostname and port of the proxy server
+  // Use `false` to disable proxies, ignoring environment variables.
+  // `auth` indicates that HTTP Basic auth should be used to connect to the proxy, and
+  // supplies credentials.
+  // This will set an `Proxy-Authorization` header, overwriting any existing
+  // `Proxy-Authorization` custom headers you have set using `headers`.
+  proxy: {
+    host: '127.0.0.1',
+    port: 9000,
+    auth: {
+      username: 'mikeymike',
+      password: 'rapunz3l'
+    }
+  },
+ 
+  // 取消请求
+  cancelToken: new CancelToken(function (cancel) {
+  })
+}
+```
+
+#### 拦截器
+
+```js
+// Add a request interceptor
+axios.interceptors.request.use(function (config) {
+    // Do something before request is sent
+    return config;
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
+
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+    // Do something with response data
+    return response;
+}, function (error) {
+    // Do something with response error
+    return Promise.reject(error);
+});
+```
+
+#### 案例: 文件上传-进度-暂停-续传
+
+**前端代码**
+
+```html
+
+```
+
+**后端代码**
+
+```js
+
+```
+
+
 
 #### axios post 请求传值给 php 脚本
 
