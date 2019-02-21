@@ -1,0 +1,6 @@
+package.json 说明
+
+
+
+- devDependencies 
+  生产环境依赖配置项目

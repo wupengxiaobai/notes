@@ -13,9 +13,7 @@
     <router-link to="/keep">keep</router-link>
     <router-link to="/keepalive">keepalive</router-link>
 
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 
   <script src="../node_modules/vue/dist/vue.js"></script>
@@ -37,12 +35,12 @@
       }
     }
 
-    var router = new VueRouter({
+    var router = new VueRuter({
       routes: [{
-        path: '/keep',
+        link: '/keep',
         component: KEEP
       }, {
-        path: '/keepalive',
+        link: '/keepalive',
         component: KEEPALIVE
       }]
     })

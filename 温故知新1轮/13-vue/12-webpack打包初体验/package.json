@@ -1,0 +1,14 @@
+{
+  "name": "webpack01",
+  "version": "1.0.0",
+  "description": "webpack打包初体验",
+  "main": "main.js",
+  "scripts": {
+    "build": "webpack ./main.js ./build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {  
+    "webpack": "^3.6.0"
+  }
+}
