@@ -2894,7 +2894,90 @@ this.$store.commit('decrement', [2, 3])
 
 [vuex的模块](https://vuex.vuejs.org/zh/guide/modules.html)
 
+- **高阶操作**: 模块
 
+  ```js 
+  //  stores/modules/a||b.js 
+  //  定义vuex a模块
+  //  定义vuex b模块
+  const state = {
+    count: 0
+  }
+  const mutations = {
+    increment: (state) => {
+      state.count++
+    },
+    decrement: (state) => {
+      state.count--
+    }
+  }
+  const actions = {
+    increment: ({ commit }) => {
+      commit('increment')
+    },
+    decrement: ({ commit }) => {
+      commit('decrement')
+    }
+  }
+  export default {
+    namespaced: true,	//	开启命名空间
+    state,
+    mutations,
+    actions
+  }
+  
+  
+  //  stores/index.js 导出模块
+  import Vue from 'vuex'
+  import Vuex from 'vuex'
+  import vuexa from './modules/a'
+  import vuexb from './modules/b'
+  Vue.use(Vuex)
+  export default new Vuex.Store({
+    modules: {
+      vuexa,
+      vuexb
+    }
+  })
+  
+  
+  //  main.js 挂载store
+  import store from './stores/index.js'
+  new Vue({
+    render: h => h(App),
+    router,
+    store
+  }).$mount('#app')
+  ```
+
+  ```html
+  <!-- 基本使用 -->
+  <template>
+    <div class="pageA">
+      <h1>这里是pageA组件</h1>
+      <div>moduleA ---- {{ $store.state.vuexA.count }}</div>
+      <div>mapState ---- {{ count }}</div>
+      <button @click="increment">增加1</button>
+      <button @click="decrement">减少1</button>
+    </div>
+  </template>
+  
+  <script>
+  import { mapState, mapMutations } from "vuex";
+  export default {
+    data() {
+      return {};
+    },
+    methods: {
+      //  挂载方式如下
+      ...mapMutations("vuexA", ["increment", "decrement"])
+    },
+    computed: {
+      ...mapState("vuexA", ["count"])
+    }
+  };
+  </script>
+  ```
 
 ## vue-cli 脚手架工具
 
