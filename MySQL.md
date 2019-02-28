@@ -109,7 +109,48 @@ MySQL 是一个**关系型数据库管理系统**, 由瑞典 MySQL AB 公司开�
 
 Mysql 中用到的操作指令就是 SQL 指令
 
+### 安装与配置5.7压缩版
 
+> https://dev.mysql.com/downloads/mysql/
+
+**安装目录过程** %qede/>Nh6eQ
+
+1.解压目录添加 `my.ini`
+
+```php
+[mysqld]
+# mysql 安装目录
+basedire = D:/mysql
+# 数据文件所在目录
+datadir = D:/mysql/data
+```
+
+2.配置环境变量，将解压目录下的bin文件夹的路径配置到系统变量中的path下
+
+3.以管理员身份运行 CMD 执行以下命令, 安装一个 MySQL 服务
+
+```php
+# 定位到安装目录下的 bin 文件夹
+cd <MySQL安装目录>/bin
+# 初始化数据所需文件以及获取一个临时访问密码            
+mysqld --initialize --user=mysql --console
+# 安装服务 mysqld --install 服务名
+mysqld --install MySQL
+# 启动服务 
+net start MySQL
+```
+
+**删除服务** 管理员权限运行 => 输入`sc delete 服务名 `
+
+4.登入 MySQL 服务器, 重置密码
+
+```php
+# 先通过用户名密码进入 MySQL 操作环境
+mysql -u root -p
+Enter password: # 输入临时密码
+# 设置数据库访问密码 
+mysql> set password for root@localhost = password('woaiwo');
+```
 
 #### 启动/停止MySQL服务
 
@@ -3026,7 +3067,7 @@ rollback to sp1;
 
 - **持久性**(durability). 持久性也称永久性. 指一个事务一旦提交, 它对数据库中的数据的改变就应该是永久性的. 接下来的其他操作或故障不应该对其有任何影响.
 
-  ​
+  
 
 ## 变量
 
