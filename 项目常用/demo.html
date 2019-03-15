@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>防抖&节流</title>
+</head>
+
+<body>
+
+    <input class="noOpera" type="text" placeholder="无优化">
+    <br>
+    <input class="FDOpera" type="text" placeholder="防抖">
+    <br />
+    <input class="JLOpera" type="text" placeholder="节流">
+
+
+    <script>
+        var nOInput = document.getElementsByClassName('noOpera'),
+            FDInput = document.getElementsByClassName('FDOpera'),
+            JLInput = document.getElementsByClassName('JLOpera');
+
+        function ajax(e) {
+            console.log('ajax send...' + e)
+        }
+
+
+        //  防抖
+        function debounce(fun, delayTime) {
+            return function (args) {
+                var self = this
+                var _args = arguments
+                clearTimeout(fun.timer)
+                fun.timer = setTimeout(function () {
+                    fun.apply(self, args)
+                }, delayTime)
+            }
+        }
+
+
+        //  节流
+        function throttle(fun, delayTime) {
+            var last, deferTimer
+            return function (args) {
+                var self = this
+                var _args = arguments
+                var now = +new Date()
+                if (last && now < last + delayTime) {
+                    clearTimeout(deferTimer)
+                    deferTimer = setTimeout(function () {
+                        last = now
+                        fun.apply(self, _args)
+                    }, delayTime)
+                } else {
+                    last = now
+                    fun.apply(self, _args)
+                }
+            }
+        }
+
+
+        //  无优化
+        nOInput[0].addEventListener('input', function (e) {
+            ajax(e)
+        })
+
+        //  防抖 -> 重复的动作在规定时间内只执行一次, 重复执行 -> 重新计算规定时间。
+        FDInput[0].addEventListener('input', function (e) {
+            debounce(ajax, 500)(e)
+        })
+
+
+        var throttleAjax = throttle(ajax, 2000)
+        //  节流
+        JLInput[0].addEventListener('input', function (e) {
+            throttleAjax(e)
+        })
+
+        /* 
+            函数防抖和函数节流都是防止某一时间频繁触发，但是这两兄弟之间的原理却不一样。
+            函数防抖是某一段时间内只执行一次，而函数节流是间隔时间执行。
+
+            结合应用场景:
+            debounce
+                search搜索联想，用户在不断输入值时，用防抖来节约请求资源。
+                window触发resize的时候，不断的调整浏览器窗口大小会不断的触发这个事件，用防抖来让其只触发一次
+
+            throttle
+                鼠标不断点击触发，mousedown(单位时间内只触发一次)
+                监听滚动事件，比如是否滑到底部自动加载更多，用throttle来判断 
+        */
+    </script>
+</body>
+
+</html>
