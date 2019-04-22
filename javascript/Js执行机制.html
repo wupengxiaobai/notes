@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS执行机制</title>
+</head>
+
+<body>
+
+    <script>
+        var startTime = +new Date()
+
+        function test(time) {
+            for (var i = 0; i < time; i++) {
+                console.log(i)
+            }
+        }
+        console.log('startTime--', startTime)
+        setTimeout(() => {
+            console.log('distanceTime--', +new Date - startTime)
+        }, 100)
+        test(10000)
+    </script>
+</body>
+
+</html>

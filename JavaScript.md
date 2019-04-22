@@ -2714,11 +2714,82 @@ str.replace(reg, '.');	//	100,000,000,000,000
 function trim(str) {
     return str.replace(/^\s+|\s+$/g, "")
 }
+
+//  手机号码
+function phoneTure(phonenumber){
+    return /^1[34578]\d{9}$/.test(phonenumber)
+}
 ```
 
 
 
 ---
+
+# 不知道的 JavaScript
+
+## 原理
+
+### 浏览器常驻的线程
+
+- js引擎线程
+- GUI线程(绘制界面,与js引擎程互斥)
+- http网络请求线程
+- 定时触发器线程
+- 浏览器事件处理线程
+
+**Js执行机制 - 单线程: 同一时间只能做一件事**
+
+关于定时器
+
+```JS
+var startTime = +new Date()
+function test(time) {
+    for (var i = 0; i < time; i++) {
+        console.log(i)
+    }
+}
+console.log('startTime--', startTime)
+setTimeout(() => {
+    console.log('distanceTime--', +new Date - startTime)	//	~700ms
+}, 100)
+test(10000)
+```
+
+setTimeout等待事件结束后并不是直接执行的，而是先推入浏览器的一个任务队列，在同步队列结束后依次调用任务队列中的任务
+
+setInterval 是每隔一段时间把任务放到 Event Queue（事件队列） 中
+
+### call/apply 模拟实现
+
+```JS
+Function.prototype.myCall = function () {
+    var ctx = arguments[0] || window;
+    var params = [];
+    for (var i = 1; i < arguments.length; i++) {
+        params.push('arguments[' + i + ']')
+    }
+    console.log(params)
+    ctx.fn = this
+    eval('ctx.fn(' + params.join(',') + ')')
+    delete ctx.fn
+}
+
+
+Function.prototype.myApply = function (ctx, arr) {
+    if (!arr) {
+        ctx.fn = this;
+        ctx.fn()
+    } else {
+        ctx.fn = this;
+        ctx.fn(...arr);
+    }
+    delete ctx.fn;
+}
+```
+
+## 函数式编程
+
+
 
 # es6常用
 
@@ -3300,7 +3371,7 @@ import {} from '../module.js'
 
 # Jquery
 
-## 模拟jQuery
+## jQuery思想
 
 
 

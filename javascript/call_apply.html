@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>call，apply模拟实现</title>
+</head>
+
+<body>
+
+    <script>
+        var val = 'window'
+        var obj = {
+            val: 'obj'
+        }
+
+        function show(name, age) {
+            this.name = name;
+            this.age = age;
+            console.log(this.val)
+        }
+
+        // show()
+        show.call(obj, 'cg', 18)
+        //  ------ 基础实现如下
+        /* obj.show = show
+        obj.show() 
+        delet obj.show*/
+
+        /* Function.prototype.myCall = function (ctx) {
+            // console.log(ctx) //  函数第一个参数, this指向
+            // console.log(this)    //  --> this 就是指函数
+            ctx.fn = this
+            ctx.fn()
+            delete ctx.fn
+        } */
+
+        //  ------ 改进(携带参数)如下
+        Function.prototype.myCall = function () {
+            var ctx = arguments[0] || window;
+            var params = [];
+            for (var i = 1; i < arguments.length; i++) {
+                params.push(arguments[i])
+                // params.push('arguments[' + i + ']')
+            }
+            console.log(params)
+            //  [p1,p2,p3,..]F
+            ctx.fn = this
+            // ctx.fn(params[0], params[1])
+            ctx.fn(...params)
+            // eval('ctx.fn(' + params.join(',') + ')')
+            delete ctx.fn
+        }
+        show.myCall(obj, 'wg', 24)
+
+
+        Function.prototype.myApply = function (ctx, arr) {
+            if (!arr) {
+                ctx.fn = this;
+                ctx.fn()
+            } else {
+                ctx.fn = this;
+                ctx.fn(...arr);
+            }
+            delete ctx.fn;
+        }
+        show.myApply(obj, ['wp', 520])
+    </script>
+</body>
+
+</html>

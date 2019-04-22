@@ -2979,7 +2979,177 @@ this.$store.commit('decrement', [2, 3])
   </script>
   ```
 
-## vue-cli 脚手架工具
+### 记一次实战中使用 `vuex`
+
+1. vuex组成目录
+
+```
+|-store
+	|-index.js
+	|-state.js
+	|-mutations.js
+	|-mutations-type.js
+	|-getters.js
+	|-actions.js
+```
+
+2. `state.js` 保存数据的仓库
+
+```js
+const state = {
+  singer: {},
+  playing: false,
+  fullScreen: true,
+  playlist: [],
+  sequenceList: [],
+  currentIndex: -1,
+}
+
+export default state
+```
+
+3. `mutations.js` 操作数据方法
+
+```js
+import * as types from './mutations-type'
+
+const mutations = {
+  //    设置歌手
+  [types.SET_SINGER](state, singer) {
+    state.singer = singer
+  },
+  //    设置播放状态
+  [types.SET_PLAYING_STATE](state, flag) {
+    state.playing = flag
+  },
+  //    设置是否全屏播放
+  [types.SET_FULL_SCREEN](state, flag) {
+    state.fullScreen = flag
+  },
+  //    设置播放列表
+  [types.SET_PLAYLIST](state, list) {
+    state.playlist = list
+  },
+  //    顺序播放列表
+  [types.SET_SEQUENCE_LIST](state, list) {
+    state.sequenceList = list
+  },
+  //    设置播放模式
+  [types.SET_MODE](state, mode) {
+    state.mode = mode
+  },
+  //    设置当前播放索引
+  [types.SET_CURRENT_INDEX](state, index) {
+    state.currentIndex = index
+  }
+}
+
+export default mutations
+```
+
+4. `mutations-type.js` 方法映射名称
+
+```js
+export const SET_SINGER = 'SET_SINGER'
+
+export const SET_PLAYING_STATE = 'SET_PLAYING_STATE'
+
+export const SET_FULL_SCREEN = 'SET_FULL_SCREEN'
+
+export const SET_PLAYLIST = 'SET_PLAYLIST'
+
+export const SET_SEQUENCE_LIST = 'SET_SEQUENCE_LIST'
+
+export const SET_MODE = 'SET_MODE'
+
+export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX'
+```
+
+5. `actions.js` 驱动 mutations 进行复杂操作
+
+```js
+/**
+ * 一次动作多次操作mutations 推荐使用 actions 来作命令式"一次性"的提交工作
+ */
+import * as types from './mutations-type'
+import { playMode } from 'common/js/config'
+import { shuffle } from 'common/js/util'
+
+function findRandomIndex(list, song) {
+  return list.findIndex(item => {
+    return item.id === song.id
+  })
+}
+
+//  选择播放列表
+export const selectPlay = function ({ commit, state }, { list, index }) {
+  commit(types.SET_SEQUENCE_LIST, list)
+  if (state.mode === playMode.random) {
+    let randomList = shuffle(list)
+    commit(types.SET_PLAYLIST, randomList)
+    index = findRandomIndex(randomList, list[index])
+    // commit(types.SET_CURRENT_INDEX, index)
+  } else {
+    commit(types.SET_PLAYLIST, list)
+  }
+  commit(types.SET_CURRENT_INDEX, index)
+  commit(types.SET_FULL_SCREEN, true)
+  commit(types.SET_PLAYING_STATE, true)
+}
+```
+
+6. `getters.js`  计算映射数据
+
+```js
+export const singer = state => state.singer
+
+export const playing = state => state.playing
+
+export const fullScreen = state => state.fullScreen
+
+export const playlist = state => state.playlist
+
+export const sequenceList = state => state.sequenceList
+
+export const mode = state => state.mode
+
+export const currentIndex = state => state.currentIndex
+
+export const currentSong = state => state.playlist[state.currentIndex] || {}
+```
+
+7. `index.js` 仓库文件
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import state from './state'
+import mutations from './mutations'
+import * as getters from './getters'
+import * as actions from './actions'
+
+// 打印日志
+import createLogger from 'vuex/dist/logger'
+
+Vue.use(Vuex)
+
+const debug = process.env.NODE_ENV !== 'production'
+
+export default new Vuex.Store({
+  state,
+  mutations,
+  getters,
+  actions,
+  //  vuex工具
+  strict: debug,
+  plugins: debug ? [createLogger()] : []
+})
+
+```
+
+
+
+## vue-cli(2.0) 脚手架工具
 
 安装
 
