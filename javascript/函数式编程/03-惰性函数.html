@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">demo元素</div>
+
+    <script>
+        /**
+         * 惰性函数
+         */
+
+
+        /* var t = null;
+
+        function test() {
+            if (t) {
+                return t
+            }
+            t = +new Date
+            return t
+        }
+        console.log(test())
+        console.log(test()) */
+
+
+        /* var test = (function () {
+            var t = null
+            return function () {
+                if (t) {
+                    return t
+                }
+                t = +new Date
+                return t
+            }
+        })();
+
+        console.log(test())
+        console.log(test()) */
+
+
+
+        /* var test = function () {
+            t = +new Date
+            test = function () {
+                return t
+            }
+            return test()
+        }
+
+        console.log(test())
+        console.log(test()) */
+
+
+        function addEvent(dom, type, handle) {
+            if (dom.addEventListener) {
+                console.log('first')
+                dom.addEventListener(type, handle, false)
+                addEvent = function (dom, type, handle) {
+                    console.log('last')
+                    dom.addEventListener(type, handle, false)
+                }
+            } else {
+                dom.attachEvent('on' + type, handle)
+                addEvent = function (dom, type, handle) {
+                    dom.attachEvent('on' + type, handle)
+                }
+            }
+        }
+
+
+        addEvent(demo, 'click', function () {
+            console.log(0)
+        })
+
+        addEvent(demo, 'click', function () {
+            console.log(1)
+        })
+
+        addEvent(demo, 'click', function () {
+            console.log(2)
+        })
+    </script>
+</body>
+
+</html>

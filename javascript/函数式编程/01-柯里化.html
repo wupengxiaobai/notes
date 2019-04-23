@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        //  调用形式
+        /* function add(a, b, c) {}
+        var newAdd = Curry(add)
+        newAdd(1)(2)(3) */
+
+        // 固定参数的函数柯里化
+        /* function add(a, b, c, d, e) {
+            return a + b + c + d + e
+        }
+
+        function fixedParamsCurry(fn) {
+            //  arguments add, 1, 2
+            var _arg = [].slice.call(arguments, 1)
+            return function () {
+                //  argument 3, 4
+                var _newArg = _arg.concat([].slice.call(arguments, 0))
+                return fn.apply(this, _newArg)
+            }
+        }
+
+        var newAdd = fixedParamsCurry(add, 1, 2, 3)
+        var result = newAdd(4, 5)
+        console.log(result) */
+
+
+        //  add(1,2,3,4)
+        //  add(1,2,3)(4)
+        //  ......
+
+
+
+        //  函数柯里化
+        /* function add(a, b, c, d, e) {
+            return a + b + c + d + e
+        }
+
+        function fixedParamsCurry(fn) {
+            //  arguments add, 1, 2
+            var _arg = [].slice.call(arguments, 1)
+            return function () {
+                //  argument 3, 4
+                var _newArg = _arg.concat([].slice.call(arguments, 0))
+                return fn.apply(this, _newArg)
+            }
+        }
+
+        function Curry(fn, length) {
+            //length  函数应该需要参数个数
+            var length = length || fn.length
+
+            return function () {
+                if (arguments.length < length) {
+                    //  [fn, par1, par2, par3]
+                    var combined = [fn].concat([].slice.call(arguments, 0))
+                    return Curry(fixedParamsCurry.apply(this, combined), length - arguments.length)
+                } else {
+                    return fn.apply(this, arguments)
+                }
+            }
+        }
+
+        var newAdd = Curry(add)
+        var num = newAdd(1, 2, 3, 4)
+        var numMax = num(5)
+        console.log(numMax)
+        // newAdd(1,2,3,4,5)
+        // newAdd(1,2,3)(4,5)
+        // newAdd(1,2)(3,4,5)
+        // newAdd(1)(2)(3)(4,5)
+
+         */
+
+
+        /**
+         * 函数编程 - 柯里化应用
+         */
+
+        function fixedParamsCurry(fn) {
+            var _arg = [].slice.call(arguments, 1)
+            return function () {
+                var _newArg = _arg.concat([].slice.call(arguments, 0))
+                return fn.apply(this, _newArg)
+            }
+        }
+
+        function Curry(fn, length) {
+            var length = length || fn.length
+            return function () {
+                if (arguments.length < length) {
+                    var combined = [fn].concat([].slice.call(arguments, 0))
+                    return Curry(fixedParamsCurry.apply(this, combined), length - arguments.length)
+                } else {
+                    return fn.apply(this, arguments)
+                }
+            }
+        }
+
+        function ajax(method, url, params) {
+            console.log('url-- ' + url, 'params-- ' + params)
+        }
+
+        var ajaxCurry = Curry(ajax)
+        var postAjax = ajaxCurry('POST')
+
+        var postAjaxText1 = postAjax('www.text1.com')
+        postAjaxText1('name=xb&age=24')
+        postAjaxText1('name=xbt')
+
+        var postAjaxText2 = postAjax('www.text2.com')
+        postAjaxText2('name=xb&age=24')
+        postAjaxText2('name=xbt')
+    </script>
+</body>
+
+</html>

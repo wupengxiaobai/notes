@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        /**
+         *  简单的数据处理 -- 扁平化 ---> 复杂数据(多维数组) -> 简单数据(一维数据)
+         */
+
+        var tempArr = [1, 2, [3, 4, 5], null, [6, [7, 8, 9, 10, [11, 12, 13]]],
+            [function add() {}, function delay() {}],
+            [14, [15, 16, [17],
+                [18, 19, 20, [21, 22, 23], {
+                    "name": 1,
+                    "age": {
+                        "arr": [4, 5, '我的太']
+                    }
+                }]
+            ]]
+        ]
+
+        function isArray(obj) {
+            return (Object.prototype.toString.call(obj) === '[object Array]')
+        }
+
+        function isObject(obj) {
+            return (Object.prototype.toString.call(obj) === '[object Object]')
+        }
+
+        function flatten(arr) {
+            var arr = arr || [],
+                len = arr.length,
+                resArr = [];
+
+            for (var i = 0; i < len; i++) {
+                if (isArray(arr[i])) {
+                    resArr = resArr.concat(flatten(arr[i]))
+                } else {
+                    resArr.push(arr[i])
+                }
+            }
+            return resArr;
+        }
+
+        Array.prototype.flatten = function () {
+            var resARR = [];
+            this.forEach(function (item) {
+                Object.prototype.toString.call(item) === '[object Array]' ? (resARR = resARR.concat(item
+                        .flatten())) :
+                    resARR.push(item)
+            })
+            return resARR
+        }
+    </script>
+</body>
+
+</html>

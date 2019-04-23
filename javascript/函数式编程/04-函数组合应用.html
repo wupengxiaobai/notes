@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 函数组合使用: 自右向左, 右边函数执行结果作参数传递给左边的函数 
+
+
+        /*  function f(str) {
+            return add(toUpperCase(str))
+        } */
+
+        function add(str) {
+            return str + '!'
+        }
+
+        function join(arr) {
+            return arr.join('-')
+        }
+
+        function split(str) {
+            return str.split('')
+        }
+
+        function toUpperCase(str) {
+            return str.toUpperCase()
+        }
+
+        function reverse(arr) {
+            return arr.reverse()
+        }
+
+        //  time -> TIME -> [T,I,M,E] -> [E,M,I,T] -> E-M-I-T -> E-M-I-T!
+        function leftResultFunc() {
+            var args = [].slice.call(arguments)
+            var len = args.length - 1
+            return function (x) {
+                var result = args[len](x)
+                while (len--) {
+                    // console.log(result)
+                    result = args[len](result)
+                }
+                return result
+            }
+        }
+
+        var f1 = leftResultFunc(add, join, reverse, split, toUpperCase)
+        console.log(f1('time'))
+        var f2 = leftResultFunc(add, join, reverse, split, toUpperCase)
+        console.log(f2('evol'))
+    </script>
+</body>
+
+</html>
