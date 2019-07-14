@@ -64,8 +64,6 @@ Firefox4.0 JeagerMonkey
 
 轮转时间片: 任务切片, 随机执行时间片.
 
-
-
 ### JS三大部分
 
 - **ECMAScript**
@@ -79,7 +77,7 @@ Firefox4.0 JeagerMonkey
  **Javascript 引入**
 
 ```html
-<script type="text/javascript" src="xxx.js">
+<script type="text/javascript" src="xxx.js"></script>
 ```
 
 ### 基础语法

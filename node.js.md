@@ -1699,6 +1699,14 @@ app.use(async (ctx, next) => {})
 
 #### koa-static(静态资源目录管理模块)
 
+```js
+//	加载 koa-static
+const static = require("koa-static")
+
+//	指定加载静态资源的根目录,指定所有静态文件的根目录
+app.use(static(join(__dirname, "static")))
+```
+
 
 
 #### koa-session(会话模块)
@@ -2160,7 +2168,38 @@ const userRouter = require('./router/userRouter');
 app.use('/user', userRouter);
 ```
 
+### cors 跨域解决方案
 
+```
+npm install cors
+```
+
+```js
+let cors = require('cors')
+
+//	cors 配置
+//	配置跨域白色名单
+var whitelist = ['http://example1.com', 'http://example2.com']
+let corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+           callback(null, true) 
+        }else {
+            callback(new Error('Not allowd by CORS'))
+        }
+    }
+}
+
+//	所有网站可跨域
+//	app.use(cors())
+
+//	为单个路由启动cors
+app.get('/test', cors(), (req,res) => {})
+
+//	为单个路由启动携带配置的cors
+app.get('/test', cors(corsOptions), (req,res) => {})
+
+```
 
 ### 5.  express-session
 
@@ -2217,7 +2256,7 @@ req.session.ss
 
 - **中间件中, 当匹上第一个,就不会往下匹配了**
 
-  ​
+  
 
 #### 6.1 应用程序级别中间件
 
@@ -3147,8 +3186,6 @@ select avg(id) from `users`;
 SELECT categories.*, user.avatar FROM categories INNER JOIN user ON categories.categoryAuthor=user.nickname WHERE issueId=${query.talkId} ORDER BY categories.categoryCreateDate DESC
 ```
 
-![52749569673](E:\www\1527495696737.png)
-
 **分页查询数据**
 
 **子语句**
@@ -3267,4 +3304,8 @@ router.post('/avatarUpload', upload.single('file'), function (req, res, next) {
     });
 });
 ```
+
+
+
+# NodeJS 线上服务端部署
 
