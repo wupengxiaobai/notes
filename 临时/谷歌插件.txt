@@ -1,5 +1,0 @@
-Vue.js devtools
-Wappalyzer
-web Developer
-FeHelper
-¾ò½ð
