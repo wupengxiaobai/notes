@@ -83,3 +83,17 @@ sudo service ssh restart
 
 ### 增强服务安全等级
 
+
+
+## 服务器配置安装Mysql
+### Mysql删除
+- 查看mysql的依赖库项 `dpkg --list|grep mysql`
+- 卸载 
+  `sudo apt-get remove mysql-common`
+  `sudo apt-get autoremove --purge mysql-server-5.7`
+- 清除残余
+  `dpkg -l|grep ^rc|awk '{print$2}'|sudo xargs dpkg -P`
+- 查看剩余依赖
+  `dpkg --list|grep mysql`
+- 删除剩余依赖
+  `sudo apt-get autoremove --purge mysql-apt-config`
