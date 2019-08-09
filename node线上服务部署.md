@@ -97,3 +97,11 @@ sudo service ssh restart
   `dpkg --list|grep mysql`
 - 删除剩余依赖
   `sudo apt-get autoremove --purge mysql-apt-config`
+  
+```JS
+# 删除mysql
+sudo apt purge mysql-*
+sudo rm -rf /etc/mysql/ /var/lib/mysql
+sudo apt autoremove
+sudo apt autoreclean
+```
