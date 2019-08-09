@@ -83,9 +83,207 @@ sudo service ssh restart
 
 ### 增强服务安全等级
 
+##### 修改 Linux 默认登录端口
+
+输入配置命令 `sudo vi /etc/ssh/sshd_config` 进入配置文件
+
+```JS
+# 修改端口及允许登录用户
+Port 59999
+Port 23333
+
+# 允许root登录： 设置为 no 不允许 root 登录
+PermitRootLogin yes
+
+# 只允许用户登录
+AllowUsers root smile_w smile_x smile_z
+```
+
+重启 ssh `sudo service ssh restart`
+
+验证: 通过 59999 端口登录用户 `ssh -p 59999 smile_w@132.232.**.***`
+
+##### 禁止 root 登录的权限
+
+```JS
+# 允许root登录： 设置为 no 不允许 root 登录
+PermitRootLogin no
+```
+
+### 搭建 Node 生产环境
+
+##### 防火墙规则设置
+
+- 创建防火墙规则 `sudo vi /etc/iptables.up.rules`
+
+  ```JS
+  *filter
+  # 允许所有建立起来的连接
+  -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  -A OUTPUT -j ACCEPT
+  
+  # 允许 http https
+  -A INPUT -p tcp --dport 443 -j ACCEPT
+  -A INPUT -p tcp --dport 80  -j ACCEPT
+  
+  # 允许 ssh 端口登录
+  -A INPUT -p tcp -m state --state NEW --dport 59999 -j ACCEPT
+  -A INPUT -p tcp -m state --state NEW --dport 39999 -j ACCEPT
+  -A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
+  
+  # 允许 ping
+  -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+  
+  # 级别
+  -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied:" --log-level 7
+  
+  # 可疑、密集请求拦截（对80端口在60秒内发出超过 150 次请求）
+  -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
+  -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 150 -j DROP
+  
+  # 拒接所有其他连接
+  -A INPUT -j REJECT
+  -A FORWARD -j REJECT
+  
+  COMMIT
+  ```
+
+  遇到问题：提示 COMMIT 执行失败
 
 
-## 服务器配置安装Mysql
+
+##### 搭建node环境
+
+- 更新软件包
+
+  `sudo apt-get update`
+
+- 安装 `Linux` 软件包
+
+  `sudo apt-get install vim openssl build-essential libssl-dev wget curl git`
+
+- 安装Node
+
+  - 安装 `vim`
+
+    `wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
+
+  - 使用 `vim` 安装 `Nodejs`
+
+    `nvm install v10.15.3`
+
+  - `nvm` 使用 `node`， 设置默认版本
+
+    `nvm use v10.15.3`  `nvm alias default v10.15.3`
+
+- 安装 `npm` 指定国内镜像源
+
+  `npm --registry=https://registry.npm.taobao.org install -g npm`
+
+  临时使用淘宝镜像源 `npm --registry https://registry.npm.taobao.org install express`
+
+  永久使用淘宝镜像源 `npm config set registry https://registry.npm.taobao.org`
+
+- 安装 `cnpm` npm install -g cnpm
+
+- 安装 `npm` 包文件
+
+  `npm i pm2 webpack gulp grunt-cli -g`
+
+### PM2 使用
+
+- 开启一个服务 `pm2 star app.js`
+- 关闭一个服务 `pm2 stop app.js`
+- 删除一个服务 `pm2 delete app.js`
+- 查看服务列表 `pm2 list`
+- 展示一个服务信息 `pm2 show app`
+- 展示所有服务日志 `pm2 logs`
+- 清除所有日志 `pm2 flush`
+
+### 配置 `Nginx` 反向代理
+
+- 安装 `Nginx`
+
+  - 更新包列表 `sudo apt-get update`
+  - 安装 `Nginx`  `sudo apt-get install nginx`
+  - 查看 `Nginx` 版本 `nginx -v`
+
+- `Nginx` 配置代理转发
+
+  - 创建/打开代理配置文件
+
+    ```js
+    cd /etc/nginx/conf.d
+    # 配置
+    sudo vi  www-nimengwei-com-3000.conf
+    ```
+
+  - 编辑 `Nginx` 代理文件
+
+    ```JS
+    server {
+        listen 80;
+        server_name 132.232.**.***;
+    
+        location / {
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Nginx-Proxy true;
+            proxy_pass http:WWW.xbainy.cn//website;
+            proxy_redirect off;
+        }
+    }
+    ```
+
+    **当用户访问 132.232.27.121 时， 转发到本机的 `http://127.0.0.1:3000`**
+
+  - `Nginx` 测试及重启
+
+    ```JS
+    sudo nginx -t	//	测试
+    sudo nginx -s reload	//	重启
+    # nginx 主页路径为 /usr/share/nginx/html
+    ```
+
+- 返回隐藏 `Nginx` 版本信息
+
+  ```JS
+  # 通过 nginx 代理会返回 nginx 版本信息
+  响应头 Response Header 中 server 字段值为 nginx/1.4.6(ubuntu)
+  # 进入配置文件目录，编辑配置文件
+  cd /etc/nginx
+  sudo vi nginx.conf
+  # 解除 nginx 配置
+  server_tokens off；
+  # 重启 nginx
+  sudo nginx -s reload
+  ```
+
+  如此响应头中 Response Headers 中 serve 显示为 nginx。
+
+### 管理域名解析
+
+- 主机记录	
+
+- 设置DNS解析实现域名访问七牛云
+
+  ```JS
+  1. 操作七牛云
+  进入七牛云 - 资源主页 - 对象存储 -新建、选择存储空间 - 融合 CDN 加速域名 - 立即绑定一个域名 -加速域名（weixin.cloud.xbainy.cn）
+  进入七牛云 - 资源主页 - 融合CDN - 域名管理 - 复制 CNAME 记录值
+  2. 操作腾讯云
+  登录腾讯云 - 控制台 - 域名 - 解析 
+  添加记录值 - 选择CNAME - 填写主机记录(weixin.cloud) - 粘贴记录值 - 添加
+  3. 测试
+  ```
+
+###  服务器配置安装 Mongodb
+
+
+
+### 服务器配置安装Mysql
+
 ### Mysql删除
 - 查看mysql的依赖库项 `dpkg --list|grep mysql`
 - 卸载 
