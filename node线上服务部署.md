@@ -111,11 +111,51 @@ PermitRootLogin no
 ```
 
 ### 搭建 Node 生产环境
-
+##### 防火墙配置
+- 安装 ufw `apt-get install ufw`
+- 启用
+  ufw enbale
+  ufw default deny
+**实例**
+- 查看防火墙状态
+  `ufw status`  
+    - inactive 未开启
+    - active 开启
+- 启用防火墙
+  `ufw enbale`
+- 禁用防火墙
+  `ufw disable`
+  
 ##### 防火墙规则设置
 
 - 创建防火墙规则 `sudo vi /etc/iptables.up.rules`
 
+  ```JS
+   *filter
+    # 允许所有建立起来的链接
+    -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+    # 允许所有出去的流量
+    -A OUTPUT -j ACCEPT
+    # 允许https 请求下的链接
+    -A INPUT -p tcp --dport 443 -j ACCEPT
+    -A INPUT -p tcp --dport 80 -j ACCEPT
+    # 设置只能从 39999 端口登录服务器
+    -A INPUT -p tcp -m state --state NEW --dport 39999 -j ACCEPT
+    # ping
+    -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+    # log denied calls
+    -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied" --log-level 7
+    # drop incoming sensitive connections 禁止密集的或者可疑的请求
+    -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
+    -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 150
+     -j DROP
+    # reject all other inbound
+
+    -A INPUT -j REJECT
+    -A FORWARD -j REJECT
+    
+    COMMIT
+  ```
   ```JS
   *filter
   # 允许所有建立起来的连接
@@ -149,6 +189,7 @@ PermitRootLogin no
   ```
 
   遇到问题：提示 COMMIT 执行失败
+  
 
 
 
@@ -261,6 +302,8 @@ PermitRootLogin no
   ```
 
   如此响应头中 Response Headers 中 serve 显示为 nginx。
+  
+ 
 
 ### 管理域名解析
 
@@ -277,6 +320,7 @@ PermitRootLogin no
   添加记录值 - 选择CNAME - 填写主机记录(weixin.cloud) - 粘贴记录值 - 添加
   3. 测试
   ```
+
 
 ###  服务器配置安装 Mongodb
 
