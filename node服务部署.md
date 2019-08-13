@@ -1,4 +1,16 @@
-# Node 线上服务部署【windows】
+# Node 线上服务部署【ubuntu/mysql/nginx】
+
+## 版本及信息
+
+- ubuntu@18.04
+
+- mysql@5.7.22
+
+- nginx/1.14.0 
+- nvm@0.33.11
+  - node   10.15.3
+  - npm	6.4.1
+- pm2@3.5.1
 
 ## 常用命令
 
@@ -10,46 +22,44 @@
 
 清屏 `control + r`
 
+## 重启服务
+
+- 重启 ssh `sudo service ssh restart`
+
 ## 购买主机&域名
 
 ## 线上服务部署
 
 ### **远程登录服务器**
 
-##### 第一次 `root` 登录
+#### 第一次 `root` 登录
 
-​	`ssh root@132.232.**.***`
+- 临时获得 `root` 权限 `sudo -s`
 
-​	输入密码 ****
+- 创建 `root` 账户 `sudo passwd root` 设置密码
 
-任命钦差大臣（管理员）	
+- 任命钦差大臣（管理员）
 
-`adduser smile_x` 
+  `adduser smile` 并设置密码
 
-```
-smile_x wupengXIAOBAI1234
-```
+  设置权限 
 
-设置权限
+  - `gpasswd -a smile_x sudo` （相对较高权限）
+  - 执行 `sudo visudo`  
 
-​	`gpasswd -a smile_x sudo` （相对较高权限）	
+  ```JS
+  # User privilege specification 
+  smile_x ALL=(ALL:ALL) ALL	// 授予管理员 sudo 权限 (sudo commit）
+  ```
 
-​	执行 `sudo visudo` 
+#### ssh 无密码登录
 
-```js
-# User privilege specification 
-smile_x ALL=(ALL:ALL) ALL	// 授予管理员有超级权限 (=输入密码的超管）
-```
-
-##### ssh 无密码登录(无需输入密码的超管)
-
-```
-本地私钥 -> 本地传到服务器的公钥 -> 密钥算法对比 -> 登录
-```
+***本地私钥 -> 本地传到服务器的公钥 -> 密钥算法对比 -> 登录***
 
 **生成本地密钥**
 
-```
+```js
+# 进入 ssh 文件执行命令
 ssh-keygen -t rsa -b 4096 -C "17805819702@139.com"  #连续回车(不需要输入密码)
 ```
 
@@ -81,19 +91,18 @@ sudo service ssh restart
 
 ### 增强服务安全等级
 
-##### 修改 Linux 默认登录端口
+#### 修改 Linux 默认登录端口 
 
 输入配置命令 `sudo vi /etc/ssh/sshd_config` 进入配置文件
 
 ```JS
 # 修改端口及允许登录用户
 Port 59999
-Port 23333
 
 # 允许root登录： 设置为 no 不允许 root 登录
 PermitRootLogin yes
 
-# 只允许用户登录
+// 只允许用户登录
 AllowUsers root smile_w smile_x smile_z
 ```
 
@@ -101,101 +110,112 @@ AllowUsers root smile_w smile_x smile_z
 
 验证: 通过 59999 端口登录用户 `ssh -p 59999 smile_w@132.232.**.***`
 
-##### 禁止 root 登录的权限
+#### 禁止 root 登录的权限
 
 ```JS
 # 允许root登录： 设置为 no 不允许 root 登录
 PermitRootLogin no
 ```
 
+<u>**18.04 端口修改无效访问超时**</u>
+
 ### 搭建 Node 生产环境
-##### 防火墙配置
-- 安装 ufw `apt-get install ufw`
-- 启用
-  ufw enbale
-  ufw default deny
-**实例**
+
+#### Nginx 安装
+
+- 更新apt  ` sudo apt-get update`
+- 安装 Nginx `sudo apt-get install nginx`
+
+#### 防火墙配置
+- 安装 ufw  
+
+  `apt-get install ufw`
+
 - 查看防火墙状态
   `ufw status`  
+  
     - inactive 未开启
     - active 开启
+  
 - 启用防火墙
   `ufw enbale`
+  
 - 禁用防火墙
   `ufw disable`
   
 ##### 防火墙规则设置
 
-- 创建防火墙规则 `sudo vi /etc/iptables.up.rules`
+- 启用规则 
 
   ```JS
-   *filter
-    # 允许所有建立起来的链接
-    -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-    # 允许所有出去的流量
-    -A OUTPUT -j ACCEPT
-    # 允许https 请求下的链接
-    -A INPUT -p tcp --dport 443 -j ACCEPT
-    -A INPUT -p tcp --dport 80 -j ACCEPT
-    # 设置只能从 39999 端口登录服务器
-    -A INPUT -p tcp -m state --state NEW --dport 39999 -j ACCEPT
-    # ping
-    -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
-    # log denied calls
-    -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied" --log-level 7
-    # drop incoming sensitive connections 禁止密集的或者可疑的请求
-    -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
-    -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 150
-     -j DROP
-    # reject all other inbound
-
-    -A INPUT -j REJECT
-    -A FORWARD -j REJECT
-    
-    COMMIT
+  # 启用 ufw 规则
+  ufw allow http
+  ufw allow https
+  ufw allow OpenSSH
+  ufw allow Nginx HTTP
+  ufw allow Nginx
   ```
+
+- 关闭规则
+
   ```JS
-  *filter
-  # 允许所有建立起来的连接
-  -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-  -A OUTPUT -j ACCEPT
-  
-  # 允许 http https
-  -A INPUT -p tcp --dport 443 -j ACCEPT
-  -A INPUT -p tcp --dport 80  -j ACCEPT
-  
-  # 允许 ssh 端口登录
-  -A INPUT -p tcp -m state --state NEW --dport 59999 -j ACCEPT
-  -A INPUT -p tcp -m state --state NEW --dport 39999 -j ACCEPT
-  -A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
-  
-  # 允许 ping
-  -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
-  
-  # 级别
-  -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied:" --log-level 7
-  
-  # 可疑、密集请求拦截（对80端口在60秒内发出超过 150 次请求）
-  -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
-  -A INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 150 -j DROP
-  
-  # 拒接所有其他连接
-  -A INPUT -j REJECT
-  -A FORWARD -j REJECT
-  
-  COMMIT
+  # 关闭规则
+  ufw delete allow 666/tcp
   ```
 
-  遇到问题：提示 COMMIT 执行失败
+#### 管理 Nginx 进程
+
+- 停止 web 服务 `sudo systemctl stop nginx`
+
+- 启动 web 服务 `sudo systemctl start nginx`
+
+- 重启 web 服务 ` sudo systemctl restart nginx`
+
+#### 设置 web 服务
+
+Ubuntu 18.04上的 Nginx 默认启用了一个服务器模块，该模块被配置为在`/var/www/html`目录
+
+##### 新增一个 web 服务
+
+- `sudo mkdir -p /var/www/smile.cn/html` 创建web目录
+
+- `sudo chown -R $USER:$USER /var/www/smile.cn/html/` 分配目录所有权
+
+- `sudo chmod -R 755 /var/www/smile.cn/` 修改目录权限
+
+- 为站点提供一个 html 以供访问
+
+- 创建一个正确指令的服务块
+
+  `sudo vi /etc/nginx/sites-available/smile.cn`
+
+  ```JS
+  server {
+      listen 80;
+      listen [::]:80;
   
+      root /var/www/smile.cn/html;
+      index index.html index.htm index.nginx-debian.html;
+  
+      server_name smile.cn www.smile.cn;
+  
+      location / {
+          try_files $uri $uri/ =404;
+      }
+  }
+  ```
 
+- 创建连接启动 `sites-enabled` , nginx启动时读取文件
 
+  `sudo ln -s /etc/nginx/sites-available/xbainy.cn /etc/nginx/sites-enabled/`
 
-##### 搭建node环境
+- 检查 `nginx ` 配置 `sudo nginx -t`
 
-- 更新软件包
+- 重启 nginx ` sudo systemctl restart nginx`
 
-  `sudo apt-get update`
+<u>**自此范围跟 smile.cn 即可对站点进行访问**</u>
+
+#### Node 环境安装
 
 - 安装 `Linux` 软件包
 
@@ -239,13 +259,9 @@ PermitRootLogin no
 - 展示所有服务日志 `pm2 logs`
 - 清除所有日志 `pm2 flush`
 
-### 配置 `Nginx` 反向代理
+###  Nginx 反向代理【有毒】
 
-- 安装 `Nginx`
-
-  - 更新包列表 `sudo apt-get update`
-  - 安装 `Nginx`  `sudo apt-get install nginx`
-  - 查看 `Nginx` 版本 `nginx -v`
+- 安装 `Nginx
 
 - `Nginx` 配置代理转发
 
@@ -254,12 +270,16 @@ PermitRootLogin no
     ```js
     cd /etc/nginx/conf.d
     # 配置
-    sudo vi  www-nimengwei-com-3000.conf
+    sudo vi  www-smile-com-3000.conf
     ```
 
   - 编辑 `Nginx` 代理文件
 
     ```JS
+    upstream website {
+      server 127.0.0.1:3000;
+    }
+    
     server {
         listen 80;
         server_name 132.232.**.***;
@@ -269,7 +289,7 @@ PermitRootLogin no
             proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
             proxy_set_header Host $http_host;
             proxy_set_header X-Nginx-Proxy true;
-            proxy_pass http:WWW.xbainy.cn//website;
+            proxy_pass http://www.xbainy.cn//website;
             proxy_redirect off;
         }
     }
@@ -301,7 +321,7 @@ PermitRootLogin no
 
   如此响应头中 Response Headers 中 serve 显示为 nginx。
   
- 
+
 
 ### 管理域名解析
 
@@ -326,7 +346,7 @@ PermitRootLogin no
 
 ### 服务器配置安装Mysql
 
-### Mysql删除
+#### Mysql删除
 - 查看mysql的依赖库项 `dpkg --list|grep mysql`
 - 卸载 
   `sudo apt-get remove mysql-common`
@@ -345,3 +365,33 @@ sudo rm -rf /etc/mysql/ /var/lib/mysql
 sudo apt autoremove
 sudo apt autoreclean
 ```
+
+#### 安装配置
+
+```JS
+#更新库
+sudo apt-get update
+#下载mysql服务
+sudo apt-get install mysql-server
+#初始化配置
+sudo mysql_secure_installation
+#检查服务状态
+systemctl status mysql.service
+```
+
+```JS
+# 首次进入mysql终端 密码为空直接回车
+mysql -u root -p
+# 创建用户并设置所有权： % 表示所有权
+grant all privileges on *.* to 'smile'@'%' identified by '这里是密码';
+# 修改可以使远程终端登录 vim /etc/mysql/mysql.conf.d/mysqld.cnf
+# bind-address:127.0.0.1	//	注释掉即可
+#重启 mysql
+sudo /etc/init.d/mysql restart
+```
+
+```JS
+#拷贝sql
+source C:\Users\mengbao\Desktop data2.sql;
+```
+
