@@ -110,6 +110,12 @@ AllowUsers root smile_w smile_x smile_z
 
 验证: 通过 59999 端口登录用户 `ssh -p 59999 smile_w@132.232.**.***`
 
+**查看 SSH 端口启用情况**
+
+```JS
+sudo netstat -tunlp | grep ssh
+```
+
 #### 禁止 root 登录的权限
 
 ```JS
@@ -125,6 +131,7 @@ PermitRootLogin no
 
 - 更新apt  ` sudo apt-get update`
 - 安装 Nginx `sudo apt-get install nginx`
+- 卸载 Nginx `sudo apt-get purge nginx nginx-common ` 卸载所有东东，包括删除配置文件。
 
 #### 防火墙配置
 - 安装 ufw  
@@ -166,10 +173,39 @@ PermitRootLogin no
 #### 管理 Nginx 进程
 
 - 停止 web 服务 `sudo systemctl stop nginx`
-
 - 启动 web 服务 `sudo systemctl start nginx`
-
 - 重启 web 服务 ` sudo systemctl restart nginx`
+
+#### Nginx 反向代理
+
+- 配置代理转发
+
+  - 创建/打开 `nginx` 代理配置文件
+
+    ```js
+    # 进入配置文件目录
+    cd /etc/nginx/conf.d
+    # 创建/修改代理端口文件
+    sudo vi  www-xbainy-cn-5000.conf
+    ```
+
+  - 编辑代理文件
+
+    ```
+    
+    ```
+
+    
+
+##### 实操
+
+- 代理 80 端口 访问 5000 端口
+- 代理 9000 端口 admin
+- 代理 9001端口 api
+
+
+
+
 
 #### 设置 web 服务
 
@@ -211,7 +247,7 @@ Ubuntu 18.04上的 Nginx 默认启用了一个服务器模块，该模块被配�
 
 - 检查 `nginx ` 配置 `sudo nginx -t`
 
-- 重启 nginx ` sudo systemctl restart nginx`
+- 重启 nginx ` sudo systemctl restart nginx`  ||  `sudo -s reload`
 
 <u>**自此访问 smile.cn 即可对站点进行访问**</u>
 
@@ -248,6 +284,8 @@ Ubuntu 18.04上的 Nginx 默认启用了一个服务器模块，该模块被配�
 - 安装 `npm` 包文件
 
   `npm i pm2 webpack gulp grunt-cli -g`
+  
+  
 
 ### PM2 使用
 
@@ -259,68 +297,7 @@ Ubuntu 18.04上的 Nginx 默认启用了一个服务器模块，该模块被配�
 - 展示所有服务日志 `pm2 logs`
 - 清除所有日志 `pm2 flush`
 
-###  Nginx 反向代理【有毒】
 
-- 安装 `Nginx
-
-- `Nginx` 配置代理转发
-
-  - 创建/打开代理配置文件
-
-    ```js
-    cd /etc/nginx/conf.d
-    # 配置
-    sudo vi  www-smile-com-3000.conf
-    ```
-
-  - 编辑 `Nginx` 代理文件
-
-    ```JS
-    upstream website {
-      server 127.0.0.1:3000;
-    }
-    
-    server {
-        listen 80;
-        server_name 132.232.**.***;
-    
-        location / {
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forward-For $proxy_add_x_forwarded_for;
-            proxy_set_header Host $http_host;
-            proxy_set_header X-Nginx-Proxy true;
-            proxy_pass http://www.xbainy.cn//website;
-            proxy_redirect off;
-        }
-    }
-    ```
-
-    **当用户访问 132.232.27.121 时， 转发到本机的 `http://127.0.0.1:3000`**
-
-  - `Nginx` 测试及重启
-
-    ```JS
-    sudo nginx -t	//	测试
-    sudo nginx -s reload	//	重启
-    # nginx 主页路径为 /usr/share/nginx/html
-    ```
-
-- 返回隐藏 `Nginx` 版本信息
-
-  ```JS
-  # 通过 nginx 代理会返回 nginx 版本信息
-  响应头 Response Header 中 server 字段值为 nginx/1.4.6(ubuntu)
-  # 进入配置文件目录，编辑配置文件
-  cd /etc/nginx
-  sudo vi nginx.conf
-  # 解除 nginx 配置
-  server_tokens off；
-  # 重启 nginx
-  sudo nginx -s reload
-  ```
-
-  如此响应头中 Response Headers 中 serve 显示为 nginx。
-  
 
 
 ### 管理域名解析
@@ -338,9 +315,6 @@ Ubuntu 18.04上的 Nginx 默认启用了一个服务器模块，该模块被配�
   添加记录值 - 选择CNAME - 填写主机记录(weixin.cloud) - 粘贴记录值 - 添加
   3. 测试
   ```
-
-
-###  服务器配置安装 Mongodb
 
 
 
@@ -394,4 +368,3 @@ sudo /etc/init.d/mysql restart
 #拷贝sql
 source C:\Users\mengbao\Desktop data2.sql;
 ```
-
