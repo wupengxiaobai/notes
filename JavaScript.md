@@ -721,6 +721,8 @@ console.log(x)	//	3
 # 5.编写石头剪刀布游戏，用户输入单个数值123，分别代表石头剪刀布(其他数值默认判定用户出错，判定用户输)，跟电脑对比判断胜负
 ```
 
+
+
 `switch` 执行全真判断所选if语句另外一种形式
 
 ```javascript
@@ -757,6 +759,18 @@ for (var a=1; a < 100; a++) {
 //	⑥ console.log(a);
 //	.......
 ```
+```FLOW
+st=>start: for开始
+ed=>end: for结束
+cd=>condition: 条件判断满足
+op1=>初始化参数（var i=0）
+op2=>修改初始化参数（i++）
+op3=>operation: 执行code块
+
+st->op1->cd
+cd(yes)->op3->op2->cd
+cd(no)->ed
+```
 
 `while(){}` 满足条件执行
 
@@ -766,14 +780,109 @@ while(a < 100){
     console.log(a++);
 }
 ```
+```FLOW
+st=>start: while循环开始
+ed=>end: while循环结束
+cd=>condition: 条件判断满足
+op1=>执行代码块
+
+st->cd
+cd(yes)->op1->cd
+cd(no)->ed
+```
 
 `do{}while()` 先执行一次
+```FLOW
+st=>start: dowhile开始
+ed=>end: dowhile结束
+cd=>condition: 条件判断满足
+op1=>operation: 执行代码块
 
+st->op1->cd
+cd(yes)->op1
+cd(no)->ed
+```
 **`break`** 关键字 ： 跳出循环结构
 
 **`container`** 关键字 :  中止本次, 继续下次循环
 
+##### 循环的应用
+
+```JS
+# 累计
+//	1~100数字相加之和
+//	思路： 准备一个变量
+var sum = 0;
+for(var i=1; i<=100; i++) {
+    sum += i;
+}
+
+# 查找 
+//	查找范围内是否存在能被13整除的数字
+var isFind = false;
+var min = 110,
+    max = 200;
+for(var i = min; i<= max; i++) {
+    if(i%13 === 0) {
+        isFind = true;
+        break;
+    }
+}
+if(isFind) {
+    console.log('存在')
+}else {
+    console.log('不存在')
+}
+
+//	判断一个数值是不是素数
+var num = 108,
+    isFind = false;
+for(var i = 2; i < num; i++) {
+    if(num % i === 0){
+        isFind = true;
+        break;
+    }
+}
+if(num === 1) isFind = false;
+if(isFind){
+    console.log('不是素数');
+}else{
+    console.log('是素数');
+}
+
+# 嵌套循环： 分层进行分析嵌套循环
+//	输出 1~100 所有素数
+//  判断一个数是不是素数
+function isSs(number) {
+    var isFind = false;
+    for (var i = 2; i < number; i++) {
+        if (number % i === 0) {
+            isFind = true;
+            break;
+        }
+    }
+    if (number === 1) isFind = true;
+    if (isFind) {
+        // console.log('不是素数')
+    } else {
+        // console.log('是素数')
+        return true;
+    }
+}
+//  收集范围内所有素数
+var ret = [];
+for (var i = 0; i < 100; i++) {
+    if (isSs(i)) {
+        ret.push(i);
+    }
+}
+console.log(ret);
+```
+
+
 ---
+
+
 
 ### 基本方法
 
