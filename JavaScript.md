@@ -763,8 +763,8 @@ for (var a=1; a < 100; a++) {
 st=>start: for开始
 ed=>end: for结束
 cd=>condition: 条件判断满足
-op1=>初始化参数（var i=0）
-op2=>修改初始化参数（i++）
+op1=>operation: 初始化参数（var i=0）
+op2=>operation: 修改初始化参数（i++）
 op3=>operation: 执行code块
 
 st->op1->cd
@@ -784,7 +784,7 @@ while(a < 100){
 st=>start: while循环开始
 ed=>end: while循环结束
 cd=>condition: 条件判断满足
-op1=>执行代码块
+op1=>operation: 执行代码块
 
 st->cd
 cd(yes)->op1->cd
