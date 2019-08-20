@@ -713,12 +713,56 @@ console.log(x)	//	3
     	# 体重正常，继续保持
         # 体重偏胖，加强锻炼
         # 体重偏瘦，补充营养
+var height = +prompt('输入身高（cm）'),
+    weight = +prompt('输入体重（kg）'),
+    gender = prompt('输入性别（男|女）');
+if(isNaN(height) || isNaN(weight) || (gender !=='男' && gender !=='女')) {
+	console.log('输入有误');
+}else{
+    var standardWeight;
+    if(gender === '男') {
+        standarWeight = (height - 80) * 0.7;
+    }else {
+        standarWeight = (height - 70) * 0.6;
+    }
+    if(weight < standarWeight * 0.9) {
+        console.log('体重偏瘦，补充营养')
+    }else if (weight > standarWeight * 1.1) {
+        console.log('体重偏胖，加强锻炼')
+    }else{
+        console.log('体重正常，继续保持')
+    }
+}
 # 4.某理财公司推出一种理财服务，服务规则如下
 	# 用户理财金额在五十万以下，每年收益按4% 计算
     # 用户理财金额在五十万以上（包括五十万），每年按 4.5%计算
     # 若用户理财金额超过200万，除了理财收益以外，还要额外给予用户收益金额的10%
     # 编写程序，让用户输入理财金额和理财年限，计算到期后的收益
 # 5.编写石头剪刀布游戏，用户输入单个数值123，分别代表石头剪刀布(其他数值默认判定用户出错，判定用户输)，跟电脑对比判断胜负
+var fist = prompt('请出拳（剪刀/石头/布）');
+if(fist === '剪刀' || fist === '石头' || fist === '布') {
+    //	1.模拟电脑出拳
+    var pcFist,
+        rd = Math.random();
+    if(rd < 0.3333) {
+        pcFist = "剪刀"
+    }else if(rd < 0.6666) {
+        pcFist = "石头"
+    }else {
+        pcFist = "布"
+    }
+    //	2.比较胜负
+    console.log('你出拳：' + fist + ' 电脑出拳： ' + pcFist)
+    if((fist === '剪刀' && pcFist === '布') || (fist === '石头' && pcFist === "剪刀") || (fist === "布" && pcFist === "石头")) {
+        cosnole.log('你赢了！')
+    }else if(fist === pcFist) {
+        console.log('平局！')
+    }else {
+    	console.log('你输了！')
+    }
+}else {
+    console.log('输入有误')
+}
 ```
 
 
