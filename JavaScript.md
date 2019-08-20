@@ -129,13 +129,13 @@ var a,
 **原始值(不可改变的原始值: 栈内存 stack)** 
 
 > **原始类型的变量，存放具体的值**
-> 	 遵循规则：
+> 	 	 遵循规则：
 >
 > ```
->  	first in -> last out 先进最后出.
->  	栈内存之间的赋值是拷贝.
->  	重新赋值重新房间. 变量和原房间关系切断[不可改变的原始值].
->  	数据的更改, 原来的栈内存值并没有改变, 只是名归为原来的房间的号码, 值不会被清除, 只会累积下来, 直至内存沾满之后从头开始, 覆盖名为房间号的值
+>  	 	first in -> last out 先进最后出.
+>  	 	栈内存之间的赋值是拷贝.
+>  	 	重新赋值重新房间. 变量和原房间关系切断[不可改变的原始值].
+>  	 	数据的更改, 原来的栈内存值并没有改变, 只是名归为原来的房间的号码, 值不会被清除, 只会累积下来, 直至内存沾满之后从头开始, 覆盖名为房间号的值
 > ```
 
 - **number**
@@ -259,6 +259,7 @@ console.log(+"" + 100)	//	0 + 100 -> 100
 var fFunc = c => (9 / 5) * c + 32;
 //	利息计算器 （设置变量，分别保存本金，月数，年利率，计算利息）
 var rateFunc = (money, month, rate) => money * (rate / 100 / 12) * month;
+
 ```
 
 **优先级**
@@ -283,6 +284,7 @@ var rateFunc = (money, month, rate) => money * (rate / 100 / 12) * month;
 > 如果遇到操作数将数据的值取出
 > 
 > 如果遇到相邻两个运算符，并且左侧运算优先级大于等于右侧运算符，则直接运行左边的运算符
+> 
 > ```
 
 **练习**
@@ -296,6 +298,7 @@ console.log(b + b++ + ++b + b*3 * ++b)
 
 var c = 1；
 consle.log(c * (c++ + ++c) - c++ -++c / ++c * c++)
+
 ```
 
 ##### 比较运算符
@@ -370,6 +373,7 @@ var a = 1 && 5 && 2 && '前端' && 0;	//	false
 var a = 0 || false || '' || 1 	//	true
 /*	! 先转布尔值再取反 -> 结果为布尔值	*/
 var a = !520	//	false
+
 ```
 
 **运用**
@@ -378,6 +382,7 @@ var a = !520	//	false
 var x = 1;
 console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && x++ >=5 || (x = 5)); //	5
 console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && ++x >=5 && (x = 520));	//	520
+
 ```
 
 ##### 三目运算符
@@ -662,6 +667,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 7 % -3 = 7 - ~~(7/(-3)) * (-3) =  7 - (-2)*(-3) = 1
 //	求模伪代码和结果如下
 7 % -3 = 7 - (7/(-3))【向下取整 -2.33 -> -3】 * (-3) = 7 - (-3) * (-3) = -2
+
 ```
 
 ### 流程控制
@@ -814,6 +820,7 @@ switch(变量){
         break;
 }
 //	极其不负责任, 没有break的情况下. 也执行之后的代码
+
 ```
 
 #### 循环语句
@@ -831,6 +838,7 @@ for (var a=1; a < 100; a++) {
 //	⑤ a < 100;
 //	⑥ console.log(a);
 //	.......
+
 ```
 
 ```FLOW
@@ -853,6 +861,7 @@ var a = 0;
 while(a < 100){
     console.log(a++);
 }
+
 ```
 
 ```FLOW
@@ -954,6 +963,7 @@ for (var i = 0; i < 100; i++) {
     }
 }
 console.log(ret);
+
 ```
 
 ------
@@ -1160,9 +1170,11 @@ a + 1 // string	a1
 
 ### 函数(function)
 
-`function test() {}`
+#### 简述
 
-> 高内聚 弱耦合 
+> 语法： function test() {}
+>
+> 作用： 高内聚 弱耦合 
 
 **定义**
 
@@ -1185,7 +1197,7 @@ var test = function() {}	//	(匿名函数)
   - 形参
   - 实参
   - 实参列表(不定参) `arguments` 
-- 返回值 `return`
+- 返回值  `return`
   - 终止函数执行
   - 返回值
 
@@ -1204,7 +1216,7 @@ test(5, 2)
 
 ```
 
- **递归 : 先执行的最后执行完成**
+##### **递归 : 先执行的最后执行完成**
 
 > ①找规律 ②找出口
 >
@@ -1232,7 +1244,7 @@ console.log(fbnqsl(5));
 
 #### js运行三部曲
 
-1.语法解析（通篇扫描，是否有语法错误）
+##### 1.语法解析（通篇扫描，是否有语法错误）
 
 ##### 2.**预编译**(发生在函数执行的前一刻)
 
@@ -1297,7 +1309,6 @@ test(1)
 //    b: function() {},
 //    d: function d() {}
 //}
-
 ```
 
 **全局预编译三部曲 √**
@@ -1330,10 +1341,9 @@ console.log(a)
 //    a: 123
 //}
 
-
 ```
 
-3.解释执行（解释一行，执行一行）
+##### 3.解释执行（解释一行，执行一行）
 
 #### 作用域
 
@@ -1360,6 +1370,7 @@ a();
 //	a函数的执行, 导致b函数的定义, b函数的定义时的 [[scope]] 存储的是a的执行期上下文的引用.
 //	b函数执行, 产生b函数的独一无二的执行期上下文
 //	函数执行往后, 执行期上下文被销毁
+
 ```
 
 ![a被定义时,发生如下过程](.\javascript\1528522518338.png)
@@ -1408,19 +1419,13 @@ c doing		->	c [[scope]] ->  0: cAO
 
 **意义**: 查找变量 (确定变量来自于哪里, 变量是否可以访问)
 
-简单的来说, 作用域链可以用以下几句话来概括(却额定一个变量来自于哪个作用域)
+简单的来说, 作用域链可以用以下几句话来概括(确定一个变量来自于哪个作用域)
 
 ```
 查看当前作用域, 如果当前作用域声明了这个变量, 就确定结果
-
-	查找当前作用域的上级作用域, 也就是当前函数的上级函数, 看看上级函数中有没有声明
-
-```
-
-   			再查看上级函数的上级函数, 直到全局作用域为止
-
-```
-			如果全局作用域中也没有, 我们就认为这个变量未声明
+查找当前作用域的上级作用域, 也就是当前函数的上级函数, 看看上级函数中有没有声明
+再查看上级函数的上级函数, 直到全局作用域为止
+如果全局作用域中也没有, 我们就认为这个变量未声明
 
 ```
 
@@ -1545,7 +1550,6 @@ var init = (function() {
         change();
     }
 }())
-
 ```
 
 **闭包的释放**
@@ -1554,7 +1558,6 @@ var init = (function() {
 var bbfun = (function(){return{fun1(){},func2(){}}})()
 //	闭包释放问题, 直接为null | undefined
 bbfun = null;
-
 ```
 
 #### 立即执行函数
@@ -1571,7 +1574,6 @@ bbfun = null;
 ! function() {}()
 //	能被执行符号执行的表达式, 函数名自动忽略
 + function test() {}()
-
 ```
 
 ```javascript
@@ -1603,7 +1605,6 @@ var myArr = test();
 for (var j = 0; j < 10; j++) {
     myArr[j]();
 }
-
 ```
 
 #### arguments
@@ -1651,13 +1652,29 @@ console.log(obj);
 
 ```
 
-#### 函数的四种调用及this指向问题
+#### this关键字
+
+> 全局环境，this 指向 window
+>
+> 函数环境
+>
+> 1. 函数调用， this 指向window
+>
+> 函数名()
+>
+> 2. 以下情况 this 指向 对象
+>
+> ​	对象.方法名()
+>
+> ​	对象["方法名"]\()
+>
+> **决定 this 指向 关键在于当函数执行时所属的空间**
 
 ##### 函数的调用方式
 
 ```js
 /*
-	函数调用, this 指向 window
+	*****************函数调用, this 指向 window*****************
 */
 var age = 18;
 function fn(){
@@ -1665,16 +1682,18 @@ function fn(){
 }
 fn()	//	18 
 
+
 //	特殊例子
 var p = {
     age: 15,
     say:function(){
+        console.log(this)
         console.log(this.age)
     }
 }
+p.say();	//	对象的方法调用 -> 15， 函数内部this指向p对象
 var f1 = p.say
-f1()	//	18
-
+f1();	//	函数调用 -> undefined，函数内部this指向window
 
 ```
 
@@ -1682,7 +1701,7 @@ f1()	//	18
 
 ```js
 /*
-	方法的调用, this 指向调用方法的对象
+	*****************方法的调用, this 指向调用方法的对象*****************
 */
 function Person(){
     this.age = 20;
@@ -1704,7 +1723,7 @@ p2.travel()	//	167
 
 
 //	特殊例子
-var length: 50;
+var length = 50;
 var clear = function(){
     console.log(this.length)
 }
@@ -1720,7 +1739,7 @@ tony.d()	//	30
 
 ```js
 /*
-	通过 new 关键字调用, 函数内部this指向构造函数的实例
+	*****************通过 new 关键字调用, 函数内部this指向构造函数的实例*****************
 */
 function fn(name){
     this.name = name
@@ -1823,9 +1842,9 @@ var obj = {
 //	修改, 通过bind改变this指向
 var obj = {
     age: 18,
-    run: function(){
+    run: function() {
         setTimeout((function(){
-            console.log(this.age)	//	18? 此时 this 指向 window
+            console.log(this.age)	//	此时 this 指向 window
         }).bind(this),50)	//	通过bind修改this指向为 obj, 所以此时打印 18
     }
 }
@@ -1878,6 +1897,33 @@ function fn() {
     console.log(this)	//	{ gender: '男' }
 }
 fn._bind({ gender: '男' })();
+
+```
+
+#### **函数相关作业**
+
+```JS
+# 
+1. 写一个函数，判断某个数是不是奇数 	 isOdd
+2. 写一个函数，判断某个数是不是素数 	 isPrime
+3. 写一个函数，对数组求和				sumOfArray
+4. 写一个函数，获取数组中最大值		  maxOfArray	
+5. 写一个函数，获取数组中最小值         minOfArray
+6. 写一个函数，判断是否稀松数组         hasEmptyInArray
+7. 写一个函数，得到某年某月的天数		 getDays
+8. 写一个函数，判断某年是不是润年       isLeap
+9. 写一个函数，得到某个数组中出现次数最多的数字和出现频率 getTopFreqInArray
+10. 实现哥德巴赫猜想 任何大于2的偶数，都可以写成两个质数（素数）之和，（3+5）,让用户输入一个大于2的偶数，输出其等于哪两个素数相加
+11. 让用户输入年份，输出该年份每个月天数
+12. 将函数放到单对象中，betterFunctions
+# 
+
+12. 写一个函数，为数组排序。考虑数组所有可能 sort
+13. 写一个函数，指定条件对某个数组进行筛选 filter
+14. 写一个函数，按照指定条件，得到某一个数组中第一个满足条件的元素 find
+15. 写一个函数，按照指定条件，得到某一个数组中满足条件的元素数量
+
+#
 
 ```
 
@@ -2050,7 +2096,6 @@ Person(name, age, gender) {
     this.gender = gender;
 };
 var parson = new Person('小白', 18, 'man');
-
 ```
 
 **原型的 增 删 改 查**
@@ -2062,7 +2107,6 @@ Person.prototype.lastName = '懵宝'
 delete Person.prototype.lastName
 //	查
 Person.prototype
-
 ```
 
 **原型的对象式写法**
@@ -2090,7 +2134,6 @@ function MyInfo(name, age, sex) {
         console.log(man1.showInfo('小白', 19, '女'));
         console.log(man1.showOther());
         console.log(man2.showInfo('懵宝', 23, '男'));
-
 ```
 
 #### 原型链
@@ -2144,6 +2187,7 @@ function Student (name, age, sex, tel, hobbise, height, weight) {
     this.hobbies = hobbise;
 }
 var student = new Student('小白', 18, '男' , '1234567890', ['football', 'sing', 'listen'], 167, 55);
+
 ```
 
 #### bind
@@ -2168,6 +2212,7 @@ ShowRandom.prototype.show2 = function () {
 
 var show = new ShowRandom();
 show.show1();
+
 ```
 
 
@@ -2328,7 +2373,6 @@ inherit(So, Fa);
 So.prototype.show = '2333';
 console.log(new So());
 console.log(new Fa());
-
 ```
 
 #### 命名空间
@@ -2363,7 +2407,6 @@ let init = (function(){
 })()
 
 init();
-
 ```
 
 #### 对象的枚举(遍历)
@@ -2399,7 +2442,6 @@ for (var key in obj) {
 //① 变量 instanceof Array	//true -> 变量则是数组  false 变量则是对象
 //② toString()
 Object.prototype.toString.call([])	//[object Array]
-
 ```
 
 #### this
@@ -2420,16 +2462,16 @@ var a = {
 var fun = a.say;
 fun();			//222
 a.say()			//111
+
 var b = {
     name: '333',
     say: function(fun) {
-        fun(); 
+        fun();
     }
 }
-b.say(a.say);	//222
+b.say(a.say);	//222 **** 这里还是函数执行, window
 b.say = a.say;
 b.say(); 		//333
-
 ```
 
 
@@ -2439,6 +2481,10 @@ b.say(); 		//333
 ### 数组
 
 > Array
+>
+> 本质： 对象
+>
+> in 关键字    key in Array 判断key【下标】在Array中存在与否
 
 **创建方式**
 
@@ -2464,7 +2510,6 @@ Array.prototype.mypush = function() {
     }
     return this.length;
 }
-
 ```
 
 - `unshift()` 在数组第一位前添加
@@ -2478,7 +2523,6 @@ Array.prototype.myunshift = function () {
     temp.reverse();
     return temp.length;
 }
-
 ```
 
 - `shift()`     剪切数组第一位
@@ -2495,7 +2539,6 @@ arr.sort(function (a, b) {   //  冒泡排序算法
     //return b-a; 	// 降序
     //return Math.random() - 0.5	//	随机
 })
-
 ```
 
 - `reverse()`   翻转数组
@@ -2504,7 +2547,6 @@ arr.sort(function (a, b) {   //  冒泡排序算法
 ```javascript
 //	从第几位开始截取, 截取多少的长度, 在切口处添加新的数据
 array.splice(0,1,'啊啊啊啊');
-
 ```
 
 ##### **不改变原数组**
@@ -2515,7 +2557,6 @@ array.splice(0,1,'啊啊啊啊');
  arr = [1,2,3]
 var newA = arr.concat([2,3,4]);
 console.log(newA)
-
 ```
 
 - `slice() ` 从该位开始截取, 截取到该位	
@@ -2531,7 +2572,6 @@ var newa = arr.join('-'); ['1',2,3] => '1-2-3'
 
 //	字符串有个可逆的方法 字符串 -> 数组 
 str.stringify()
-
 ```
 
 **数组去重**
@@ -2639,7 +2679,7 @@ arr.fill(数据, 开始下标, 结束下标) //	将arr从开始下标位置开�
 
 ```
 
-##### 作业
+#### 作业
 
 ```JS
 1. 提示用户输入数组的长度，以及数组每一项的值，然后输出该数组 
@@ -2693,7 +2733,7 @@ if (isNaN(num) || num < 1) {
 // 12 12 212 1231 312312
 
 var arr = [1231, 312, 312312312,312, 212, 12, 12];
-for (var i = 0; i < arr.length -1; i++) {
+for (var i = 0; i < arr.length; i++) {
   for (var j = 0; j < arr.length - i; j++) {
     if (arr[j] > arr[j + 1]) {
        // 交换位置
@@ -2780,7 +2820,6 @@ console.log(5);
 //	arguments.callee 指代函数本身
 //	func.caller  指代调用函数的对象
 //	with(对象){}  如果参数是一个对象, 就是把该对象所在的执行期AO对象 作为某个环境中最顶端, 改变作用域链结构.
-
 ```
 
 - 变量必须先声明再赋值 
@@ -2908,6 +2947,7 @@ var pageOffset = (function() {
 }())
 
 console.log(pageOffset)
+
 ```
 
 ### **可视区窗口尺寸**
@@ -2964,7 +3004,6 @@ element.currentStyle('prop')	IE兼容
 function cssStyle(element, prop) {
     return parseFloat(window.getComputedStyle(element)[prop] || element.currentStyle(prop));
 }
-
 ```
 
 **元素位置**
@@ -3320,7 +3359,6 @@ function loadScript(url, callback) {
     script.src = url;
     document.body.appendChild(script);
 }
-
 ```
 
 ### JS时间线
@@ -3460,6 +3498,7 @@ reg.lastIndex = 0;	//   设置游标位置
 console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefined]
 
 //	reg 没有全局匹配的情况下, 游标永远是 0, 匹配到的永远是第一个
+
 ```
 
 ### 正则规则
@@ -3481,6 +3520,7 @@ str.match(reg);	//	['b1', 'cd']
 var reg = /(red|blue|green)[0-9]/g;
 var str = 'red520';
 str.match(reg);	//	['red5']
+
 ```
 
 **元字符**
@@ -3499,6 +3539,7 @@ str.match(reg);	//	['red5']
 var reg = /\bhello\b/g;
 var str = 'hello world';
 str.match(reg); //	hello
+
 ```
 
 `\uxxxx`  匹配 unicode 字符 (啥都可以匹配)
@@ -3530,6 +3571,7 @@ str.match(reg2); //	['abc', '']
 
 var reg3 = /\d+/g;
 str.match(reg3); //	['abc']
+
 ```
 
 `^n`  `n$ `  以n开头 n结尾 
@@ -3550,6 +3592,7 @@ var str = 'aabb';
 var reg = /(\w)\1(\w)\2/g; 
 console.log(reg.match(str));//	['aabb'] 非全局匹配的情况行如exec结果, 如果使用全局匹配, 直接返回 匹配结果.
 console.log(reg.exec(str));	//	(3) ["aabb", "a", "b", index: 0, input: "aabb", groups: undefined]
+
 ```
 
 **正向预查(正向断言)** and **非正向预查**
@@ -3635,6 +3678,7 @@ setTimeout(() => {
     console.log('distanceTime--', +new Date - startTime)	//	~700ms
 }, 100)
 test(10000)
+
 ```
 
 setTimeout等待事件结束后并不是直接执行的，而是先推入浏览器的一个任务队列，在同步队列结束后依次调用任务队列中的任务
@@ -3667,6 +3711,7 @@ Function.prototype.myApply = function (ctx, arr) {
     }
     delete ctx.fn;
 }
+
 ```
 
 ## 函数式编程
@@ -3683,6 +3728,7 @@ Function.prototype.myApply = function (ctx, arr) {
 ```js
 let variable = '一个变量';
 s4 = `abc${variable}`;	//	'abc一个变量'
+
 ```
 
 ##### 解构赋值
@@ -3727,6 +3773,7 @@ var b = { a, c };
 //	b对象有一个a属性, a属性的值来自于a变量
 //	b对象还有一个c属性, c属性的值来自于c变量
 console.log(b);	//	{ a: 3, c:5 }
+
 ```
 
 ### 函数扩展
@@ -3828,6 +3875,7 @@ var p = {
 }
 p.run()
 p.travel()
+
 ```
 
 **tips: **箭头函数和匿名函数的区别
@@ -3863,6 +3911,7 @@ Object.assign(newObj2, source)
 console.log('source对象: ', source)
 console.log('拷贝后的新对象: ', newObj)
 console.log('拷贝后的新对象2: ', newObj2)
+
 ```
 
 ##### 对象的扩展运算符
@@ -3964,7 +4013,6 @@ f1().then(res => {
     },1000)
 })
 
-
 ```
 
 **promise执行**
@@ -3985,7 +4033,6 @@ promise.then(res => {
     //  d 执行后续的操作
     console.log(res)
 })
-
 ```
 
 ##### Promise错误处理
@@ -4030,6 +4077,7 @@ getBooks().then(res=>{
 上述2种错误处理方式, 第二种更加推荐使用
 	a. 不仅仅可以捕获到reject传递的参数
 	b. 还可以捕获到 成功回调中发送的错误
+
 ```
 
 ```js
@@ -4058,6 +4106,7 @@ f1('success').then(res=>{
 }).catch(err=>{
     console.log(err)	
 })
+
 ```
 
 #### Async
@@ -4136,6 +4185,7 @@ var o1 = {
     console.log('暂停区-----')
     await o1.run()
 })()
+
 ```
 
 ##### async 函数错误处理
@@ -4156,12 +4206,14 @@ function f1() {
         console.log('失败了: ',e)
     }
 })()
+
 ```
 
 ```
 + await 可以执行异步操作, 但是 await 必须放在 async 函数中执行
 + await 操作可以有返回值, 这个返回值表示promise操作成功的返回值
 + 如果await 里面执行的异步操作发生了 reject, 或发生了错误, 那么只能使用 try..catch 语法进行错误处理
+
 ```
 
 ### class 类
@@ -4193,6 +4245,7 @@ class Student{
     }
 }
 var s1 = new Student("小白菜", 19)
+
 ```
 
 ##### 静态成员
@@ -4213,6 +4266,7 @@ class Animal {
 Animal.maxAge = 200;
 //  执行静态方法
 Animal.born()
+
 ```
 
 ##### 类的继承
