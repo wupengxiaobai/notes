@@ -1111,7 +1111,6 @@ isNaN('123abc') //	true
 isNaN('true')	//  false
 isNaN(null)		//	false
 isNaN(undefined)//  true		
-
 ```
 
 - `++` `--` `+` `-` (一元正负)
@@ -1120,7 +1119,6 @@ isNaN(undefined)//  true
 //	先调用 Number() 方法
 + 'abc'	//	NaN
 + undefined	// NaN
-
 ```
 
 - `+`
@@ -1163,7 +1161,7 @@ a + 1 // string	a1
 
   ```javascript
   str.replace(新值, 旧值)
-  
+  str.substring(开始索引，结束位置)
   ```
 
 ------
@@ -1216,8 +1214,10 @@ test(5, 2)
 
 ```
 
-##### **递归 : 先执行的最后执行完成**
+#### **递归**
 
+>  **先执行的最后执行完成**
+>
 > ①找规律 ②找出口
 >
 > 典型实例: 阶乘 菲波那切数列
@@ -1237,10 +1237,39 @@ function fbnqsl(n){
     if(n<=2) return 1;
     return fbnqsl(n-1) + fbnqsl(n-2);
 }
-
 console.log(fbnqsl(5));
-
 ```
+
+##### 执行栈解释
+
+```JS
+//	全局执行环境[入栈]
+//	函数1 执行，则开辟一个函数1 执行环境[入栈]
+//	函数1 执行环境中, 一个函数2 执行,开辟 函数2 执行环境[入栈]
+//	函数2 执行完毕,函数2 所在执行环境销毁[出栈]
+//	函数1 执行完毕,函数1 所在执行环境销毁[出栈]
+//	全局执行环境[出栈]
+function a(){
+    console.log('a start');
+    b();
+    console.log('a end');
+}
+
+function b(){
+    console.log('b start');
+    c();
+    console.log('c end');
+}
+
+function c(){
+    console.log('c start');
+    console.log('c end');
+}
+
+a();
+```
+
+
 
 #### js运行三部曲
 
@@ -1982,23 +2011,35 @@ var obj = Object.create({}, {
 
 ```
 
-
-
 #### 包装类
 
-> 原始值是不能有属性和方法的.
+> 原始值是不能有属性和方法的，null 和 undefined 不能有属性和方法. 
 >
-> null 和 undefined 不能有属性和方法.
+> **JavaScript 给原始值赋予一个对应的包装类。** 
 >
-> 用处: 容错
+> 用处:
+>
+> ​	**增强 原始类型值 功能**
+>
+> ​	**容错（修改属性）**
 
 ```javascript
+//	强化
+var num = 3.1415926
+num.toFixed(2) //	3.14
+(new Number(3.1415926)).toFixed(2)	//	与上等价
+var str = "zxczxczxc"
+str.length	//	9
+(new String(str)).length	//	与上等价
+
+//-------------------------------------------
+//	容错
 var num = 4;
 num.len = 3;
 //new Number(4).len = 3;	delete
 console.log(num.len);	//	undefined
 //new Number(4).len		
-//-------------------------------------------
+
 var str = 'abcd';
 str.length = 2;
 //	new String('abcd').length = 2;	delete
