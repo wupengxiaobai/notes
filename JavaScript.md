@@ -1214,33 +1214,7 @@ test(5, 2)
 
 ```
 
-#### **递归**
-
->  **先执行的最后执行完成**
->
-> ①找规律 ②找出口
->
-> 典型实例: 阶乘 菲波那切数列
-
-```javascript
-/* 阶乘 */
-function jc(n) {
-    if (n < 2) return n;
-    return n * jc(n - 1);
-}
-console.log(jc(5));
-
-
-/* 菲波那切数列 */
-//  1 1 2 3 5 8 11
-function fbnqsl(n){
-    if(n<=2) return 1;
-    return fbnqsl(n-1) + fbnqsl(n-2);
-}
-console.log(fbnqsl(5));
-```
-
-##### 执行栈解释
+#### 执行栈
 
 ```JS
 //	全局执行环境[入栈]
@@ -1267,6 +1241,71 @@ function c(){
 }
 
 a();
+//	执行栈(空空如也)
+//------------------全局中函数执行,全局执行环境入栈-------------------------
+//	执行栈(全局环境)
+//------------------全局中a函数执行,开辟a函数执行环境---------------
+//	执行栈(全局环境, a函数执行环境)
+//------------------a中,b函数执行,开辟b函数执行环境---------------
+//	执行栈(全局环境, a函数执行环境, b函数执行环境)
+//------------------b中c函数执行,开辟c函数执行环境---------------
+//	执行栈(全局环境, a函数执行环境, b函数执行环境, c函数执行环境)
+//------------------b中c函数执行完毕,c出栈,c执行环境销毁-------------------------
+//	执行栈(全局环境, a函数执行环境, b函数执行环境)
+//------------------b函数执行完毕,b出栈,b执行环境销毁-------------------------
+//	执行栈(全局环境, a函数执行环境)
+//------------------a函数执行完毕,a出栈,a执行环境销毁-------------------------
+//	执行栈(全局环境)
+//------------------全局中函数执行完毕,出栈,全局执行环境销毁-------------------------
+//	执行栈(空空如也)
+```
+
+#### **递归**
+
+>  **先执行的最后执行完成**
+>
+> ①找规律 ②找出口
+>
+> 典型实例: 阶乘 菲波那切数列
+
+```javascript
+/* 阶乘 */
+function jc(n) {
+    if (n < 2) return n;
+    return n * jc(n - 1);
+}
+console.log(jc(5));
+
+
+/* 菲波那切数列 */
+//  1 1 2 3 5 8 11
+function fbnqsl(n){
+    if(n<=2) return 1;
+    return fbnqsl(n-1) + fbnqsl(n-2);
+}
+console.log(fbnqsl(5));
+```
+
+##### 尾递归
+
+> **递归的优化**
+>
+> ​	返回递归函数, 并且函数不是表达式的一部分
+
+```JS
+//	递归函数: 菲波那切数列
+function fbnqsl(n){
+    if(n<=2) return 1;
+    return fbnqsl(n-1) + fbnqsl(n-2);
+}
+console.log(fbnqsl(5));
+
+//	尾递归
+function fbnqsl(n, total){
+    if(n<=2) return 1;
+    return fbnqsl(n-1, total)
+}
+console.log(fbnqsl(5, 1));
 ```
 
 
@@ -4355,3 +4394,37 @@ import {} from '../module.js'
 
 
 # Jquery
+
+# 拓展
+
+## 排序
+
+### 快速排序
+
+> 选择一个基准数字。
+>
+> 比该基准数小的放左边，比该基准数大的放右边
+>
+> 最后基准数正处于中间位置
+>
+> 分别对左边跟右边递归进行快排
+
+```js
+function quickSort(array) {
+	if (array.length < 2) {
+		return array;
+	}
+	const target = array[0];
+	const left = [];
+	const right = [];
+	for (let i = 1; i < array.length; i++) {
+		if (array[i] < target) {
+			left.push(array[i]);
+		} else {
+			right.push(array[i]);
+		}
+	}
+	return quickSort(left).concat([target], quickSort(right));
+}
+```
+
