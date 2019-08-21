@@ -1300,12 +1300,18 @@ function fbnqsl(n){
 }
 console.log(fbnqsl(5));
 
-//	尾递归
-function fbnqsl(n, total){
-    if(n<=2) return 1;
-    return fbnqsl(n-1, total)
+
+function jc(n){
+    if(n===1) return 1;
+    return n*jc(n-1)
 }
-console.log(fbnqsl(5, 1));
+console.log(jc(5));
+//	尾递归：阶乘
+function jc2(n, total){
+    if(n===1) return total;
+    return jc2(n-1, n*total)
+}
+console.log(jc2(5, 1));
 ```
 
 
