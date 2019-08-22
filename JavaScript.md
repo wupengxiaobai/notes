@@ -3257,15 +3257,15 @@ console.log(ret)
 
 ```
 
-#### 原始类型包装器
+### 原始类型包装器
 
 > new 包装器(值)，返回一个对象
 >
 > 包装器(值)，返回原始类型
 
-##### Number
+#### Number
 
-**静态成员**
+##### **静态成员**
 
 - Number.isNaN
 - Number.isFinite
@@ -3273,22 +3273,22 @@ console.log(ret)
 - Number.parseFloat，字符串转为浮点数，非字符串，调用 toString
 - Number.parseInt，字符串转为整数，非字符串，调用 toString，第二个参数表示将传入字符串为多少进制
 
-**实例成员**
+##### **实例成员**
 
 - toFixed 保留小数位，四舍五入
 - toPrecision，以指定精度（长度）返回一个数字字符串
 
-##### String
+#### String
 
-**静态成员**
+##### **静态成员**
 
 - String.formCharCode(unicode) 通过 unicode 编码创建字符串
 
-**实例成员**
+##### **实例成员**
 
 - length 字符串长度
 
-**字符串其实是一个伪数组**
+***字符串其实是一个伪数组**
 
 - charAt，得到指定位置的字符
 - concat，组合字符串 
@@ -3306,7 +3306,21 @@ console.log(ret)
 - toLowerCase，转小写 
 - toUpperCase，转大写
 
+### Math对象
 
+> 提供了系列与数学相关的成员
+
+**常量, 永远不变的数据, 常量命名一般所有字母大写, 多个单词 _ 分割**
+
+- Math.random, 产生一个 0~1 之间的随机数
+- Math.PI 属性, 圆周率
+- Math.abs, 求绝对值
+- Math.floor, 向下取整
+- Math.ceil, 向上取整
+- Math.max, 得到一组数字的最大值, 没有参数, 返回 -Infinty
+- Math.min, 得到一组数字的最小值, 没有参数, 返回 Infinty
+- Math.pow, 得到一个数字的幂次方
+- Math.round, 得到一个数字的四舍五入取整
 
 ### 标准库相关作业
 
