@@ -132,10 +132,10 @@ var a,
 > 	 	 遵循规则：
 >
 > ```
->  	 	first in -> last out 先进最后出.
->  	 	栈内存之间的赋值是拷贝.
->  	 	重新赋值重新房间. 变量和原房间关系切断[不可改变的原始值].
->  	 	数据的更改, 原来的栈内存值并没有改变, 只是名归为原来的房间的号码, 值不会被清除, 只会累积下来, 直至内存沾满之后从头开始, 覆盖名为房间号的值
+> 	 	first in -> last out 先进最后出.
+> 	 	栈内存之间的赋值是拷贝.
+> 	 	重新赋值重新房间. 变量和原房间关系切断[不可改变的原始值].
+> 	 	数据的更改, 原来的栈内存值并没有改变, 只是名归为原来的房间的号码, 值不会被清除, 只会累积下来, 直至内存沾满之后从头开始, 覆盖名为房间号的值
 > ```
 
 - **number**
@@ -260,6 +260,7 @@ var fFunc = c => (9 / 5) * c + 32;
 //	利息计算器 （设置变量，分别保存本金，月数，年利率，计算利息）
 var rateFunc = (money, month, rate) => money * (rate / 100 / 12) * month;
 
+
 ```
 
 **优先级**
@@ -285,6 +286,7 @@ var rateFunc = (money, month, rate) => money * (rate / 100 / 12) * month;
 > 
 > 如果遇到相邻两个运算符，并且左侧运算优先级大于等于右侧运算符，则直接运行左边的运算符
 > 
+> 
 > ```
 
 **练习**
@@ -299,6 +301,7 @@ console.log(b + b++ + ++b + b*3 * ++b)
 var c = 1；
 consle.log(c * (c++ + ++c) - c++ -++c / ++c * c++)
 
+
 ```
 
 ##### 比较运算符
@@ -312,23 +315,22 @@ consle.log(c * (c++ + ++c) - c++ -++c / ++c * c++)
 > **细节**
 >
 > 1. 两个字符串比较比较的是字符编码
->
 > 2. 其中一个不是字符串并且两个都是原始类型，将他们都转换为数字进行比较
 >
->    NaN与任何数字比较，得到结果都是 false, 包括自身
+> NaN与任何数字比较，得到结果都是 false, 包括自身
 >
->    无穷大比任何数字都大，负无穷大比任何数字都小
+> 无穷大比任何数字都大，负无穷大比任何数字都小
 >
->    undefined 和 null
+> undefined 和 null
 >
->    ```
->    undefined -> NaN
->    
->    null -> 0
->    ```
+> ```
+> undefined -> NaN
+> 
+> null -> 0
+> 
+> ```
 >
 > 3. 其中一个是对象，将对象转为原始类型（"[object Object]"）。
->
 > 4. 两个对象比较，比较指针地址
 
 ```JS
@@ -342,6 +344,7 @@ console.log(null == undefined) // true
 console.log(null === undefined) // false
 console.log(null >= 0) //	true
 console.log(null == 0) //	false
+
 ```
 
 ##### 逻辑运算符
@@ -362,6 +365,7 @@ data && fn(data);
 /* ||运算符 */	
 //	如果是真就返回该值.(遇真就停)
 var a = 0 || false || 5	//	5
+
 ```
 
 - 针对布尔值判断(if)
@@ -374,6 +378,7 @@ var a = 0 || false || '' || 1 	//	true
 /*	! 先转布尔值再取反 -> 结果为布尔值	*/
 var a = !520	//	false
 
+
 ```
 
 **运用**
@@ -382,6 +387,7 @@ var a = !520	//	false
 var x = 1;
 console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && x++ >=5 || (x = 5)); //	5
 console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && ++x >=5 && (x = 520));	//	520
+
 
 ```
 
@@ -392,6 +398,7 @@ console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && ++x >=5 && (x = 520));	//	520
 ```js
 var x = 2;
 x = x++ >= 3 ? x++ * ++x - x++ / --x : x++;
+
 
 ```
 
@@ -433,6 +440,7 @@ console.log(0.5 + 0.5)	//	1
 Number.MAX_SAFE_INTEGER	//	9007199254740991	
 //	有效位数 16 ~ 17
 
+
 ```
 
 ##### 原因
@@ -443,6 +451,7 @@ Number.MAX_SAFE_INTEGER	//	9007199254740991
 > 现实世界中: 十进制, 逢10进1
 > 
 > 计算机世界: 二进制, 逢2进1
+> 
 > 
 > ```
 
@@ -475,6 +484,7 @@ $$
 //	小数部分0为止--》正序查看 11
 //	-- 整数+小鼠 10.11
 
+
 ```
 
 **为什么JS小数运算不准确?**
@@ -495,6 +505,7 @@ $$
 所以结果是 0.01001100......
 //	(0.3).toString(2) => "0.010011001100110011001100110011001100110011001100110011"
 
+
 ```
 
 **计算机中整数和浮点数的存储都以浮点方式**
@@ -512,6 +523,7 @@ $$
 0 11111111111 023.. //  NaN
 //	正常数字第二段部分最多取到2046
 
+
 ```
 
 **能表示的最大数字**
@@ -524,6 +536,7 @@ $$
 //	Number.MIN_VALUE
 //	5e-324
 
+
 ```
 
 **能表示的最大有效安全整数**
@@ -532,6 +545,7 @@ $$
 2**53 -1
 //	Number.MAX_SAFE_INTEGER
 //	9007199254740991
+
 
 ```
 
@@ -557,6 +571,7 @@ $$
 0000 0000 0000 0000 0000 0000 0000 0101
 0000 0000 0000 0000 0000 0000 0000 0000	//	输出 0
 
+
 ```
 
 ##### 或运算
@@ -571,6 +586,7 @@ $$
 0000 0000 0000 0000 0000 0000 0000 0101
 0000 0000 0000 0000 0000 0000 0000 1101	//	输出 13
 
+
 ```
 
 ##### 否(非)运算
@@ -583,6 +599,7 @@ JS中最快取整方式:  `~~数值`
 
 ```JS
 ~~2.88 // -2 -1 => 3 - 1 => 2
+
 
 ```
 
@@ -606,6 +623,7 @@ b = a ^ b;	//  b = 01	--> 1
 //	11, 01
 a = a ^ b; //  a = 10	--> 2
 
+
 ```
 
 **应用场景: 开关叠加**
@@ -624,6 +642,7 @@ p = p | power.read ^ power.read;	//	p = 0b010
 //	判断p是否有可读权限
 p & power.read === power.read? console.log('可读') : console.log('不可读')
 
+
 ```
 
 ##### 位移运算
@@ -637,6 +656,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 > 
 > 	结果: 数字1 * 2 ^ 数字2
 > 
+> 
 > ```
 >
 > 右位移 >>
@@ -645,6 +665,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 > 数字1 >> 数字2
 > 
 > 	将数字1的二进制(符号除外)右移数字2次数
+> 
 > 
 > ```
 >
@@ -667,6 +688,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 7 % -3 = 7 - ~~(7/(-3)) * (-3) =  7 - (-2)*(-3) = 1
 //	求模伪代码和结果如下
 7 % -3 = 7 - (7/(-3))【向下取整 -2.33 -> -3】 * (-3) = 7 - (-3) * (-3) = -2
+
 
 ```
 
@@ -716,6 +738,7 @@ if (条件) {	//	条件为真, 执行code
 } else {	//	条件为其它, 执行code3
 	code3...
 }
+
 ```
 
 **练习**
@@ -733,6 +756,7 @@ if(x++ >= 1){
     x--;
 }
 console.log(x)	//	3
+
 ```
 
 **作业练习**
@@ -798,6 +822,7 @@ if(fist === '剪刀' || fist === '石头' || fist === '布') {
 }else {
     console.log('输入有误')
 }
+
 ```
 
 
@@ -821,6 +846,7 @@ switch(变量){
 }
 //	极其不负责任, 没有break的情况下. 也执行之后的代码
 
+
 ```
 
 #### 循环语句
@@ -838,6 +864,7 @@ for (var a=1; a < 100; a++) {
 //	⑤ a < 100;
 //	⑥ console.log(a);
 //	.......
+
 
 ```
 
@@ -861,6 +888,7 @@ var a = 0;
 while(a < 100){
     console.log(a++);
 }
+
 
 ```
 
@@ -964,6 +992,7 @@ for (var i = 0; i < 100; i++) {
 }
 console.log(ret);
 
+
 ```
 
 ------
@@ -1009,6 +1038,7 @@ function mytype(target) {
     }
 }
 
+
 ```
 
 #### 类型转换
@@ -1023,6 +1053,7 @@ Number(null)	//	number 0
 //	不能转换成数字的, 则会转成 NaN
 Number('123abc')	//	NaN
 Number(undefined)	//	NaN	*****
+
 
 ```
 
@@ -1039,6 +1070,7 @@ parseInt('123abc')	//	number 123
 parseInt(true)		//	NaN
 parseInt('false')	//	NaN
 
+
 ```
 
 **转换进制**
@@ -1050,6 +1082,7 @@ parseInt('false')	//	NaN
 parseInt(10, 16)	//	16
 parseInt(b, 16)		//	11
 
+
 ```
 
 - parseFloat()	 
@@ -1060,6 +1093,7 @@ parseInt(b, 16)		//	11
 //	数字类开始至非数字类结束
 parseFloat('123.13@%')	//number 123.13
 
+
 ```
 
 - String()
@@ -1069,6 +1103,7 @@ parseFloat('123.13@%')	//number 123.13
 ```javascript
 String(true)	//	string true
 String(123) 	//  string 123
+
 
 ```
 
@@ -1081,6 +1116,7 @@ Boolean(0)	//	boolean false
 Boolean(1)	//	boolean true
 Boolean('')	//	boolean false
 
+
 ```
 
 - toString()
@@ -1091,12 +1127,14 @@ Boolean('')	//	boolean false
 123.toString() //	string 123
 //	undefined null 不能使用toString方法
 
+
 ```
 
 **以十进制为基底转为目标进制以字符串表示**
 
 ```javascript
 100.toString(2)	//	1100100
+
 
 ```
 
@@ -1111,6 +1149,7 @@ isNaN('123abc') //	true
 isNaN('true')	//  false
 isNaN(null)		//	false
 isNaN(undefined)//  true		
+
 ```
 
 - `++` `--` `+` `-` (一元正负)
@@ -1119,6 +1158,7 @@ isNaN(undefined)//  true
 //	先调用 Number() 方法
 + 'abc'	//	NaN
 + undefined	// NaN
+
 ```
 
 - `+`
@@ -1127,12 +1167,14 @@ isNaN(undefined)//  true
 //	调用 String() 方法
 a + 1 // string	a1
 
+
 ```
 
 - `-` `*` `/` `%`
 
 ```javascript
 //	调用 Number()
+
 
 ```
 
@@ -1141,10 +1183,10 @@ a + 1 // string	a1
 ```javascript
 //	调用Boolean()
 
+
 ```
 
 - `<` `>` `<=` `>=`
-
 - `==` `!=` 
 
 ##### 不发生类型转换
@@ -1162,6 +1204,7 @@ a + 1 // string	a1
   ```javascript
   str.replace(新值, 旧值)
   str.substring(开始索引，结束位置)
+  
   ```
 
 ------
@@ -1185,6 +1228,7 @@ function test() {}
 //	函数表达式(命名函数)
 var test = function test() {}
 var test = function() {}	//	(匿名函数)
+
 
 ```
 
@@ -1211,6 +1255,7 @@ function test(a, b) {
 }
 //	实参
 test(5, 2)
+
 
 ```
 
@@ -1258,11 +1303,12 @@ a();
 //	执行栈(全局环境)
 //------------------全局中函数执行完毕,出栈,全局执行环境销毁-------------------------
 //	执行栈(空空如也)
+
 ```
 
 #### **递归**
 
->  **先执行的最后执行完成**
+> **先执行的最后执行完成**
 >
 > ①找规律 ②找出口
 >
@@ -1284,13 +1330,17 @@ function fbnqsl(n){
     return fbnqsl(n-1) + fbnqsl(n-2);
 }
 console.log(fbnqsl(5));
+
 ```
 
 ##### 尾递归
 
 > **递归的优化**
 >
-> ​	返回递归函数, 并且函数不是表达式的一部分
+> ```
+> 返回递归函数, 并且函数不是表达式的一部分
+> 
+> ```
 
 ```JS
 //	递归函数: 菲波那切数列
@@ -1312,6 +1362,7 @@ function jc2(n, total){
     return jc2(n-1, n*total)
 }
 console.log(jc2(5, 1));
+
 ```
 
 
@@ -1325,7 +1376,6 @@ console.log(jc2(5, 1));
 **前奏**
 
 - imply global 暗示全局变量: 任何变量, 如果变量**未经声明就赋值,** 此变量就为**全局对象(window)所有**.  `a=123`
-
 - 一切声明的全局变量, 全是**window**的**属性**.  `window.a`
 
 ```javascript
@@ -1334,6 +1384,7 @@ function test() {console.log(b)}	//	函数块整体提升
 //	2.变量声明或变量声明并赋值 声明提升
 var test = 233; //	a 提升
 //	3.函数声明权重大于变量声明
+
 
 ```
 
@@ -1383,6 +1434,7 @@ test(1)
 //    b: function() {},
 //    d: function d() {}
 //}
+
 ```
 
 **全局预编译三部曲 √**
@@ -1415,6 +1467,7 @@ console.log(a)
 //    a: 123
 //}
 
+
 ```
 
 ##### 3.解释执行（解释一行，执行一行）
@@ -1444,6 +1497,7 @@ a();
 //	a函数的执行, 导致b函数的定义, b函数的定义时的 [[scope]] 存储的是a的执行期上下文的引用.
 //	b函数执行, 产生b函数的独一无二的执行期上下文
 //	函数执行往后, 执行期上下文被销毁
+
 
 ```
 
@@ -1485,6 +1539,7 @@ c doing		->	c [[scope]] ->  0: cAO
                                 2: aAO
                                 3: GO
 
+
 ```
 
 #### 作用域链
@@ -1500,6 +1555,7 @@ c doing		->	c [[scope]] ->  0: cAO
 查找当前作用域的上级作用域, 也就是当前函数的上级函数, 看看上级函数中有没有声明
 再查看上级函数的上级函数, 直到全局作用域为止
 如果全局作用域中也没有, 我们就认为这个变量未声明
+
 
 ```
 
@@ -1541,6 +1597,7 @@ var ktv = (function () {
     }
 })()
 
+
 ```
 
 - 实现公有变量 (函数累加器)
@@ -1559,6 +1616,7 @@ console.log(myAdd());
 console.log(myAdd());
 console.log(myAdd());
 console.log(myAdd())
+
 
 ```
 
@@ -1590,6 +1648,7 @@ MYFOOD.eatFood();
 MYFOOD.pushFood('banner');
 MYFOOD.eatFood();
 
+
 ```
 
 - 实现封装, 属性私有化
@@ -1604,6 +1663,7 @@ var inherit = (function() {
         Target.prototype.uber = Origin.prototype;	
     }
 }())
+
 
 ```
 
@@ -1624,6 +1684,7 @@ var init = (function() {
         change();
     }
 }())
+
 ```
 
 **闭包的释放**
@@ -1632,6 +1693,7 @@ var init = (function() {
 var bbfun = (function(){return{fun1(){},func2(){}}})()
 //	闭包释放问题, 直接为null | undefined
 bbfun = null;
+
 ```
 
 #### 立即执行函数
@@ -1648,6 +1710,7 @@ bbfun = null;
 ! function() {}()
 //	能被执行符号执行的表达式, 函数名自动忽略
 + function test() {}()
+
 ```
 
 ```javascript
@@ -1679,6 +1742,7 @@ var myArr = test();
 for (var j = 0; j < 10; j++) {
     myArr[j]();
 }
+
 ```
 
 #### arguments
@@ -1690,6 +1754,7 @@ var jc = (function(n) {
     if (n <= 1) return 1;
     return n * arguments.callee(n - 1)
 }(5))
+
 
 ```
 
@@ -1724,6 +1789,7 @@ var obj2 =  clone(obj);
 obj2.push(6);
 console.log(obj);
 
+
 ```
 
 #### this关键字
@@ -1738,9 +1804,9 @@ console.log(obj);
 >
 > 2. 以下情况 this 指向 对象
 >
-> ​	对象.方法名()
+>    对象.方法名()
 >
-> ​	对象["方法名"]\()
+>    对象["方法名"]\()
 >
 > **决定 this 指向 关键在于当函数执行时所属的空间**
 
@@ -1768,6 +1834,7 @@ var p = {
 p.say();	//	对象的方法调用 -> 15， 函数内部this指向p对象
 var f1 = p.say
 f1();	//	函数调用 -> undefined，函数内部this指向window
+
 
 ```
 
@@ -1806,6 +1873,7 @@ tom.c()	//	100
 
 var tony = { d:clear, length:30 }
 tony.d()	//	30
+
 
 ```
 
@@ -1854,6 +1922,7 @@ jQuery.prototype = {
 jQuery.prototype._init.prototype =  jQuery.prototype
 jQuery()	//	100
 
+
 ```
 
 **tip: ** 对象属性查找规则
@@ -1863,6 +1932,7 @@ jQuery()	//	100
  //	->	如果本身没有, 去原型对象中查找
  //	->	如果原型对象中没有, 去原型对象的原型对象中找, 直到根对象(Object.prototype)
  //	-> 	再没有, 我们认为该对象没有该属性, 即访问对象不存在的属性, 值为 undefined
+
 
 ```
 
@@ -1883,6 +1953,7 @@ f1.call("abc")
 f1.call(true)
 f1.call(null)
 f1.call(undefined)
+
 
 ```
 
@@ -1946,6 +2017,7 @@ var obj2 = {
 }
 obj2.drink()	//	橙汁
 
+
 ```
 
 ##### 实现bind方法
@@ -1971,6 +2043,7 @@ function fn() {
     console.log(this)	//	{ gender: '男' }
 }
 fn._bind({ gender: '男' })();
+
 
 ```
 
@@ -1998,6 +2071,7 @@ fn._bind({ gender: '男' })();
 15. 写一个函数，按照指定条件，得到某一个数组中满足条件的元素数量
 
 #
+
 
 ```
 
@@ -2035,6 +2109,7 @@ obj.look;
 //	改
 obj.look = 'see me some time'
 
+
 ```
 
 ```javascript
@@ -2054,6 +2129,7 @@ var obj = Object.create({}, {
     }
 })
 
+
 ```
 
 #### 包装类
@@ -2064,9 +2140,12 @@ var obj = Object.create({}, {
 >
 > 用处:
 >
-> ​	**增强 原始类型值 功能**
->
-> ​	**容错（修改属性）**
+> ```
+> **增强 原始类型值 功能**
+> 
+> **容错（修改属性）**
+> 
+> ```
 
 ```javascript
 //	强化
@@ -2089,6 +2168,7 @@ var str = 'abcd';
 str.length = 2;
 //	new String('abcd').length = 2;	delete
 console.log(str.lenth);	//	4
+
 
 ```
 
@@ -2149,6 +2229,7 @@ var student2 = new Student('懵宝', 23, '男');
 //	① 通过构造器的方式   实例对象.构造器 === 构造函数名称 (student1.constructor === Student) 
 //	② 通过 对象 instanceof 构造函数名	√
 
+
 ```
 
 #### 原型
@@ -2182,6 +2263,7 @@ Person(name, age, gender) {
     this.gender = gender;
 };
 var parson = new Person('小白', 18, 'man');
+
 ```
 
 **原型的 增 删 改 查**
@@ -2193,6 +2275,7 @@ Person.prototype.lastName = '懵宝'
 delete Person.prototype.lastName
 //	查
 Person.prototype
+
 ```
 
 **原型的对象式写法**
@@ -2220,6 +2303,7 @@ function MyInfo(name, age, sex) {
         console.log(man1.showInfo('小白', 19, '女'));
         console.log(man1.showOther());
         console.log(man2.showInfo('懵宝', 23, '男'));
+
 ```
 
 #### 原型链
@@ -2244,6 +2328,7 @@ Son.prototype = father
 function Son() {}
 var son = new Son()
 document.write(son.lastName)
+
 
 ```
 
@@ -2274,6 +2359,7 @@ function Student (name, age, sex, tel, hobbise, height, weight) {
 }
 var student = new Student('小白', 18, '男' , '1234567890', ['football', 'sing', 'listen'], 167, 55);
 
+
 ```
 
 #### bind
@@ -2299,6 +2385,7 @@ ShowRandom.prototype.show2 = function () {
 var show = new ShowRandom();
 show.show1();
 
+
 ```
 
 
@@ -2323,6 +2410,7 @@ function Son() {}
 var son = new Son();
 console.log(son.lastName)
 
+
 ```
 
 - 借用构造函数
@@ -2342,6 +2430,7 @@ function Student(name, age, sex, grade) {
     this.grade = grade; 
 }
 var student = new Student();
+
 
 ```
 
@@ -2372,6 +2461,7 @@ var person2 = new Fn2('小白菜', 19, '男', 'GEM')
 person2.say()
 person2.sayMore()
 
+
 ```
 
 
@@ -2389,6 +2479,7 @@ var son = new Son();
 var father = new Father();
 console.log(son.lastName, father.lastName);
 
+
 ```
 
 ```javascript
@@ -2397,6 +2488,7 @@ function inherit(Target, Origin) {
     Target.prototype = Origin.prototype;
 }
 inherit(Son, Father);
+
 
 ```
 
@@ -2411,6 +2503,7 @@ function inherit(Target, Origin) {
     Target.prototype.uber = Origin.prototype;	//	存储超类
 }
 
+
 ```
 
 ```javascript
@@ -2424,6 +2517,7 @@ var inherit = (function() {
         Target.prototype.uber = Origin.prototype;	
     }
 })();
+
 
 ```
 
@@ -2459,6 +2553,7 @@ inherit(So, Fa);
 So.prototype.show = '2333';
 console.log(new So());
 console.log(new Fa());
+
 ```
 
 #### 命名空间
@@ -2493,6 +2588,7 @@ let init = (function(){
 })()
 
 init();
+
 ```
 
 #### 对象的枚举(遍历)
@@ -2528,6 +2624,7 @@ for (var key in obj) {
 //① 变量 instanceof Array	//true -> 变量则是数组  false 变量则是对象
 //② toString()
 Object.prototype.toString.call([])	//[object Array]
+
 ```
 
 #### this
@@ -2558,6 +2655,7 @@ var b = {
 b.say(a.say);	//222 **** 这里还是函数执行, window
 b.say = a.say;
 b.say(); 		//333
+
 ```
 
 
@@ -2596,6 +2694,7 @@ Array.prototype.mypush = function() {
     }
     return this.length;
 }
+
 ```
 
 - `unshift()` 在数组第一位前添加
@@ -2609,6 +2708,7 @@ Array.prototype.myunshift = function () {
     temp.reverse();
     return temp.length;
 }
+
 ```
 
 - `shift()`     剪切数组第一位
@@ -2625,6 +2725,7 @@ arr.sort(function (a, b) {   //  冒泡排序算法
     //return b-a; 	// 降序
     //return Math.random() - 0.5	//	随机
 })
+
 ```
 
 - `reverse()`   翻转数组
@@ -2633,6 +2734,7 @@ arr.sort(function (a, b) {   //  冒泡排序算法
 ```javascript
 //	从第几位开始截取, 截取多少的长度, 在切口处添加新的数据
 array.splice(0,1,'啊啊啊啊');
+
 ```
 
 ##### **不改变原数组**
@@ -2643,6 +2745,7 @@ array.splice(0,1,'啊啊啊啊');
  arr = [1,2,3]
 var newA = arr.concat([2,3,4]);
 console.log(newA)
+
 ```
 
 - `slice() ` 从该位开始截取, 截取到该位	
@@ -2658,6 +2761,7 @@ var newa = arr.join('-'); ['1',2,3] => '1-2-3'
 
 //	字符串有个可逆的方法 字符串 -> 数组 
 str.stringify()
+
 ```
 
 **数组去重**
@@ -2693,9 +2797,10 @@ Array.prototype.uniq = function() {
     return arr;
 }
 
+
 ```
 
-#### 类数组
+#### 类数组（伪数组）
 
 ```javascript
 var obj = {
@@ -2707,6 +2812,7 @@ var obj = {
 }
 //	类数组: 属性要为索引(数字)属性, 必须有length属性, 最好加上push方法
 //	如果给类数组添加数组的splice方法就可以让该类数组使用数组所有方法了, 还可以用对象的方法.
+
 
 ```
 
@@ -2726,6 +2832,7 @@ obj = {
     length: 4,
     push: Array.prototype.push
 } 
+
 
 ```
 
@@ -2762,6 +2869,7 @@ arr.lastIndexOf('attr') // arr 末尾开始查找 attr 属性,找到返回最后
 arr.fill(数据) //	将arr所有项填充为数据.
 arr.fill(数据, 开始下标) //将arr从开始下标位置开始,直到最后, 填充为数据.
 arr.fill(数据, 开始下标, 结束下标) //	将arr从开始下标位置开始填充数据,直到结束下标为止.不包括结束下标的位置
+
 
 ```
 
@@ -2852,6 +2960,7 @@ for (var i = 0; i < arr.length; i++) {
     
 10.初始化一个数字数组，求最大和最小值
 
+
 ```
 
 ### JSON 数据格式
@@ -2863,6 +2972,7 @@ for (var i = 0; i < arr.length; i++) {
 ```javascript
 //	JSON.stringify()	JSON -> string
 //	JSON.parse()		string -> JSON
+
 
 ```
 
@@ -2881,6 +2991,7 @@ try {
 console.log(5);
 //	在try里面发生错误, 不会执行错误后的try里面的代码
 //	第一条执行, 最后一条执行. 
+
 
 ```
 
@@ -2906,12 +3017,318 @@ console.log(5);
 //	arguments.callee 指代函数本身
 //	func.caller  指代调用函数的对象
 //	with(对象){}  如果参数是一个对象, 就是把该对象所在的执行期AO对象 作为某个环境中最顶端, 改变作用域链结构.
+
 ```
 
 - 变量必须先声明再赋值 
 - 局部的 this 必须被赋值(apply/call), 没有赋值就是 undefined  
 - 拒绝重复属性和参数
-- 不能使用 eval() 可以将字符串当做代码来使用. eval是魔鬼.
+- 不能使用 eval() 可以将字符串当做代码来使用.魔鬼.
+
+------
+
+## 标准库
+
+> 标准库（标准api）
+>
+> ​	API： 应用程序编程接口
+>
+> ​	标准：ECMAScript 标准
+
+### Object
+
+#### 静态成员
+
+- Object.keys(对象), 得到某个对象的所有属性名组成数组
+- Object.values(对象)，得到某个对象所有属性值组成数组
+- Object.entries(对象)，得到某个对象的所有属性名和属性值组成数组（二维）
+- ...
+
+#### 实例成员【可重写】
+
+**所有对象，都拥有 Object 的所有实例成员**
+
+- toString()，得到某个对象的字符串格式
+
+  默认情况下，对象调用 toString 返回 "[Object object]"。
+
+- valueOf()，得到对象的值
+
+  默认情况下返回对象本身
+
+- ...
+
+JS 中对一个对象进行隐式类型转换的时候，实际上先调用对象的 valueOf 方法，再对返回结果进行 toString 操作。
+
+```JS
+var obj = {
+    name: '小白',
+    hobbies: ['唱歌','海贼迷','睡觉']
+}
+console.log(+obj); //	+((obj.valueOf()).toString()) // +"[Object object]" ==> NaN
+
+//	实例成员可被重写, 如果调用 valueOf() 得到了原始值，则不会再自动调用 toString()
+var obj2 = {
+    name: "小白2",
+    likeNum: 520,
+    hobbies: ['唱歌', '海贼迷', '睡觉'],
+    valueOf: function () {
+        return this.likeNum;
+    }
+}
+console.log(+obj2); //	+(obj.valueOf()) // +(520) ==> 520
+
+```
+
+### Function
+
+#### **arguments**
+
+> 实参列表, <u>跟实参存在映射的联系</u>， 伪数组
+
+```JS
+//	不传递实参
+function test(a, b, c) {
+    console.log(arguments);	//Arguments [callee: ƒ, Symbol(Symbol.iterator): ƒ]
+    arguments[0] = "abc";
+    b = "bcd";
+    console.log(a, b);	//undefined bcd
+    console.log(arguments[0]);	//abc
+    console.log(arguments);	//Arguments [0: "abc", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+}
+test()	
+
+
+//	传递
+function test(a, b, c) {
+    console.log(arguments);	//	Arguments(3) ["a值", "b值", "c值", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+    arguments[0] = "abc";	
+    b = "bcd";
+    console.log(a, b);	//	abc bcd
+    console.log(arguments[0])	//	abc
+    console.log(arguments)	//	Arguments(3) ["abc", "bcd", "c值", callee: ƒ, Symbol(Symbol.iterator): ƒ]
+}
+test('a值', 'b值', 'c值')	
+
+```
+
+**将 arguments 转为真数组**
+
+```JS
+function test() {
+    console.log(arguments);
+    var tmpArr = [].slice.call(arguments);
+    console.log(tmpArr);
+}
+test(1,312,312,412,3,12)
+
+```
+
+##### **伪数组**
+
+> key 有序数组
+>
+> 有 length
+
+```JS
+var leiArr = {
+    0: "小白",
+    1: ["唱歌","海贼迷"],
+    length: 2
+}
+console.log([].slice.call(leiArr))	//	["小白", Array(2)]
+
+```
+
+#### 实例成员
+
+**所有函数都具有 Function 的所有实例成员**
+
+- length，得到函数形参数量
+- apply 调用函数，并指定函数内部 this 指向，参数以数组传递
+- call 调用函数，并指定函数内部 this 指向，参数以列表传递
+- bind 得到一个新函数，函数中 this 始终指向指定值
+
+```JS
+function sayMessage(a, b) {
+    console.log(this.name);
+    console.log(this.hobbies);
+    console.log(a, b)
+}
+var obj = {
+    name: '小白',
+    hobbies: ['若果你能被看破，有什么难过', '我要你快乐']
+}
+sayMessage.bind(obj)(1234, 1314)
+sayMessage.call(obj, 1234, 1314)
+sayMessage.apply(obj, [1234, 1314])
+
+```
+
+
+
+### Array
+
+> 通过 Array构造器 创建的对象，就是数组
+
+#### 静态成员
+
+- Array.isArray(对象)，判断对象是不是数组
+- Array.from(对象)，可以将伪数组转为真数组
+- Array.of(数据)，创建数组，赋值每一项。 类似 [1, 2, 3, 4]
+- ...
+
+```JS
+function test() {
+    console.log(arguments);
+    var newA = Array.from(arguments);
+    console.log(newA);
+}
+
+```
+
+#### 实例成员
+
+- fill，使用数据填充数组
+- pop，删除数组最后一位
+- unshift，删除数组第一位
+- reverse，将数组数据颠倒
+- ...
+
+#### 纯函数
+
+> 定义： 无副作用的函数，不会导致当前对象发生改变
+
+- concat 组合数组，返回新数组。不改变原数组
+- includes 判断数组中包含数据
+- join 以 某字符串 作为连接符，数组字符串化
+- slice 切割生成新数组
+- indexOf（lastIndexOf） 查找第一个（最后一个）符合条件元素下标
+- forEach 遍历数组
+- every 是否所有元素都满足条件
+- some 是否至少有一个元素满足条件
+- filter 过滤，得到满足条件的元素组成新数组
+- find 查找第一个满嘴条件的元素， 返回元素本身
+- findIndex 查找第一个满足条件的元素，返回元素下标
+- map 映射，将数组中每一项映射为令一项
+- reduce 统计，累计(累×)
+
+```js
+var arr1 = [1, 2, 3],
+    arr2 = [4, 5, 6],
+    arr3 = [7, 8, 9];
+//	concat
+var newArr = arr1.concat(arr2, arr3);
+//	forEach
+arr1.forEach(item => item*=2)
+//	join 
+arr1.join('-')
+//	every
+arr1.every(item => item > 1)
+//	some
+arr1.some(item => item > 1)
+//	filter
+arr1.filter(item => item > 3)
+//	map
+arr1.map(item => item > 1)	//	[false, true, true]
+arr1.map(item => item*=2)	//	[4, 5, 6]
+//	reduce
+arr1.reduce((s, item) => s*item)
+
+```
+
+**链式编程**
+
+> 函数返回一致对象，可以链式调用该对象身上的方法
+
+```JS
+//	随机排序 -> 取大于等于60 -> 输出成绩
+let scores = [34, 90, 99, 89, 30, 50, 60];
+let ret = scores
+				.sort(() => Math.random() - 0.5) 
+				.filter(item => item >= 60)
+				.map((item, index) => {
+                    return {
+                        name: `学生${index}`,
+                        score: item
+                    }
+                });
+console.log(ret)
+
+```
+
+#### 原始类型包装器
+
+> new 包装器(值)，返回一个对象
+>
+> 包装器(值)，返回原始类型
+
+##### Number
+
+**静态成员**
+
+- Number.isNaN
+- Number.isFinite
+- Number.isInteger，判断数据是否是整数
+- Number.parseFloat，字符串转为浮点数，非字符串，调用 toString
+- Number.parseInt，字符串转为整数，非字符串，调用 toString，第二个参数表示将传入字符串为多少进制
+
+**实例成员**
+
+- toFixed 保留小数位，四舍五入
+- toPrecision，以指定精度（长度）返回一个数字字符串
+
+##### String
+
+**静态成员**
+
+- String.formCharCode(unicode) 通过 unicode 编码创建字符串
+
+**实例成员**
+
+- length 字符串长度
+
+**字符串其实是一个伪数组**
+
+- charAt，得到指定位置的字符
+- concat，组合字符串 
+- includes 
+- endsWith，以啥结尾
+- startsWith，以啥开头
+- indexOf
+- lastIndexOf
+- padStart，如果长度不够，从头开始填充指定字符串
+- padEnd，如果长度不够，从末尾开始补充指定字符串
+- repeat 复制
+- slice，从某个位置截取到某个位置，负数参数从末尾开始
+- subtr，从某个位置开始截取某长度字符串，位置负数倒着开始算
+- substring，从某个位置截取某长度字符串，参数负数默认索引0开始，参数位置可换
+- toLowerCase，转小写 
+- toUpperCase，转大写
+
+
+
+### 标准库相关作业
+
+```js
+//	1. 去掉数组中负数， 对每一项平方， 再翻倍， 最后求和。 不主动使用循环。
+var arr = [1, 2, 3, 4, 5, 6, -6, -5, -4, -3, -2, 0, -1]
+arr.filter(item => item >=0)
+   .map(item => item*=item)
+   .map(item => item*=item)
+   .reduce((s, item) => s+item)
+
+//	2.
+
+```
+
+
+
+
+
+
+
+
 
 ------
 
@@ -3034,6 +3451,7 @@ var pageOffset = (function() {
 
 console.log(pageOffset)
 
+
 ```
 
 ### **可视区窗口尺寸**
@@ -3065,6 +3483,7 @@ var clientOffset = (function() {
 }())
 
 console.log(clientOffset)
+
 ```
 
 ### 元素尺寸/位置
@@ -3090,6 +3509,7 @@ element.currentStyle('prop')	IE兼容
 function cssStyle(element, prop) {
     return parseFloat(window.getComputedStyle(element)[prop] || element.currentStyle(prop));
 }
+
 ```
 
 **元素位置**
@@ -3116,6 +3536,7 @@ function offsetPosition(element) {
         'totalTop': totalTop
     };
 }
+
 
 ```
 
@@ -3176,6 +3597,7 @@ document.onclick = function () {
     })()
 }
 
+
 ```
 
 
@@ -3199,6 +3621,7 @@ ele.attachEvent('click', function() {
 	//	内部 this 指向 window
 })
 
+
 ```
 
 **解绑事件**
@@ -3220,6 +3643,7 @@ element.onclick = function(event) {
         console.log(target.innerHTML)
     }
 }
+
 
 ```
 
@@ -3244,6 +3668,7 @@ function stop(event) {
     window.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
 }
 
+
 ```
 
 **阻止默认**
@@ -3260,6 +3685,7 @@ document.addEventListener('contextmenu', function (ev) {
     ev.preventDefault ? ev.preventDefault() : (ev.returnValue = false);
     return false;
 })
+
 
 ```
 
@@ -3329,6 +3755,7 @@ var xiaobaiEvent = {
     }
 };
 
+
 ```
 
 
@@ -3365,6 +3792,7 @@ document.addEventListener('keyup', function (ev) {
         ppp.style.left = (count+=10) + 'px';
     }
 }, false)
+
 
 ```
 
@@ -3411,12 +3839,14 @@ dom 颜色更改等
 ```html
 <script type="text/javascript" src="xxx.js" defer="defer"></script>
 
+
 ```
 
 - async 异步加载, 加载完就指向, async 只能加载外部脚本, 不能把js写在script 标签里. 主流IE9+
 
 ```html
 <script type="text/javascript" src="xxx.js" aysnc="sysnc"></script>
+
 
 ```
 
@@ -3445,6 +3875,7 @@ function loadScript(url, callback) {
     script.src = url;
     document.body.appendChild(script);
 }
+
 ```
 
 ### JS时间线
@@ -3488,6 +3919,7 @@ function domReady(callback) {
     }
 }
 
+
 ```
 
 
@@ -3520,7 +3952,6 @@ function domReady(callback) {
 ### 支持正则方法
 
 - **test()**
-
 - **match()** 字符串方法
 
 ```javascript
@@ -3529,6 +3960,7 @@ var reg = /^a/gm;
 var str = 'abcde\na';
 reg.test(str);	//true
 str.match(reg);	//['a', 'a']
+
 
 ```
 
@@ -3552,6 +3984,7 @@ str.replace(reg, '$2$2$1$1');	//	bbaa
 str.replace(reg, function($, $1, $2){	//	bbaa
     return $2 + $2 + $1 + $1;	
 })
+
 
 ```
 
@@ -3585,6 +4018,7 @@ console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefin
 
 //	reg 没有全局匹配的情况下, 游标永远是 0, 匹配到的永远是第一个
 
+
 ```
 
 ### 正则规则
@@ -3607,6 +4041,7 @@ var reg = /(red|blue|green)[0-9]/g;
 var str = 'red520';
 str.match(reg);	//	['red5']
 
+
 ```
 
 **元字符**
@@ -3625,6 +4060,7 @@ str.match(reg);	//	['red5']
 var reg = /\bhello\b/g;
 var str = 'hello world';
 str.match(reg); //	hello
+
 
 ```
 
@@ -3658,6 +4094,7 @@ str.match(reg2); //	['abc', '']
 var reg3 = /\d+/g;
 str.match(reg3); //	['abc']
 
+
 ```
 
 `^n`  `n$ `  以n开头 n结尾 
@@ -3679,6 +4116,7 @@ var reg = /(\w)\1(\w)\2/g;
 console.log(reg.match(str));//	['aabb'] 非全局匹配的情况行如exec结果, 如果使用全局匹配, 直接返回 匹配结果.
 console.log(reg.exec(str));	//	(3) ["aabb", "a", "b", index: 0, input: "aabb", groups: undefined]
 
+
 ```
 
 **正向预查(正向断言)** and **非正向预查**
@@ -3693,6 +4131,7 @@ str.match(reg); //	['a']
 // 非正向预查
 var reg2 = /a(?!b)/g;	//	a后面不是b的a 
 str.match(reg2); //	['a', 'a', 'a', 'a'];
+
 ```
 
 **非贪婪匹配规则**
@@ -3716,6 +4155,7 @@ str.replace(reg, '.');	//	100,000,000,000,000
 //	从后往前 3个字母 匹配多个 /((\d{3})+$)/g
 //	空的后面带上述条件 /(?=(\d{3})+$)/g   匹配空: 不写
 //	去除单词开头	/(?=(\B)(\d{3})+$)/g   
+
 ```
 
 ### 常用正则
@@ -3730,6 +4170,7 @@ function trim(str) {
 function phoneTure(phonenumber){
     return /^1[34578]\d{9}$/.test(phonenumber)
 }
+
 ```
 
 
@@ -3765,6 +4206,7 @@ setTimeout(() => {
 }, 100)
 test(10000)
 
+
 ```
 
 setTimeout等待事件结束后并不是直接执行的，而是先推入浏览器的一个任务队列，在同步队列结束后依次调用任务队列中的任务
@@ -3798,6 +4240,7 @@ Function.prototype.myApply = function (ctx, arr) {
     delete ctx.fn;
 }
 
+
 ```
 
 ## 函数式编程
@@ -3814,6 +4257,7 @@ Function.prototype.myApply = function (ctx, arr) {
 ```js
 let variable = '一个变量';
 s4 = `abc${variable}`;	//	'abc一个变量'
+
 
 ```
 
@@ -3860,6 +4304,7 @@ var b = { a, c };
 //	b对象还有一个c属性, c属性的值来自于c变量
 console.log(b);	//	{ a: 3, c:5 }
 
+
 ```
 
 ### 函数扩展
@@ -3895,6 +4340,7 @@ fn2(1, 2, 3, 4, 5)
     console.log(args); //  (6) [1, 2, 3, 4, 5, 520]
 })(1, 2, 3, 4, 5, 520)
 
+
 ```
 
 **补充: 判断数据类型**
@@ -3912,6 +4358,7 @@ fn2(1, 2, 3, 4, 5)
 	- function(){} ---> '[Object Function]'
 	- new Date()--->'[Object Date]'
     - /abc/	--->	'[Object RegExp]'
+
 
 ```
 
@@ -3962,6 +4409,7 @@ var p = {
 p.run()
 p.travel()
 
+
 ```
 
 **tips: **箭头函数和匿名函数的区别
@@ -3998,6 +4446,7 @@ console.log('source对象: ', source)
 console.log('拷贝后的新对象: ', newObj)
 console.log('拷贝后的新对象2: ', newObj2)
 
+
 ```
 
 ##### 对象的扩展运算符
@@ -4011,6 +4460,7 @@ var obj4 = { ...obj, gender: '女', name: "小妹" }
 var arr = [1,2,4,520]
 var arr1 = [ ...arr,250 ]
 console.log('obj: ',obj,'obj2: ',obj2,'obj3: ',obj3,'obj4: ',obj4,'arr:',arr,'arr1:',arr1)
+
 
 ```
 
@@ -4032,6 +4482,7 @@ $.get("/getUser",function(res){
         })
     })
 })
+
 
 ```
 
@@ -4056,6 +4507,7 @@ fn('你好, 这是第一步').then(res=>{
         console.log(res)
     })
 })
+
 
 ```
 
@@ -4099,6 +4551,7 @@ f1().then(res => {
     },1000)
 })
 
+
 ```
 
 **promise执行**
@@ -4119,6 +4572,7 @@ promise.then(res => {
     //  d 执行后续的操作
     console.log(res)
 })
+
 ```
 
 ##### Promise错误处理
@@ -4157,12 +4611,14 @@ getBooks().then(res=>{
     //	捕获了错误
     console.log('发生错误: ',err)
 })
+
 ```
 
 ```
 上述2种错误处理方式, 第二种更加推荐使用
 	a. 不仅仅可以捕获到reject传递的参数
 	b. 还可以捕获到 成功回调中发送的错误
+
 
 ```
 
@@ -4193,6 +4649,7 @@ f1('success').then(res=>{
     console.log(err)	
 })
 
+
 ```
 
 #### Async
@@ -4221,6 +4678,7 @@ function f1() {
 })()
 
 console.log('asyncFunc 外部代码')
+
 
 ```
 
@@ -4272,6 +4730,7 @@ var o1 = {
     await o1.run()
 })()
 
+
 ```
 
 ##### async 函数错误处理
@@ -4293,12 +4752,14 @@ function f1() {
     }
 })()
 
+
 ```
 
 ```
 + await 可以执行异步操作, 但是 await 必须放在 async 函数中执行
 + await 操作可以有返回值, 这个返回值表示promise操作成功的返回值
 + 如果await 里面执行的异步操作发生了 reject, 或发生了错误, 那么只能使用 try..catch 语法进行错误处理
+
 
 ```
 
@@ -4332,6 +4793,7 @@ class Student{
 }
 var s1 = new Student("小白菜", 19)
 
+
 ```
 
 ##### 静态成员
@@ -4352,6 +4814,7 @@ class Animal {
 Animal.maxAge = 200;
 //  执行静态方法
 Animal.born()
+
 
 ```
 
@@ -4385,6 +4848,7 @@ class Man extends Person {
 
 var p1 = new Person('小白', 18, '男')
 var m1 = new Man('小白菜', 19, '男', '大眼睛可爱感性')
+
 ```
 
 ### 模块化
@@ -4395,19 +4859,276 @@ export default {}
 
 //	引入
 import {} from '../module.js'
+
 ```
 
 
 
 # Jquery
 
+# betterFunctions
+
+```JS
+//单对象模式，也叫做命名空间模式
+var MyFunctions = {
+    /**
+         * 判断一个数是不是奇数
+         * @param {number} n 要判断的数字
+         * @returns {boolean}
+         */
+    isOdd: function (n) {
+        return n % 2 !== 0;
+    },
+    /**
+         * 判断一个数是不是素数
+         * @param {*} n 
+         */
+    isPrime: function (n) {
+        if (n < 2) {
+            return false;
+        }
+        for (var i = 2; i < n; i++) {
+            if (n % i === 0) {
+                return false;
+            }
+        }
+        return true;
+    },
+    /**
+         * 对数组求和
+         * @param {*} arr 
+         */
+    sumOfArray: function (arr) {
+        var sum = 0;
+        for (var i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum;
+    },
+    /**
+         * 得到数组中的最大值，如果数组长度为0，则返回undefined
+         * @param {*} arr 
+         */
+    maxOfArray: function (arr) {
+        if (arr.length === 0) {
+            return;
+        }
+        var max = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        return max;
+    },
+    /**
+         * 得到数组中的最小值，如果数组长度为0，则返回undefined
+         * @param {*} arr 
+         */
+    minOfArray: function (arr) {
+        if (arr.length === 0) {
+            return;
+        }
+        var min = arr[0];
+        for (var i = 1; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+        }
+        return min;
+    },
+    /**
+         * 判断一个数组是不是稀松数组
+         * @param {*} arr 
+         */
+    hasEmptyInArray: function (arr) {
+        // 稀松数组的特点：下标连续
+        for (var i = 0; i < arr.length; i++) {
+            if (!(i in arr)) {
+                return true;
+            }
+        }
+        return false;
+    },
+    /**
+         * 判断某年是不是闰年
+         * @param {*} year 
+         */
+    isLeap: function (year) {
+        // 4年一闰，百年不闰；400年一闰
+        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+    },
+    /**
+         * 得到某年某月的天数
+         * @param {*} year 
+         * @param {*} month 
+         */
+    getDays: function (year, month) {
+        if (month === 2) {
+            return this.isLeap(year) ? 29 : 28;
+        }
+        else if (month < 8 && this.isOdd(month) || month >= 8 && !this.isOdd(month)) {
+            return 31;
+        }
+        else {
+            return 30;
+        }
+    },
+    /**
+         * 得到数组中出现频率最高的数字或字符串和频率
+         * 返回一个对象
+         * @param {*} arr 
+         */
+    getTopFreqInArray: function (arr) {
+        var records = {}; //记录出现频率
+        for (var i = 0; i < arr.length; i++) {
+            var n = arr[i];
+            if (records[n]) {
+                records[n]++;
+            }
+            else {
+                records[n] = 1;
+            }
+        }
+        var result; //记录最终结果的对象
+        for (var prop in records) {
+            if (!result || records[prop] > result.frequency) {
+                result = {
+                    number: prop,
+                    frequency: records[prop]
+                };
+            }
+        }
+        return result;
+    },
+    /**
+         * 给指定的数组升序排序
+         * @param {*} arr 
+         * @param {Function} compare 比较大小，
+         * 该函数有两个参数，代表数组中的两个元素，
+         * 该函数返回一个数字，如果是正数，则第一个元素比第二个元素大，
+         * 如果是0，则相等，
+         * 如果是负数，则第一个元素比第二个元素小
+         */
+    sort: function (arr, compare) {
+        if (!compare) {
+            compare = function (a, b) {
+                if (a > b) {
+                    return 1;
+                }
+                else if (a === b) {
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
+            }
+        }
+        for (var i = 1; i < arr.length; i++) {
+            for (var j = 0; j < arr.length - i; j++) {
+                if (compare(arr[j], arr[j + 1]) > 0) {
+                    var temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    },
+    /**
+         * 筛选数组
+         * @param {*} arr 
+         * @param {Function} callback 回调函数，接收两个参数，
+         * 分别表示数组的某一项和其下标，返回boolean
+         * 满足条件返回true，否则返回false
+         */
+    filter: function (arr, callback) {
+        //遍历数组，看每一项是否满足条件
+        var newArr = [];
+        for (var i = 0; i < arr.length; i++) {
+            if (callback(arr[i], i)) {
+                newArr.push(arr[i]);
+            }
+        }
+        return newArr;
+    },
+    /**
+         * 从指定的数组中，查找第一个满足条件的元素，如果没有找到，返回undefined
+         * @param {*} arr 
+         * @param {*} callback 回调函数，接收两个参数，
+         * 分别表示数组的某一项和其下标，返回boolean
+         * 满足条件返回true，否则返回false
+         */
+    find: function (arr, callback) {
+        for (var i = 0; i < arr.length; i++) {
+            if (callback(arr[i], i)) {
+                return arr[i];
+            }
+        }
+    },
+    /**
+         * 按照指定的条件，得到某个数组中满足条件的元素数量
+         * @param {*} arr 
+         * @param {*} callback 回调函数，接收两个参数，
+         * 分别表示数组的某一项和其下标，返回boolean
+         * 满足条件返回true，否则返回false
+         */
+    count: function (arr, callback) {
+        var num = 0;
+        for (var i = 0; i < arr.length; i++) {
+            if (callback(arr[i], i)) {
+                num++;
+            }
+        }
+        return num;
+    },
+    deleteOfArray:function(arr, compare) {
+        for(var i=0;i<arr.length;i++){
+            if(compare(arr[i], i)){
+                arr.splice(i, 1);
+                return arr[i];
+            }
+        }
+    }, 
+    /**
+         * 得到一个最小值到最大值之间的随机整数
+         * @param {*} min 最小值
+         * @param {*} max 最大值
+         */
+    getRandom: function (start, end) { 
+        return ~~(Math.random()*(end - start + 1) + start);
+    },
+    /**
+       * 字符串空格删除&首字母大写
+       * @param {*} str 
+       * hello world ->  HelloWorld
+       */
+    trimAndUpper: function (str) {
+        var tmpArr = [].slice.call(str);
+        for (var key = 0; key < tmpArr.length; key++) {
+            if (tmpArr[key] === " ") {
+                tmpArr[key + 1] && (tmpArr[key + 1] = (tmpArr[key + 1]).toUpperCase());
+                this.deleteOfArray(tmpArr, function(item, index) {
+                     return index == key;
+                });
+            }
+        }
+        tmpArr[0] = tmpArr[0].toUpperCase();
+        return tmpArr.join('');
+    }
+}
+
+
+```
+
+
+
 # 拓展
 
 ## 排序
 
-### 快速排序
+### 快排
 
-> 选择一个基准数字。
+> 选择一个基准数字
 >
 > 比该基准数小的放左边，比该基准数大的放右边
 >
@@ -4432,5 +5153,27 @@ function quickSort(array) {
 	}
 	return quickSort(left).concat([target], quickSort(right));
 }
+
+```
+
+### 冒泡
+
+```JS
+function bubblingSort(array) {
+    if (array.length < 2) {
+		return array;
+	}
+    for(let i=0; i<array.length; i++) {
+        for(let j=0; j<array.length - i; j++) {
+            if(array[j] > array[j + 1]) {
+                let tmp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = tmp;
+            }
+        }
+    }
+    return array
+}
+
 ```
 
