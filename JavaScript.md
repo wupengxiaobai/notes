@@ -262,6 +262,7 @@ var rateFunc = (money, month, rate) => money * (rate / 100 / 12) * month;
 
 
 
+
 ```
 
 **优先级**
@@ -289,6 +290,7 @@ var rateFunc = (money, month, rate) => money * (rate / 100 / 12) * month;
 > 
 > 
 > 
+> 
 > ```
 
 **练习**
@@ -302,6 +304,7 @@ console.log(b + b++ + ++b + b*3 * ++b)
 
 var c = 1；
 consle.log(c * (c++ + ++c) - c++ -++c / ++c * c++)
+
 
 
 
@@ -332,6 +335,7 @@ consle.log(c * (c++ + ++c) - c++ -++c / ++c * c++)
 > null -> 0
 > 
 > 
+> 
 > ```
 >
 > 3. 其中一个是对象，将对象转为原始类型（"[object Object]"）。
@@ -348,6 +352,7 @@ console.log(null == undefined) // true
 console.log(null === undefined) // false
 console.log(null >= 0) //	true
 console.log(null == 0) //	false
+
 
 
 ```
@@ -372,6 +377,7 @@ data && fn(data);
 var a = 0 || false || 5	//	5
 
 
+
 ```
 
 - 针对布尔值判断(if)
@@ -386,6 +392,7 @@ var a = !520	//	false
 
 
 
+
 ```
 
 **运用**
@@ -394,6 +401,7 @@ var a = !520	//	false
 var x = 1;
 console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && x++ >=5 || (x = 5)); //	5
 console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && ++x >=5 && (x = 520));	//	520
+
 
 
 
@@ -406,6 +414,7 @@ console.log(x++ >= 1 && x++ >= 2 && x++ >=3 && ++x >=5 && (x = 520));	//	520
 ```js
 var x = 2;
 x = x++ >= 3 ? x++ * ++x - x++ / --x : x++;
+
 
 
 
@@ -451,6 +460,7 @@ Number.MAX_SAFE_INTEGER	//	9007199254740991
 
 
 
+
 ```
 
 ##### 原因
@@ -461,6 +471,7 @@ Number.MAX_SAFE_INTEGER	//	9007199254740991
 > 现实世界中: 十进制, 逢10进1
 > 
 > 计算机世界: 二进制, 逢2进1
+> 
 > 
 > 
 > 
@@ -497,6 +508,7 @@ $$
 
 
 
+
 ```
 
 **为什么JS小数运算不准确?**
@@ -519,6 +531,7 @@ $$
 
 
 
+
 ```
 
 **计算机中整数和浮点数的存储都以浮点方式**
@@ -538,6 +551,7 @@ $$
 
 
 
+
 ```
 
 **能表示的最大数字**
@@ -552,6 +566,7 @@ $$
 
 
 
+
 ```
 
 **能表示的最大有效安全整数**
@@ -560,6 +575,7 @@ $$
 2**53 -1
 //	Number.MAX_SAFE_INTEGER
 //	9007199254740991
+
 
 
 
@@ -589,6 +605,7 @@ $$
 
 
 
+
 ```
 
 ##### 或运算
@@ -605,6 +622,7 @@ $$
 
 
 
+
 ```
 
 ##### 否(非)运算
@@ -617,6 +635,7 @@ JS中最快取整方式:  `~~数值`
 
 ```JS
 ~~2.88 // -2 -1 => 3 - 1 => 2
+
 
 
 
@@ -644,6 +663,7 @@ a = a ^ b; //  a = 10	--> 2
 
 
 
+
 ```
 
 **应用场景: 开关叠加**
@@ -664,6 +684,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 
 
 
+
 ```
 
 ##### 位移运算
@@ -679,6 +700,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 > 
 > 
 > 
+> 
 > ```
 >
 > 右位移 >>
@@ -687,6 +709,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 > 数字1 >> 数字2
 > 
 > 	将数字1的二进制(符号除外)右移数字2次数
+> 
 > 
 > 
 > 
@@ -711,6 +734,7 @@ p & power.read === power.read? console.log('可读') : console.log('不可读')
 7 % -3 = 7 - ~~(7/(-3)) * (-3) =  7 - (-2)*(-3) = 1
 //	求模伪代码和结果如下
 7 % -3 = 7 - (7/(-3))【向下取整 -2.33 -> -3】 * (-3) = 7 - (-3) * (-3) = -2
+
 
 
 
@@ -764,6 +788,7 @@ if (条件) {	//	条件为真, 执行code
 }
 
 
+
 ```
 
 **练习**
@@ -781,6 +806,7 @@ if(x++ >= 1){
     x--;
 }
 console.log(x)	//	3
+
 
 
 ```
@@ -850,6 +876,7 @@ if(fist === '剪刀' || fist === '石头' || fist === '布') {
 }
 
 
+
 ```
 
 
@@ -875,6 +902,7 @@ switch(变量){
 
 
 
+
 ```
 
 #### 循环语句
@@ -892,6 +920,7 @@ for (var a=1; a < 100; a++) {
 //	⑤ a < 100;
 //	⑥ console.log(a);
 //	.......
+
 
 
 
@@ -917,6 +946,7 @@ var a = 0;
 while(a < 100){
     console.log(a++);
 }
+
 
 
 
@@ -1024,6 +1054,7 @@ console.log(ret);
 
 
 
+
 ```
 
 ------
@@ -1071,6 +1102,7 @@ function mytype(target) {
 
 
 
+
 ```
 
 #### 类型转换
@@ -1085,6 +1117,7 @@ Number(null)	//	number 0
 //	不能转换成数字的, 则会转成 NaN
 Number('123abc')	//	NaN
 Number(undefined)	//	NaN	*****
+
 
 
 
@@ -1105,6 +1138,7 @@ parseInt('false')	//	NaN
 
 
 
+
 ```
 
 **转换进制**
@@ -1115,6 +1149,7 @@ parseInt('false')	//	NaN
 //	将 parmas 以radix进制为基底转为十进制 
 parseInt(10, 16)	//	16
 parseInt(b, 16)		//	11
+
 
 
 
@@ -1130,6 +1165,7 @@ parseFloat('123.13@%')	//number 123.13
 
 
 
+
 ```
 
 - String()
@@ -1139,6 +1175,7 @@ parseFloat('123.13@%')	//number 123.13
 ```javascript
 String(true)	//	string true
 String(123) 	//  string 123
+
 
 
 
@@ -1155,6 +1192,7 @@ Boolean('')	//	boolean false
 
 
 
+
 ```
 
 - toString()
@@ -1167,12 +1205,14 @@ Boolean('')	//	boolean false
 
 
 
+
 ```
 
 **以十进制为基底转为目标进制以字符串表示**
 
 ```javascript
 100.toString(2)	//	1100100
+
 
 
 
@@ -1191,6 +1231,7 @@ isNaN(null)		//	false
 isNaN(undefined)//  true		
 
 
+
 ```
 
 - `++` `--` `+` `-` (一元正负)
@@ -1199,6 +1240,7 @@ isNaN(undefined)//  true
 //	先调用 Number() 方法
 + 'abc'	//	NaN
 + undefined	// NaN
+
 
 
 ```
@@ -1211,6 +1253,7 @@ a + 1 // string	a1
 
 
 
+
 ```
 
 - `-` `*` `/` `%`
@@ -1220,12 +1263,14 @@ a + 1 // string	a1
 
 
 
+
 ```
 
 - `&&` `||` `!`
 
 ```javascript
 //	调用Boolean()
+
 
 
 
@@ -1249,6 +1294,7 @@ a + 1 // string	a1
   ```javascript
   str.replace(新值, 旧值)
   str.substring(开始索引，结束位置)
+  
   
   
   ```
@@ -1277,6 +1323,7 @@ var test = function() {}	//	(匿名函数)
 
 
 
+
 ```
 
 **组成形式**
@@ -1302,6 +1349,7 @@ function test(a, b) {
 }
 //	实参
 test(5, 2)
+
 
 
 
@@ -1353,6 +1401,7 @@ a();
 //	执行栈(空空如也)
 
 
+
 ```
 
 #### **递归**
@@ -1381,6 +1430,7 @@ function fbnqsl(n){
 console.log(fbnqsl(5));
 
 
+
 ```
 
 ##### 尾递归
@@ -1389,6 +1439,7 @@ console.log(fbnqsl(5));
 >
 > ```
 > 返回递归函数, 并且函数不是表达式的一部分
+> 
 > 
 > 
 > ```
@@ -1415,6 +1466,7 @@ function jc2(n, total){
 console.log(jc2(5, 1));
 
 
+
 ```
 
 
@@ -1436,6 +1488,7 @@ function test() {console.log(b)}	//	函数块整体提升
 //	2.变量声明或变量声明并赋值 声明提升
 var test = 233; //	a 提升
 //	3.函数声明权重大于变量声明
+
 
 
 
@@ -1489,6 +1542,7 @@ test(1)
 //}
 
 
+
 ```
 
 **全局预编译三部曲 √**
@@ -1523,6 +1577,7 @@ console.log(a)
 
 
 
+
 ```
 
 ##### 3.解释执行（解释一行，执行一行）
@@ -1552,6 +1607,7 @@ a();
 //	a函数的执行, 导致b函数的定义, b函数的定义时的 [[scope]] 存储的是a的执行期上下文的引用.
 //	b函数执行, 产生b函数的独一无二的执行期上下文
 //	函数执行往后, 执行期上下文被销毁
+
 
 
 
@@ -1597,6 +1653,7 @@ c doing		->	c [[scope]] ->  0: cAO
 
 
 
+
 ```
 
 #### 作用域链
@@ -1612,6 +1669,7 @@ c doing		->	c [[scope]] ->  0: cAO
 查找当前作用域的上级作用域, 也就是当前函数的上级函数, 看看上级函数中有没有声明
 再查看上级函数的上级函数, 直到全局作用域为止
 如果全局作用域中也没有, 我们就认为这个变量未声明
+
 
 
 
@@ -1657,6 +1715,7 @@ var ktv = (function () {
 
 
 
+
 ```
 
 - 实现公有变量 (函数累加器)
@@ -1675,6 +1734,7 @@ console.log(myAdd());
 console.log(myAdd());
 console.log(myAdd());
 console.log(myAdd())
+
 
 
 
@@ -1710,6 +1770,7 @@ MYFOOD.eatFood();
 
 
 
+
 ```
 
 - 实现封装, 属性私有化
@@ -1724,6 +1785,7 @@ var inherit = (function() {
         Target.prototype.uber = Origin.prototype;	
     }
 }())
+
 
 
 
@@ -1748,6 +1810,7 @@ var init = (function() {
 }())
 
 
+
 ```
 
 **闭包的释放**
@@ -1756,6 +1819,7 @@ var init = (function() {
 var bbfun = (function(){return{fun1(){},func2(){}}})()
 //	闭包释放问题, 直接为null | undefined
 bbfun = null;
+
 
 
 ```
@@ -1774,6 +1838,7 @@ bbfun = null;
 ! function() {}()
 //	能被执行符号执行的表达式, 函数名自动忽略
 + function test() {}()
+
 
 
 ```
@@ -1809,6 +1874,7 @@ for (var j = 0; j < 10; j++) {
 }
 
 
+
 ```
 
 #### arguments
@@ -1820,6 +1886,7 @@ var jc = (function(n) {
     if (n <= 1) return 1;
     return n * arguments.callee(n - 1)
 }(5))
+
 
 
 
@@ -1855,6 +1922,7 @@ var obj2 =  clone(obj);
 
 obj2.push(6);
 console.log(obj);
+
 
 
 
@@ -1905,6 +1973,7 @@ f1();	//	函数调用 -> undefined，函数内部this指向window
 
 
 
+
 ```
 
 ##### 方法的调用方式
@@ -1942,6 +2011,7 @@ tom.c()	//	100
 
 var tony = { d:clear, length:30 }
 tony.d()	//	30
+
 
 
 
@@ -1994,6 +2064,7 @@ jQuery()	//	100
 
 
 
+
 ```
 
 **tip: ** 对象属性查找规则
@@ -2003,6 +2074,7 @@ jQuery()	//	100
  //	->	如果本身没有, 去原型对象中查找
  //	->	如果原型对象中没有, 去原型对象的原型对象中找, 直到根对象(Object.prototype)
  //	-> 	再没有, 我们认为该对象没有该属性, 即访问对象不存在的属性, 值为 undefined
+
 
 
 
@@ -2025,6 +2097,7 @@ f1.call("abc")
 f1.call(true)
 f1.call(null)
 f1.call(undefined)
+
 
 
 
@@ -2092,6 +2165,7 @@ obj2.drink()	//	橙汁
 
 
 
+
 ```
 
 ##### 实现bind方法
@@ -2117,6 +2191,7 @@ function fn() {
     console.log(this)	//	{ gender: '男' }
 }
 fn._bind({ gender: '男' })();
+
 
 
 
@@ -2146,6 +2221,7 @@ fn._bind({ gender: '男' })();
 15. 写一个函数，按照指定条件，得到某一个数组中满足条件的元素数量
 
 #
+
 
 
 
@@ -2187,6 +2263,7 @@ obj.look = 'see me some time'
 
 
 
+
 ```
 
 ```javascript
@@ -2208,6 +2285,7 @@ var obj = Object.create({}, {
 
 
 
+
 ```
 
 #### 包装类
@@ -2222,6 +2300,7 @@ var obj = Object.create({}, {
 > **增强 原始类型值 功能**
 > 
 > **容错（修改属性）**
+> 
 > 
 > 
 > ```
@@ -2247,6 +2326,7 @@ var str = 'abcd';
 str.length = 2;
 //	new String('abcd').length = 2;	delete
 console.log(str.lenth);	//	4
+
 
 
 
@@ -2311,6 +2391,7 @@ var student2 = new Student('懵宝', 23, '男');
 
 
 
+
 ```
 
 #### 原型
@@ -2346,6 +2427,7 @@ Person(name, age, gender) {
 var parson = new Person('小白', 18, 'man');
 
 
+
 ```
 
 **原型的 增 删 改 查**
@@ -2357,6 +2439,7 @@ Person.prototype.lastName = '懵宝'
 delete Person.prototype.lastName
 //	查
 Person.prototype
+
 
 
 ```
@@ -2388,6 +2471,7 @@ function MyInfo(name, age, sex) {
         console.log(man2.showInfo('懵宝', 23, '男'));
 
 
+
 ```
 
 #### 原型链
@@ -2412,6 +2496,7 @@ Son.prototype = father
 function Son() {}
 var son = new Son()
 document.write(son.lastName)
+
 
 
 
@@ -2446,6 +2531,7 @@ var student = new Student('小白', 18, '男' , '1234567890', ['football', 'sing
 
 
 
+
 ```
 
 #### bind
@@ -2470,6 +2556,7 @@ ShowRandom.prototype.show2 = function () {
 
 var show = new ShowRandom();
 show.show1();
+
 
 
 
@@ -2499,6 +2586,7 @@ console.log(son.lastName)
 
 
 
+
 ```
 
 - 借用构造函数
@@ -2518,6 +2606,7 @@ function Student(name, age, sex, grade) {
     this.grade = grade; 
 }
 var student = new Student();
+
 
 
 
@@ -2552,6 +2641,7 @@ person2.sayMore()
 
 
 
+
 ```
 
 
@@ -2571,6 +2661,7 @@ console.log(son.lastName, father.lastName);
 
 
 
+
 ```
 
 ```javascript
@@ -2579,6 +2670,7 @@ function inherit(Target, Origin) {
     Target.prototype = Origin.prototype;
 }
 inherit(Son, Father);
+
 
 
 
@@ -2597,6 +2689,7 @@ function inherit(Target, Origin) {
 
 
 
+
 ```
 
 ```javascript
@@ -2610,6 +2703,7 @@ var inherit = (function() {
         Target.prototype.uber = Origin.prototype;	
     }
 })();
+
 
 
 
@@ -2649,6 +2743,7 @@ console.log(new So());
 console.log(new Fa());
 
 
+
 ```
 
 #### 命名空间
@@ -2683,6 +2778,7 @@ let init = (function(){
 })()
 
 init();
+
 
 
 ```
@@ -2722,6 +2818,7 @@ for (var key in obj) {
 Object.prototype.toString.call([])	//[object Array]
 
 
+
 ```
 
 #### this
@@ -2752,6 +2849,7 @@ var b = {
 b.say(a.say);	//222 **** 这里还是函数执行, window
 b.say = a.say;
 b.say(); 		//333
+
 
 
 ```
@@ -2794,6 +2892,7 @@ Array.prototype.mypush = function() {
 }
 
 
+
 ```
 
 - `unshift()` 在数组第一位前添加
@@ -2807,6 +2906,7 @@ Array.prototype.myunshift = function () {
     temp.reverse();
     return temp.length;
 }
+
 
 
 ```
@@ -2827,6 +2927,7 @@ arr.sort(function (a, b) {   //  冒泡排序算法
 })
 
 
+
 ```
 
 - `reverse()`   翻转数组
@@ -2835,6 +2936,7 @@ arr.sort(function (a, b) {   //  冒泡排序算法
 ```javascript
 //	从第几位开始截取, 截取多少的长度, 在切口处添加新的数据
 array.splice(0,1,'啊啊啊啊');
+
 
 
 ```
@@ -2847,6 +2949,7 @@ array.splice(0,1,'啊啊啊啊');
  arr = [1,2,3]
 var newA = arr.concat([2,3,4]);
 console.log(newA)
+
 
 
 ```
@@ -2864,6 +2967,7 @@ var newa = arr.join('-'); ['1',2,3] => '1-2-3'
 
 //	字符串有个可逆的方法 字符串 -> 数组 
 str.stringify()
+
 
 
 ```
@@ -2903,6 +3007,7 @@ Array.prototype.uniq = function() {
 
 
 
+
 ```
 
 #### 类数组（伪数组）
@@ -2917,6 +3022,7 @@ var obj = {
 }
 //	类数组: 属性要为索引(数字)属性, 必须有length属性, 最好加上push方法
 //	如果给类数组添加数组的splice方法就可以让该类数组使用数组所有方法了, 还可以用对象的方法.
+
 
 
 
@@ -2938,6 +3044,7 @@ obj = {
     length: 4,
     push: Array.prototype.push
 } 
+
 
 
 
@@ -2976,6 +3083,7 @@ arr.lastIndexOf('attr') // arr 末尾开始查找 attr 属性,找到返回最后
 arr.fill(数据) //	将arr所有项填充为数据.
 arr.fill(数据, 开始下标) //将arr从开始下标位置开始,直到最后, 填充为数据.
 arr.fill(数据, 开始下标, 结束下标) //	将arr从开始下标位置开始填充数据,直到结束下标为止.不包括结束下标的位置
+
 
 
 
@@ -3070,6 +3178,7 @@ for (var i = 0; i < arr.length; i++) {
 
 
 
+
 ```
 
 ### JSON 数据格式
@@ -3081,6 +3190,7 @@ for (var i = 0; i < arr.length; i++) {
 ```javascript
 //	JSON.stringify()	JSON -> string
 //	JSON.parse()		string -> JSON
+
 
 
 
@@ -3101,6 +3211,7 @@ try {
 console.log(5);
 //	在try里面发生错误, 不会执行错误后的try里面的代码
 //	第一条执行, 最后一条执行. 
+
 
 
 
@@ -3130,6 +3241,7 @@ console.log(5);
 //	with(对象){}  如果参数是一个对象, 就是把该对象所在的执行期AO对象 作为某个环境中最顶端, 改变作用域链结构.
 
 
+
 ```
 
 - 变量必须先声明再赋值 
@@ -3147,6 +3259,7 @@ console.log(5);
 > API： 应用程序编程接口
 > 
 > 标准：ECMAScript 标准
+> 
 > 
 > ```
 
@@ -3194,6 +3307,7 @@ var obj2 = {
 console.log(+obj2); //	+(obj.valueOf()) // +(520) ==> 520
 
 
+
 ```
 
 ### Function
@@ -3227,6 +3341,7 @@ function test(a, b, c) {
 test('a值', 'b值', 'c值')	
 
 
+
 ```
 
 **将 arguments 转为真数组**
@@ -3238,6 +3353,7 @@ function test() {
     console.log(tmpArr);
 }
 test(1,312,312,412,3,12)
+
 
 
 ```
@@ -3255,6 +3371,7 @@ var leiArr = {
     length: 2
 }
 console.log([].slice.call(leiArr))	//	["小白", Array(2)]
+
 
 
 ```
@@ -3283,6 +3400,7 @@ sayMessage.call(obj, 1234, 1314)
 sayMessage.apply(obj, [1234, 1314])
 
 
+
 ```
 
 
@@ -3304,6 +3422,7 @@ function test() {
     var newA = Array.from(arguments);
     console.log(newA);
 }
+
 
 
 ```
@@ -3357,6 +3476,7 @@ arr1.map(item => item*=2)	//	[4, 5, 6]
 arr1.reduce((s, item) => s*item)
 
 
+
 ```
 
 **链式编程**
@@ -3376,6 +3496,7 @@ let ret = scores
                     }
                 });
 console.log(ret)
+
 
 
 ```
@@ -3462,6 +3583,7 @@ console.log(ret)
 微秒（microsecond，us） = 1000 ns
 纳秒（nanosecond，ns）
 
+
 ```
 
 **UTF 和 GMT**
@@ -3471,12 +3593,14 @@ GMT 格林威治世界时间
 UTF 世界协调时
 东八区时间 GMT + 0800
 
+
 ```
 
 **时间戳**
 
 ```
 1970-1-1 凌晨到某个时间段所经历的毫秒数 （Number）
+
 
 ```
 
@@ -3490,6 +3614,7 @@ new Date() //	创建日期对象
 //	一个参数且为数字, 表示传入时间戳
 //	两个参数以上,分别表示 年月日时分秒毫秒, 参数缺失, 日期部分默认为1, 时间部分默认为0
 //		不能识别中文字符, 如 new Date("2019年/5月") -> Invalid Date
+
 
 ```
 
@@ -3521,12 +3646,14 @@ toLocaleString()	//	根据当前系统地区设置, 将整个日期对象转为�
 toLocaleDateString()	//	根据当前系统的地区设置, 将日期部分转为可读字符串 "2019/8/23"
 toLocaleTimeString()	//	根据当前系统的地区设置, 将事件部分转为可读的字符串 "下午1:13:16"
 
+
 ```
 
 **日期对象重写了 Object 中的 valueOf 方法, 返回的是一个数字, 表示时间戳**
 
 ```js
 +new Date() //	返回当前时间戳
+
 
 ```
 
@@ -3553,6 +3680,7 @@ getDayOfWeek: function (year, month, day) {
     var day = d.getDay(); //  得到星期
     return ['日', '一', '二', '三', '四', '五', '六'][day]
 }
+
 
 
 ```
@@ -3688,6 +3816,7 @@ console.log(pageOffset)
 
 
 
+
 ```
 
 ### **可视区窗口尺寸**
@@ -3721,6 +3850,7 @@ var clientOffset = (function() {
 console.log(clientOffset)
 
 
+
 ```
 
 ### 元素尺寸/位置
@@ -3746,6 +3876,7 @@ element.currentStyle('prop')	IE兼容
 function cssStyle(element, prop) {
     return parseFloat(window.getComputedStyle(element)[prop] || element.currentStyle(prop));
 }
+
 
 
 ```
@@ -3774,6 +3905,7 @@ function offsetPosition(element) {
         'totalTop': totalTop
     };
 }
+
 
 
 
@@ -3838,6 +3970,7 @@ document.onclick = function () {
 
 
 
+
 ```
 
 
@@ -3863,6 +3996,7 @@ ele.attachEvent('click', function() {
 
 
 
+
 ```
 
 **解绑事件**
@@ -3884,6 +4018,7 @@ element.onclick = function(event) {
         console.log(target.innerHTML)
     }
 }
+
 
 
 
@@ -3912,6 +4047,7 @@ function stop(event) {
 
 
 
+
 ```
 
 **阻止默认**
@@ -3928,6 +4064,7 @@ document.addEventListener('contextmenu', function (ev) {
     ev.preventDefault ? ev.preventDefault() : (ev.returnValue = false);
     return false;
 })
+
 
 
 
@@ -4001,6 +4138,7 @@ var xiaobaiEvent = {
 
 
 
+
 ```
 
 
@@ -4037,6 +4175,7 @@ document.addEventListener('keyup', function (ev) {
         ppp.style.left = (count+=10) + 'px';
     }
 }, false)
+
 
 
 
@@ -4087,12 +4226,14 @@ dom 颜色更改等
 
 
 
+
 ```
 
 - async 异步加载, 加载完就指向, async 只能加载外部脚本, 不能把js写在script 标签里. 主流IE9+
 
 ```html
 <script type="text/javascript" src="xxx.js" aysnc="sysnc"></script>
+
 
 
 
@@ -4123,6 +4264,7 @@ function loadScript(url, callback) {
     script.src = url;
     document.body.appendChild(script);
 }
+
 
 
 ```
@@ -4170,6 +4312,7 @@ function domReady(callback) {
 
 
 
+
 ```
 
 
@@ -4213,6 +4356,7 @@ str.match(reg);	//['a', 'a']
 
 
 
+
 ```
 
 - **search()** 字符串方法, 返回匹配位置 匹配不到返回 -1
@@ -4235,6 +4379,7 @@ str.replace(reg, '$2$2$1$1');	//	bbaa
 str.replace(reg, function($, $1, $2){	//	bbaa
     return $2 + $2 + $1 + $1;	
 })
+
 
 
 
@@ -4272,6 +4417,7 @@ console.log(reg.exec(str));	//	["ab", index: 0, input: "ababab", groups: undefin
 
 
 
+
 ```
 
 ### 正则规则
@@ -4296,6 +4442,7 @@ str.match(reg);	//	['red5']
 
 
 
+
 ```
 
 **元字符**
@@ -4314,6 +4461,7 @@ str.match(reg);	//	['red5']
 var reg = /\bhello\b/g;
 var str = 'hello world';
 str.match(reg); //	hello
+
 
 
 
@@ -4351,6 +4499,7 @@ str.match(reg3); //	['abc']
 
 
 
+
 ```
 
 `^n`  `n$ `  以n开头 n结尾 
@@ -4374,6 +4523,7 @@ console.log(reg.exec(str));	//	(3) ["aabb", "a", "b", index: 0, input: "aabb", g
 
 
 
+
 ```
 
 **正向预查(正向断言)** and **非正向预查**
@@ -4388,6 +4538,7 @@ str.match(reg); //	['a']
 // 非正向预查
 var reg2 = /a(?!b)/g;	//	a后面不是b的a 
 str.match(reg2); //	['a', 'a', 'a', 'a'];
+
 
 
 ```
@@ -4415,6 +4566,7 @@ str.replace(reg, '.');	//	100,000,000,000,000
 //	去除单词开头	/(?=(\B)(\d{3})+$)/g   
 
 
+
 ```
 
 ### 常用正则
@@ -4429,6 +4581,7 @@ function trim(str) {
 function phoneTure(phonenumber){
     return /^1[34578]\d{9}$/.test(phonenumber)
 }
+
 
 
 ```
@@ -4468,6 +4621,7 @@ test(10000)
 
 
 
+
 ```
 
 setTimeout等待事件结束后并不是直接执行的，而是先推入浏览器的一个任务队列，在同步队列结束后依次调用任务队列中的任务
@@ -4503,6 +4657,7 @@ Function.prototype.myApply = function (ctx, arr) {
 
 
 
+
 ```
 
 ## 函数式编程
@@ -4519,6 +4674,7 @@ Function.prototype.myApply = function (ctx, arr) {
 ```js
 let variable = '一个变量';
 s4 = `abc${variable}`;	//	'abc一个变量'
+
 
 
 
@@ -4569,6 +4725,7 @@ console.log(b);	//	{ a: 3, c:5 }
 
 
 
+
 ```
 
 ### 函数扩展
@@ -4606,6 +4763,7 @@ fn2(1, 2, 3, 4, 5)
 
 
 
+
 ```
 
 **补充: 判断数据类型**
@@ -4623,6 +4781,7 @@ fn2(1, 2, 3, 4, 5)
 	- function(){} ---> '[Object Function]'
 	- new Date()--->'[Object Date]'
     - /abc/	--->	'[Object RegExp]'
+
 
 
 
@@ -4677,6 +4836,7 @@ p.travel()
 
 
 
+
 ```
 
 **tips: **箭头函数和匿名函数的区别
@@ -4715,6 +4875,7 @@ console.log('拷贝后的新对象2: ', newObj2)
 
 
 
+
 ```
 
 ##### 对象的扩展运算符
@@ -4728,6 +4889,7 @@ var obj4 = { ...obj, gender: '女', name: "小妹" }
 var arr = [1,2,4,520]
 var arr1 = [ ...arr,250 ]
 console.log('obj: ',obj,'obj2: ',obj2,'obj3: ',obj3,'obj4: ',obj4,'arr:',arr,'arr1:',arr1)
+
 
 
 
@@ -4754,6 +4916,7 @@ $.get("/getUser",function(res){
 
 
 
+
 ```
 
 ##### 基本用法
@@ -4777,6 +4940,7 @@ fn('你好, 这是第一步').then(res=>{
         console.log(res)
     })
 })
+
 
 
 
@@ -4824,6 +4988,7 @@ f1().then(res => {
 
 
 
+
 ```
 
 **promise执行**
@@ -4844,6 +5009,7 @@ promise.then(res => {
     //  d 执行后续的操作
     console.log(res)
 })
+
 
 
 ```
@@ -4886,12 +5052,14 @@ getBooks().then(res=>{
 })
 
 
+
 ```
 
 ```
 上述2种错误处理方式, 第二种更加推荐使用
 	a. 不仅仅可以捕获到reject传递的参数
 	b. 还可以捕获到 成功回调中发送的错误
+
 
 
 
@@ -4926,6 +5094,7 @@ f1('success').then(res=>{
 
 
 
+
 ```
 
 #### Async
@@ -4954,6 +5123,7 @@ function f1() {
 })()
 
 console.log('asyncFunc 外部代码')
+
 
 
 
@@ -5009,6 +5179,7 @@ var o1 = {
 
 
 
+
 ```
 
 ##### async 函数错误处理
@@ -5032,12 +5203,14 @@ function f1() {
 
 
 
+
 ```
 
 ```
 + await 可以执行异步操作, 但是 await 必须放在 async 函数中执行
 + await 操作可以有返回值, 这个返回值表示promise操作成功的返回值
 + 如果await 里面执行的异步操作发生了 reject, 或发生了错误, 那么只能使用 try..catch 语法进行错误处理
+
 
 
 
@@ -5075,6 +5248,7 @@ var s1 = new Student("小白菜", 19)
 
 
 
+
 ```
 
 ##### 静态成员
@@ -5095,6 +5269,7 @@ class Animal {
 Animal.maxAge = 200;
 //  执行静态方法
 Animal.born()
+
 
 
 
@@ -5155,6 +5330,9 @@ import {} from '../module.js'
 ```JS
 //单对象模式，也叫做命名空间模式
 var MyFunctions = {
+ /***************************************************************************************
+    				数值相关
+  **************************************************************************************/ 
     /**
          * 判断一个数是不是奇数
          * @param {number} n 要判断的数字
@@ -5178,6 +5356,44 @@ var MyFunctions = {
         }
         return true;
     },
+    /**
+         * 得到一个最小值到最大值之间的随机整数
+         * @param {*} min 最小值
+         * @param {*} max 最大值
+         */
+    getRandom: function (start, end) { 
+        return ~~(Math.random()*(end - start + 1) + start);
+    },
+ /***************************************************************************************
+    				日期相关
+  **************************************************************************************/
+    
+    /**
+         * 判断某年是不是闰年
+         * @param {*} year 
+         */
+    isLeap: function (year) {
+        // 4年一闰，百年不闰；400年一闰
+        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
+    },
+    /**
+         * 得到某年某月的天数
+         * @param {*} year 
+         * @param {*} month 
+         */
+    getDays: function (year, month) {
+        if (month === 2) {
+            return this.isLeap(year) ? 29 : 28;
+        }
+        else if (month < 8 && this.isOdd(month) || month >= 8 && !this.isOdd(month)) {
+            return 31;
+        }
+        else {
+            return 30;
+        }
+    },  /***************************************************************************************
+    				数组相关
+ **************************************************************************************/
     /**
          * 对数组求和
          * @param {*} arr 
@@ -5233,30 +5449,6 @@ var MyFunctions = {
             }
         }
         return false;
-    },
-    /**
-         * 判断某年是不是闰年
-         * @param {*} year 
-         */
-    isLeap: function (year) {
-        // 4年一闰，百年不闰；400年一闰
-        return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
-    },
-    /**
-         * 得到某年某月的天数
-         * @param {*} year 
-         * @param {*} month 
-         */
-    getDays: function (year, month) {
-        if (month === 2) {
-            return this.isLeap(year) ? 29 : 28;
-        }
-        else if (month < 8 && this.isOdd(month) || month >= 8 && !this.isOdd(month)) {
-            return 31;
-        }
-        else {
-            return 30;
-        }
     },
     /**
          * 得到数组中出现频率最高的数字或字符串和频率
@@ -5373,14 +5565,10 @@ var MyFunctions = {
             }
         }
     }, 
-    /**
-         * 得到一个最小值到最大值之间的随机整数
-         * @param {*} min 最小值
-         * @param {*} max 最大值
-         */
-    getRandom: function (start, end) { 
-        return ~~(Math.random()*(end - start + 1) + start);
-    },
+    /***************************************************************************************
+    				字符串相关
+ **************************************************************************************/
+  
     /**
        * 字符串空格删除&首字母大写
        * @param {*} str 
@@ -5402,8 +5590,6 @@ var MyFunctions = {
     },
     
 }
-
-
 
 ```
 
