@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #text1 {
+      height: 3000px;
+      background: pink;
+    }
+
+    #text2 {
+      height: 2000px;
+      background: aliceblue;
+    }
+  </style>
+</head>
+
+
+<body>
+  <input type="text" id="inp" />
+
+  <button id="btn">按钮</button>
+
+  <div id="text1">
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+  </div>
+
+  <div id="text2">
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+    <h2>一段文字</h2>
+  </div>
+
+
+  <script>
+    // 防抖
+    var debounce = function (callback, time) {
+      var timer;
+      return function () {
+        clearTimeout(timer);
+        var args = arguments;
+        timer = setTimeout(function () {
+          callback.apply(null, args);
+        }, time);
+      }
+    }
+
+
+    // 获取滚动条距离顶部位置
+    var pageOffset = function () {
+      var pageX = window.pageXOffset || (document.body.offsetLeft + document.documentElement.scrollLeft);
+      var pageY = window.pageYOffset || (document.body.offsetTop + document.documentElement.offsetTop);
+      return {
+        'pageX': pageX,
+        'pageY': pageY
+      };
+    }
+
+
+    //  body 滚动位置改变监听
+    document.body.onscroll = debounce(function () {
+      var offset = pageOffset()
+      console.log(offset)
+    }, 300);
+
+
+    //  input 内容改变监听
+    inp.oninput = debounce(function () {
+      inp.value && console.log('检索发送ajax', inp.value);
+    }, 500)
+
+
+    //  btn 连续点击
+    btn.onclick = debounce(function () {
+      console.log('按钮连续点击，触发按钮事件')
+    }, 500)
+  </script>
+</body>
+
+
+
+</html>
