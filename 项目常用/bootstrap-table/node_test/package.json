@@ -19,7 +19,7 @@
   "homepage": "https://github.com/wupengxiaobai/ShareCommunity#readme",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "bootstrap-table": "^1.13.4",
+    "bootstrap-table": "^1.20.2",
     "jquery": "^3.3.1",
     "koa": "^2.6.2",
     "koa-body": "^4.0.6",
